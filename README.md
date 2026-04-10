@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/logo.png" alt="Rotovedras" width="280">
+  <img src="https://raw.githubusercontent.com/it-iberpolymers/crm-rotovedras/main/logo.png" alt="Rotovedras" width="280">
 </p>
 
 <h3 align="center">Plataforma de Gestão Operacional</h3>
