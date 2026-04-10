@@ -79,6 +79,18 @@ td{padding:11px 14px;border-bottom:1px solid var(--border-light)}tr:last-child t
 .clf-legend{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}.clf-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-sec)}.clf-legend-dot{width:12px;height:12px;border-radius:50%}
 @media(max-width:900px){.sidebar{display:none}.main{margin-left:0}.metrics{grid-template-columns:repeat(2,1fr)}.dash-grid{grid-template-columns:1fr}.clf-form{grid-template-columns:1fr}.clf-result{flex-direction:column}.clf-score-card{flex:auto}}
 @media(max-width:500px){.metrics{grid-template-columns:1fr}}
+.colab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:20px}
+.colab-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:20px;transition:box-shadow .15s}.colab-card:hover{box-shadow:var(--shadow-md)}
+.colab-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.colab-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
+.colab-name{font-size:14px;font-weight:600}.colab-role{font-size:12px;color:var(--text-sec)}
+.colab-details{font-size:12px;color:var(--text-sec);display:flex;flex-direction:column;gap:4px}
+.colab-details span{display:flex;align-items:center;gap:6px}
+.colab-stats{display:flex;gap:12px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-light)}
+.colab-stat{text-align:center;flex:1}.colab-stat-val{font-size:16px;font-weight:700}.colab-stat-label{font-size:10px;color:var(--text-ter);text-transform:uppercase;letter-spacing:.3px}
+.colab-actions{display:flex;gap:6px;margin-top:12px}
+.colab-actions button{flex:1}
+
 </style>
 </head>
 <body>
@@ -94,6 +106,10 @@ td{padding:11px 14px;border-bottom:1px solid var(--border-light)}tr:last-child t
 <div class="sidebar-item" data-tab="clientes">&#9679; Clientes</div>
 <div class="sidebar-item" data-tab="classificacao">&#9679; Classificacao</div>
 </div>
+<div class="sidebar-section">
+<div class="sidebar-label">Equipa</div>
+<div class="sidebar-item" data-tab="colaboradores">&#9679; Colaboradores</div>
+</div>
 <div class="sidebar-footer">CRM Rotovedras v1.2</div>
 </aside>
 <div class="main">
@@ -105,6 +121,7 @@ td{padding:11px 14px;border-bottom:1px solid var(--border-light)}tr:last-child t
 <button class="tab" data-tab="oportunidades">Oportunidades</button>
 <button class="tab" data-tab="clientes">Clientes</button>
 <button class="tab" data-tab="classificacao">Classificacao</button>
+<button class="tab" data-tab="colaboradores">Colaboradores</button>
 </div>
 <div class="content">
 
@@ -147,6 +164,7 @@ td{padding:11px 14px;border-bottom:1px solid var(--border-light)}tr:last-child t
 </div>
 </div>
 </div>
+<div class="board" id="colaboradores"><div id="colabContent"></div></div>
 </div></div></div>
 <script>
 
@@ -199,11 +217,18 @@ DATA.clientes=[
 {n:"GreenPool",nif:"505432109",s:"Lazer",cont:"Clara Reis",em:"clara@greenpool.pt",cls:"Potencial",opps:"1 negociacao",vol:22000,ult:"01/04"},
 {n:"AquaPark Lda",nif:"501234567",s:"Lazer",cont:"Joao Ferreira",em:"joao@aquapark.pt",cls:"Prospect",opps:"1 aberta",vol:12000,ult:"08/04"}
 ];
+DATA.colaboradores=[
+{id:"RS",nome:"Ricardo Silva",cargo:"Comercial Senior",dept:"Comercial",em:"ricardo.silva@rotovedras.pt",tel:"917111222",ativo:true,cor:"#EEEDFE",corTxt:"#3C3489"},
+{id:"PL",nome:"Paula Lima",cargo:"Comercial",dept:"Comercial",em:"paula.lima@rotovedras.pt",tel:"918333444",ativo:true,cor:"#E1F5EE",corTxt:"#085041"},
+{id:"MC",nome:"Manuel Costa",cargo:"Diretor Comercial",dept:"Direcao Comercial",em:"manuel.costa@rotovedras.pt",tel:"916555666",ativo:true,cor:"#FAEEDA",corTxt:"#633806"},
+{id:"VR",nome:"Vania Rodrigues",cargo:"Gestora Planeamento",dept:"Planeamento",em:"vania.rodrigues@rotovedras.pt",tel:"914777888",ativo:true,cor:"#FAECE7",corTxt:"#712B13"},
+{id:"AS",nome:"Andre Santos",cargo:"Engenheiro Produto",dept:"Engenharia",em:"andre.santos@rotovedras.pt",tel:"915999000",ativo:true,cor:"#E6F1FB",corTxt:"#0C447C"}
+];
 
 // ============= RENDER HELPERS =============
 function stClass(s){return 'st-'+s.toLowerCase().replace(/[^a-z]/g,'')}
 function chDot(c){return c==='Website'?'#378ADD':'#D85A30'}
-function av(r){return '<span class="avatar av-'+r.toLowerCase()+'">'+r+'</span>'}
+function av(id){var c=DATA.colaboradores.find(function(x){return x.id===id});if(c)return '<span class="avatar" style="background:'+c.cor+';color:'+c.corTxt+'" title="'+c.nome+'">'+c.id+'</span>';return '<span class="avatar" style="background:var(--bg-surface);color:var(--text-sec)">'+id+'</span>'}
 function probBar(p){var c=p>=80?'#639922':p>=50?'#7F77DD':p>=30?'#BA7517':'#378ADD';return '<div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:'+p+'%;background:'+c+'"></div></div><span class="prob-val" style="color:var(--text-sec)">'+p+'%</span></div>'}
 function euro(v){return v.toLocaleString('pt-PT')+' \u20ac'}
 
@@ -339,11 +364,56 @@ h+='</table></div></div>';
 document.getElementById('clientesContent').innerHTML=h;
 }
 
+// ============= COLABORADORES RENDERER =============
+function renderColaboradores(){
+var ativos=DATA.colaboradores.filter(function(c){return c.ativo});
+var h='<div class="metrics" style="grid-template-columns:repeat(3,1fr)">';
+h+='<div class="metric"><div class="metric-label">Total colaboradores</div><div class="metric-val">'+DATA.colaboradores.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Ativos</div><div class="metric-val">'+ativos.length+'</div></div>';
+var depts={};DATA.colaboradores.forEach(function(c){depts[c.dept]=true});
+h+='<div class="metric"><div class="metric-label">Departamentos</div><div class="metric-val">'+Object.keys(depts).length+'</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="openAddForm(\'colaborador\')">+ Novo colaborador</button></div>';
+h+='<div class="colab-grid">';
+DATA.colaboradores.forEach(function(c,i){
+var nLeads=DATA.leads.filter(function(l){return l.r===c.id}).length;
+var nOpps=DATA.opps.filter(function(o){return o.r===c.id}).length;
+var volPipeline=DATA.opps.filter(function(o){return o.r===c.id&&o.st!=='Perdido'&&o.st!=='Ganho - Handover'}).reduce(function(a,o){return a+o.v},0);
+h+='<div class="colab-card">';
+h+='<div class="colab-header"><div class="colab-avatar" style="background:'+c.cor+';color:'+c.corTxt+'">'+c.id+'</div><div><div class="colab-name">'+c.nome+'</div><div class="colab-role">'+c.cargo+'</div></div>';
+h+='<span class="st '+(c.ativo?'st-ativo':'st-inativo')+'" style="margin-left:auto;font-size:10px">'+(c.ativo?'Ativo':'Inativo')+'</span></div>';
+h+='<div class="colab-details">';
+h+='<span>&#9993; '+c.em+'</span>';
+h+='<span>&#9742; '+c.tel+'</span>';
+h+='<span>Departamento: '+c.dept+'</span>';
+h+='</div>';
+h+='<div class="colab-stats">';
+h+='<div class="colab-stat"><div class="colab-stat-val">'+nLeads+'</div><div class="colab-stat-label">Leads</div></div>';
+h+='<div class="colab-stat"><div class="colab-stat-val">'+nOpps+'</div><div class="colab-stat-label">Oportunidades</div></div>';
+h+='<div class="colab-stat"><div class="colab-stat-val">'+euro(volPipeline)+'</div><div class="colab-stat-label">Pipeline</div></div>';
+h+='</div>';
+h+='<div class="colab-actions"><button class="btn" style="font-size:11px" onclick="editColab('+i+')">Editar</button><button class="btn" style="font-size:11px" onclick="toggleColabAtivo('+i+')">'+( c.ativo?'Desativar':'Ativar')+'</button></div>';
+h+='</div>';
+});
+h+='</div>';
+document.getElementById('colabContent').innerHTML=h;
+}
+
+function toggleColabAtivo(i){DATA.colaboradores[i].ativo=!DATA.colaboradores[i].ativo;renderColaboradores()}
+
+function editColab(i){
+var c=DATA.colaboradores[i];
+openAddForm('colaborador',c,i);
+}
+
+function getColabOpts(){return DATA.colaboradores.filter(function(c){return c.ativo}).map(function(c){return c.id+' - '+c.nome})}
+function getColabId(val){return val?val.split(' - ')[0]:val}
+
 // ============= ADD FORM (MODAL) =============
-function openAddForm(type){
+function openAddForm(type,editData,editIdx){
 var overlay=document.createElement('div');
 overlay.id='addModal';
 overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px';
+var colabOpts=getColabOpts();
 var fields={
 lead:[
 {id:'n',label:'Nome',ph:'Nome completo'},
@@ -354,7 +424,7 @@ lead:[
 {id:'s',label:'Setor',ph:'Ex: Lazer, Agricultura...'},
 {id:'c',label:'Canal',type:'select',opts:['Website','Google Ads','Email direto','Telefone']},
 {id:'st',label:'Estado',type:'select',opts:['Novo','Contactado','Qualificado']},
-{id:'r',label:'Responsavel',type:'select',opts:['RS','PL']}
+{id:'r',label:'Responsavel',type:'select',opts:colabOpts}
 ],
 contacto:[
 {id:'n',label:'Nome',ph:'Nome completo'},
@@ -362,7 +432,7 @@ contacto:[
 {id:'cargo',label:'Cargo',ph:'Ex: Diretor Comercial'},
 {id:'em',label:'Email',ph:'email@empresa.pt'},
 {id:'t',label:'Telemovel',ph:'912345678'},
-{id:'notas',label:'Notas',ph:'Observacoes...'}
+{id:'notas',label:'Notas',ph:'Observacoes...',full:true}
 ],
 cliente:[
 {id:'n',label:'Nome empresa',ph:'Nome da empresa'},
@@ -372,28 +442,43 @@ cliente:[
 {id:'em',label:'Email',ph:'email@empresa.pt'},
 {id:'cls',label:'Classificacao',type:'select',opts:['Prospect','Potencial','Ativo','Inativo','Suspenso']},
 {id:'vol',label:'Volume estimado (EUR)',ph:'0',num:true}
+],
+colaborador:[
+{id:'id',label:'Sigla (2-3 letras)',ph:'Ex: RS'},
+{id:'nome',label:'Nome completo',ph:'Nome e apelido'},
+{id:'cargo',label:'Cargo',ph:'Ex: Comercial Senior'},
+{id:'dept',label:'Departamento',type:'select',opts:['Comercial','Direcao Comercial','Planeamento','Engenharia','Producao','Qualidade','Supply Chain','IT','Financeiro','Marketing']},
+{id:'em',label:'Email',ph:'nome@rotovedras.pt'},
+{id:'tel',label:'Telemovel',ph:'917111222'},
+{id:'cor',label:'Cor fundo (hex)',ph:'#EEEDFE'},
+{id:'corTxt',label:'Cor texto (hex)',ph:'#3C3489'}
 ]
 };
 var f=fields[type];
-var titles={lead:'Novo Lead',contacto:'Novo Contacto',cliente:'Novo Cliente'};
+var titles={lead:'Novo Lead',contacto:'Novo Contacto',cliente:'Novo Cliente',colaborador:editData?'Editar Colaborador':'Novo Colaborador'};
 var html='<div style="background:var(--bg-card);border-radius:var(--radius-lg);padding:28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md)">';
 html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><div style="font-size:17px;font-weight:700">'+titles[type]+'</div><button onclick="closeAddForm()" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--text-sec)">&times;</button></div>';
 html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
 f.forEach(function(field){
-html+='<div style="'+(field.id==='notas'?'grid-column:1/-1':'')+'"><label style="display:block;font-size:11px;font-weight:600;color:var(--text-ter);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">'+field.label+'</label>';
+var val=editData?editData[field.id]||'':'';
+html+='<div style="'+(field.full?'grid-column:1/-1':'')+'"><label style="display:block;font-size:11px;font-weight:600;color:var(--text-ter);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">'+field.label+'</label>';
 if(field.type==='select'){
 html+='<select id="add_'+field.id+'" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text)">';
-field.opts.forEach(function(o){html+='<option value="'+o+'">'+o+'</option>'});
+field.opts.forEach(function(o){html+='<option value="'+o+'"'+(val===o?' selected':'')+'>'+o+'</option>'});
 html+='</select>';
 }else{
-html+='<input id="add_'+field.id+'" type="'+(field.num?'number':'text')+'" placeholder="'+field.ph+'" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none">';
+html+='<input id="add_'+field.id+'" type="'+(field.num?'number':'text')+'" placeholder="'+field.ph+'" value="'+val+'" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none">';
 }
 html+='</div>';
 });
 html+='</div>';
 html+='<div style="display:flex;gap:8px;margin-top:20px;justify-content:flex-end">';
 html+='<button class="btn" onclick="closeAddForm()">Cancelar</button>';
+if(editData&&type==='colaborador'){
+html+='<button class="btn btn-primary" onclick="saveEditColab('+editIdx+')">Guardar</button>';
+}else{
 html+='<button class="btn btn-primary" onclick="saveAdd(\''+type+'\')">Guardar</button>';
+}
 html+='</div></div>';
 overlay.innerHTML=html;
 document.body.appendChild(overlay);
@@ -407,7 +492,7 @@ var get=function(id){var el=document.getElementById('add_'+id);return el?el.valu
 if(type==='lead'){
 if(!get('n')||!get('e')){alert('Preencha pelo menos Nome e Empresa');return}
 var today=new Date();var dd=String(today.getDate()).padStart(2,'0')+'/'+String(today.getMonth()+1).padStart(2,'0');
-DATA.leads.push({n:get('n'),e:get('e'),em:get('em'),t:get('t'),nif:get('nif'),s:get('s'),c:get('c'),st:get('st'),r:get('r'),d:dd});
+DATA.leads.push({n:get('n'),e:get('e'),em:get('em'),t:get('t'),nif:get('nif'),s:get('s'),c:get('c'),st:get('st'),r:getColabId(get('r')),d:dd});
 closeAddForm();renderLeads();
 }else if(type==='contacto'){
 if(!get('n')||!get('e')){alert('Preencha pelo menos Nome e Empresa');return}
@@ -418,7 +503,20 @@ closeAddForm();renderContactos();
 if(!get('n')){alert('Preencha pelo menos o Nome da empresa');return}
 DATA.clientes.push({n:get('n'),nif:get('nif'),s:get('s'),cont:get('cont'),em:get('em'),cls:get('cls'),opps:'-',vol:parseInt(get('vol'))||0,ult:String(new Date().getDate()).padStart(2,'0')+'/'+String(new Date().getMonth()+1).padStart(2,'0')});
 closeAddForm();renderClientes();
+}else if(type==='colaborador'){
+if(!get('id')||!get('nome')){alert('Preencha pelo menos Sigla e Nome');return}
+DATA.colaboradores.push({id:get('id').toUpperCase(),nome:get('nome'),cargo:get('cargo'),dept:get('dept'),em:get('em'),tel:get('tel'),ativo:true,cor:get('cor')||'#EEEDFE',corTxt:get('corTxt')||'#3C3489'});
+closeAddForm();renderColaboradores();
 }
+}
+
+function saveEditColab(idx){
+var get=function(id){var el=document.getElementById('add_'+id);return el?el.value.trim():''};
+var c=DATA.colaboradores[idx];
+c.id=get('id').toUpperCase()||c.id;c.nome=get('nome')||c.nome;c.cargo=get('cargo')||c.cargo;
+c.dept=get('dept')||c.dept;c.em=get('em')||c.em;c.tel=get('tel')||c.tel;
+c.cor=get('cor')||c.cor;c.corTxt=get('corTxt')||c.corTxt;
+closeAddForm();renderColaboradores();
 }
 
 // ============= NAVIGATION =============
@@ -435,6 +533,7 @@ if(tab==='contactos')renderContactos();
 if(tab==='oportunidades')renderOpps();
 if(tab==='clientes')renderClientes();
 if(tab==='classificacao')renderClf();
+if(tab==='colaboradores')renderColaboradores();
 }
 document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
 document.querySelectorAll('.sidebar-item[data-tab]').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
