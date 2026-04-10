@@ -413,8 +413,9 @@ h+='<div class="metric"><div class="metric-label">Volume</div><div class="metric
 h+='<div class="toolbar"><button class="btn btn-primary" onclick="openAddForm(\'cliente\')">+ Novo cliente</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'clientes\')"></div>';
 ['Ativo','Potencial','Prospect','Inativo','Suspenso'].forEach(function(cls){var items=groups[cls];if(!items||!items.length)return;
 h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+(gColors[cls]||'#888')+'"></div><div class="group-name">'+cls+'</div><div class="group-count">'+items.length+'</div></div>';
-h+='<div class="tbl-wrap"><table><tr><th>Cliente</th><th>NIF</th><th>Setor</th><th>Contacto</th><th>Email</th><th>Class.</th><th>Opps</th><th>Volume</th><th>Ult.</th></tr>';
-items.forEach(function(c){h+='<tr><td style="font-weight:600">'+c.n+'</td><td>'+c.nif+'</td><td class="setor">'+c.s+'</td><td>'+c.cont+'</td><td>'+c.em+'</td><td><span class="st '+stClass(c.cls)+'">'+c.cls+'</span></td><td><span class="conn">'+c.opps+'</span></td><td class="val">'+euro(c.vol)+'</td><td style="font-size:10px;color:var(--text-ter)">'+c.ult+'</td></tr>'});
+h+='<div class="tbl-wrap"><table><tr><th>Cliente</th><th>NIF</th><th>Setor</th><th>Contacto</th><th>Email</th><th>Class.</th><th>Grade</th><th>Opps</th><th>Volume</th><th>Ult.</th></tr>';
+items.forEach(function(c){var gradeHtml=c.grade?'<span class="clf-grade clf-grade-'+c.grade+'" style="width:28px;height:28px;font-size:13px;display:inline-flex">'+c.grade+'</span><span style="font-size:9px;color:var(--text-ter);margin-left:4px">'+c.score+'</span>':'<span style="font-size:10px;color:var(--text-ter)">-</span>';
+h+='<tr><td style="font-weight:600">'+c.n+'</td><td>'+c.nif+'</td><td class="setor">'+c.s+'</td><td>'+c.cont+'</td><td>'+c.em+'</td><td><span class="st '+stClass(c.cls)+'">'+c.cls+'</span></td><td>'+gradeHtml+'</td><td><span class="conn">'+c.opps+'</span></td><td class="val">'+euro(c.vol)+'</td><td style="font-size:10px;color:var(--text-ter)">'+c.ult+'</td></tr>'});
 h+='</table></div></div>'});
 document.getElementById('clientesContent').innerHTML=h;
 }
@@ -561,13 +562,15 @@ function setClfMode(m){clfMode=m;document.querySelectorAll('.clf-toggle-btn').fo
 function renderClf(){
 var h='<div class="clf-wrap"><div style="font-size:14px;font-weight:700;margin-bottom:5px">Classificacao de cliente</div><div style="font-size:12px;color:var(--text-sec);margin-bottom:14px">Preencha os criterios para classificar (A/B/C/D).</div>';
 h+='<div class="clf-toggle"><button class="clf-toggle-btn'+(clfMode==='atual'?' active':'')+'" onclick="setClfMode(\'atual\')">Cliente atual</button><button class="clf-toggle-btn'+(clfMode==='novo'?' active':'')+'" onclick="setClfMode(\'novo\')">Cliente novo</button></div>';
-h+='<input type="text" class="clf-name-input" id="clfClientName" placeholder="Nome do cliente (opcional)">';
+h+='<div style="display:flex;gap:10px;margin-bottom:14px"><select id="clfClientSel" style="flex:1;padding:8px 10px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text)"><option value="">-- Selecionar cliente --</option>';
+DATA.clientes.forEach(function(c,i){var badge=c.grade?' ['+c.grade+' - '+c.score+' pts]':'';h+='<option value="'+i+'">'+c.n+badge+'</option>'});
+h+='</select></div>';
 h+='<div class="clf-legend"><div class="clf-legend-item"><div class="clf-legend-dot" style="background:#97C459"></div>A Premium (>=80)</div><div class="clf-legend-item"><div class="clf-legend-dot" style="background:#85B7EB"></div>B Standard (>=60)</div><div class="clf-legend-item"><div class="clf-legend-dot" style="background:#FAC775"></div>C Basico (>=30)</div><div class="clf-legend-item"><div class="clf-legend-dot" style="background:#F09595"></div>D Risco (<30)</div></div>';
 var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;
 h+='<div class="clf-form">';
 Object.keys(crit).forEach(function(k){var c=crit[k];h+='<div class="clf-field"><label>'+c.label+' <span class="peso-tag">'+c.peso+'%</span></label><select id="clf_'+k+'" onchange="calcClf()"><option value="0">-- Selecionar --</option>';c.opts.forEach(function(o){h+='<option value="'+o[1]+'">'+o[0]+' ('+o[1]+'/4)</option>'});h+='</select></div>'});
 h+='</div><div class="clf-result"><div class="clf-score-card"><div class="clf-score-num" id="clfScoreNum">0</div><div class="clf-score-label">Score</div><div class="clf-grade clf-grade-D" id="clfGrade">D</div><div style="font-size:10px;color:var(--text-ter);margin-top:4px" id="clfGradeLabel">Risco</div></div><div class="clf-breakdown"><div style="font-size:12px;font-weight:600;margin-bottom:10px">Decomposicao</div><div id="clfBars"></div></div></div>';
-h+='<div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="clfReset()">Limpar</button><button class="btn" onclick="clfExport()">Copiar resultado</button></div></div>';
+h+='<div style="display:flex;gap:8px"><button class="btn btn-primary" onclick="clfSave()">Guardar no cliente</button><button class="btn" onclick="clfExport()">Copiar resultado</button><button class="btn" onclick="clfReset()">Limpar</button></div></div>';
 document.getElementById('clfContent').innerHTML=h;calcClf();
 }
 function calcClf(){var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;var score=0;var bars='';var colors={1:'#F09595',2:'#FAC775',3:'#85B7EB',4:'#97C459'};
@@ -575,8 +578,12 @@ Object.keys(crit).forEach(function(k){var c=crit[k];var sel=document.getElementB
 bars+='<div class="clf-bar-row"><div class="clf-bar-label">'+c.label+' ('+c.peso+'%)</div><div class="clf-bar-track"><div class="clf-bar-fill" style="width:'+pct+'%;background:'+(colors[nota]||'#ddd')+'"></div></div><div class="clf-bar-val">'+contrib.toFixed(1)+'</div></div>'});
 score=Math.round(score*100)/100;var grade=score>=80?'A':score>=60?'B':score>=30?'C':'D';var labels={A:'Premium',B:'Standard',C:'Basico',D:'Risco'};
 var sn=document.getElementById('clfScoreNum');if(sn)sn.textContent=score.toFixed(1);var ge=document.getElementById('clfGrade');if(ge){ge.textContent=grade;ge.className='clf-grade clf-grade-'+grade}var gl=document.getElementById('clfGradeLabel');if(gl)gl.textContent=labels[grade];var bb=document.getElementById('clfBars');if(bb)bb.innerHTML=bars}
-function clfReset(){var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;Object.keys(crit).forEach(function(k){var s=document.getElementById('clf_'+k);if(s)s.value='0'});var cn=document.getElementById('clfClientName');if(cn)cn.value='';calcClf()}
-function clfExport(){var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;var cn=document.getElementById('clfClientName');var name=cn?cn.value||'(sem nome)':'(sem nome)';var sn=document.getElementById('clfScoreNum');var score=sn?sn.textContent:'0';var ge=document.getElementById('clfGrade');var grade=ge?ge.textContent:'D';var lines=['Cliente: '+name,'Tipo: '+(clfMode==='atual'?'Atual':'Novo'),'Score: '+score+'/100','Classe: '+grade,'','Criterios:'];
+function clfReset(){var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;Object.keys(crit).forEach(function(k){var s=document.getElementById('clf_'+k);if(s)s.value='0'});var cs=document.getElementById('clfClientSel');if(cs)cs.value='';calcClf()}
+function clfSave(){var cs=document.getElementById('clfClientSel');if(!cs||cs.value===''){alert('Selecione um cliente primeiro');return}
+var idx=parseInt(cs.value);var sn=document.getElementById('clfScoreNum');var score=sn?parseFloat(sn.textContent):0;var ge=document.getElementById('clfGrade');var grade=ge?ge.textContent:'D';
+DATA.clientes[idx].score=score;DATA.clientes[idx].grade=grade;DATA.clientes[idx].clfMode=clfMode;
+alert('Classificacao guardada: '+DATA.clientes[idx].n+' = '+grade+' ('+score+' pts)');renderClf()}
+function clfExport(){var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;var cs=document.getElementById('clfClientSel');var name='(sem nome)';if(cs&&cs.value!=='')name=DATA.clientes[parseInt(cs.value)].n;var sn=document.getElementById('clfScoreNum');var score=sn?sn.textContent:'0';var ge=document.getElementById('clfGrade');var grade=ge?ge.textContent:'D';var lines=['Cliente: '+name,'Tipo: '+(clfMode==='atual'?'Atual':'Novo'),'Score: '+score+'/100','Classe: '+grade,'','Criterios:'];
 Object.keys(crit).forEach(function(k){var c=crit[k];var sel=document.getElementById('clf_'+k);var nota=sel?parseInt(sel.value)||0:0;var optLabel=nota>0?c.opts[nota-1][0]:'(vazio)';lines.push('  '+c.label+': '+optLabel+' ('+nota+'/4)')});
 navigator.clipboard.writeText(lines.join('\n')).then(function(){alert('Copiado!')})}
 
