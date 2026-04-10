@@ -203,7 +203,7 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 <div class="board" id="sc_compras"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras</div><div class="ph-desc">Requisicoes de compra, aprovacoes, encomendas a fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="sc_compras_eng"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras engenharia</div><div class="ph-desc">Compras especificas para projetos de engenharia e desenvolvimento.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="sc_logistica"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Logistica</div><div class="ph-desc">Gestao de transportes, expedicoes e recepcao de materiais.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="eng_projetos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Engenharia — Projetos</div><div class="ph-desc">Projetos de engenharia: Fase 0 Intake, Fase 1 Conceito, Fase 2 Desenv. Produto, Fase 3 Desenv. Producao.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="eng_projetos"><div id="engContent"></div></div>
 <div class="board" id="ql_rececao"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Rececao</div><div class="ph-desc">Inspecao de materiais e componentes na rececao.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="ql_nc"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Nao conformidades</div><div class="ph-desc">Registo e gestao de nao conformidades internas e de fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="ql_auditorias"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Auditorias</div><div class="ph-desc">Planeamento e acompanhamento de auditorias internas e externas.</div><div class="ph-status">Em construcao</div></div></div>
@@ -330,8 +330,8 @@ document.getElementById('headerLabel').textContent=tabLabels[tab]||tab;
 var group=null;Object.keys(tabGroups).forEach(function(g){if(tabGroups[g].indexOf(tab)>-1)group=g});
 var topTabs=document.getElementById('topTabs');
 if(group&&tabGroups[group].length>1){topTabs.style.display='flex';topTabs.innerHTML=tabGroups[group].map(function(t){return '<button class="tab'+(t===tab?' active':'')+'" onclick="switchTab(\''+t+'\')">'+tabLabels[t]+'</button>'}).join('')}else{topTabs.style.display='none'}
-if(tab==='dashboard')renderDashboard();if(tab==='leads')renderLeads();if(tab==='contactos')renderContactos();if(tab==='oportunidades')renderOpps();if(tab==='clientes')renderClientes();if(tab==='classificacao')renderClf();if(tab==='moldes')renderMoldes();if(tab==='colaboradores')renderColaboradores();if(tab==='producao')renderProducao();if(tab==='propostas')renderPropostas();
-if(tab==='propostas')renderPropostas();
+if(tab==='dashboard')renderDashboard();if(tab==='leads')renderLeads();if(tab==='contactos')renderContactos();if(tab==='oportunidades')renderOpps();if(tab==='clientes')renderClientes();if(tab==='classificacao')renderClf();if(tab==='moldes')renderMoldes();if(tab==='colaboradores')renderColaboradores();if(tab==='producao')renderProducao();if(tab==='propostas')renderPropostas();if(tab==='eng_projetos')renderEngenharia();
+if(tab==='propostas')renderPropostas();if(tab==='eng_projetos')renderEngenharia();
 }
 document.querySelectorAll('.sidebar-item[data-tab]').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
 function toggleGroup(id){document.getElementById(id).classList.toggle('collapsed')}
@@ -523,32 +523,121 @@ document.getElementById('producaoContent').innerHTML=h;
 // ==================== DASHBOARD ====================
 var chartsInit=false;
 function renderDashboard(){
-var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
+var ofsAtivas=DATA.ofs.filter(function(o){return o.estado!=='Expedicao'});
+var ofsEmProd=DATA.ofs.filter(function(o){return o.estado==='Em producao'});
+var bracosTot=16,bracosOcup=DATA.ofs.filter(function(o){return o.forno&&o.estado!=='Expedicao'}).length;
+var oee=bracosOcup>0?Math.round((bracosOcup/bracosTot)*78):0;
+var alertas=[
+{cor:'#A32D2D',icon:'&#9888;',titulo:'OF-2026-002 prazo critico',desc:'Separadores gordura BuildMax - entrega 18/04, acabamentos pendentes.',tempo:'10:23',tag:'Producao'},
+{cor:'#BA7517',icon:'&#9888;',titulo:'Molde M-URBANAQUA-001 em manutencao',desc:'Contentor RSU 1100L indisponivel. OF-2026-006 sem alocacao.',tempo:'09:45',tag:'Manutencao'},
+{cor:'#BA7517',icon:'&#9888;',titulo:'Stock PEAD baixo',desc:'Polietileno alta densidade abaixo do minimo. Restam 680kg.',tempo:'09:15',tag:'Inventario'},
+{cor:'#A32D2D',icon:'&#9888;',titulo:'QC - OF-2026-007 pendente inspecao',desc:'Tanque irrigacao AgroNorte aguarda inspecao final ha 2 dias.',tempo:'08:30',tag:'Qualidade'},
+{cor:'#509ECB',icon:'&#9673;',titulo:'Nova proposta recebida',desc:'GreenPool pediu orcamento para 5 piscinas modulares.',tempo:'11:15',tag:'Comercial'},
+{cor:'#BA7517',icon:'&#9888;',titulo:'Forno 4 - temperatura +6C acima target',desc:'Monitorar proximos ciclos. Cuba vinificacao VinoPorto.',tempo:'11:02',tag:'Producao'}
+];
+// KPIs
+var h='<div class="metrics" style="grid-template-columns:repeat(6,1fr)">';
+h+='<div class="metric"><div class="metric-label">OFs ativas</div><div class="metric-val">'+ofsAtivas.length+'</div><div class="metric-change up">'+ofsEmProd.length+' em producao</div></div>';
+h+='<div class="metric"><div class="metric-label">Producao hoje</div><div class="metric-val">1.250 kg</div><div class="metric-change up">&#9650; 12% vs ontem</div></div>';
+h+='<div class="metric"><div class="metric-label">OEE</div><div class="metric-val">'+oee+'%</div></div>';
+h+='<div class="metric"><div class="metric-label">Fornos/Bracos</div><div class="metric-val">'+bracosOcup+'/'+bracosTot+'</div><div class="metric-change">'+Math.round(bracosOcup/bracosTot*100)+'% ocupacao</div></div>';
 h+='<div class="metric"><div class="metric-label">Pipeline</div><div class="metric-val">'+euro(DATA.opps.reduce(function(a,o){return a+o.v},0))+'</div></div>';
-h+='<div class="metric"><div class="metric-label">Ponderado</div><div class="metric-val">'+euro(Math.round(DATA.opps.reduce(function(a,o){return a+o.v*o.prob/100},0)))+'</div></div>';
-var g=DATA.opps.filter(function(o){return o.st==='Fechado - Ganho'});
-h+='<div class="metric"><div class="metric-label">Ganhos</div><div class="metric-val">'+euro(g.reduce(function(a,o){return a+o.v},0))+'</div></div>';
-h+='<div class="metric"><div class="metric-label">Leads</div><div class="metric-val">'+DATA.leads.length+'</div></div>';
-h+='<div class="metric"><div class="metric-label">OFs ativas</div><div class="metric-val">'+DATA.ofs.filter(function(o){return o.estado!=='Expedicao'}).length+'</div></div></div>';
-h+='<div class="dash-section"><div class="dash-section-title">Pipeline</div><div class="dash-grid">';
-h+='<div class="dash-card"><div class="dash-card-title">Por estado</div><div class="chart-wrap"><canvas id="cP"></canvas></div></div>';
-h+='<div class="dash-card"><div class="dash-card-title">Funil</div><div style="padding:8px 0">';
-[['Nova oportunidade',2,100,'#509ECB'],['Proposta prep.',1,80,'#7F77DD'],['Proposta enviada',2,60,'#BA7517'],['Aguardando dec.',1,40,'#D85A30'],['Adjudicado',2,30,'#1D9E75'],['Ganho',1,12,'#639922']].forEach(function(f){h+='<div class="funnel-row"><div class="funnel-label">'+f[0]+'</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:'+f[2]+'%;background:'+f[3]+'">'+f[1]+'</div></div><div class="funnel-count">'+f[1]+'</div></div>'});
-h+='</div></div></div></div>';
-h+='<div class="dash-section"><div class="dash-section-title">Leads</div><div class="dash-grid">';
-h+='<div class="dash-card"><div class="dash-card-title">Por canal</div><div class="chart-wrap-sm"><canvas id="cC"></canvas></div></div>';
-h+='<div class="dash-card"><div class="dash-card-title">Evolucao mensal</div><div class="chart-wrap-sm"><canvas id="cM"></canvas></div></div>';
+h+='<div class="metric" style="border-left:3px solid #A32D2D"><div class="metric-label">Alertas</div><div class="metric-val" style="color:#A32D2D">'+alertas.length+'</div></div></div>';
+
+// STATUS FORNOS
+h+='<div class="dash-section"><div class="dash-section-title">Status dos recursos produtivos</div>';
+h+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:8px">';
+var fornos=[{n:'Forno 1',u:'U1',bracos:['Braco A','Braco B']},{n:'Forno 2',u:'U1',bracos:['Braco A','Braco B']},{n:'Forno 3',u:'U2',bracos:['Braco A','Braco B']},{n:'Forno 4',u:'U2',bracos:['Braco A','Braco B']},{n:'Forno 5',u:'U3',bracos:['Braco A']},{n:'Forno 6',u:'U3',bracos:['Braco A']},{n:'Forno 7',u:'U3',bracos:['Braco A','Braco B']},{n:'Forno 8',u:'U3',bracos:['Braco A','Braco B']}];
+fornos.forEach(function(forno){
+forno.bracos.forEach(function(braco){
+var of2=DATA.ofs.find(function(o){return o.forno===forno.n&&o.braco===braco&&o.estado!=='Expedicao'});
+var stColor=of2?(of2.estado==='Em producao'?'#1D9E75':of2.estado==='Setup'?'#BA7517':of2.estado==='Acabamentos'?'#D85A30':'#7F77DD'):'var(--border-light)';
+var stLabel=of2?of2.estado:'Disponivel';
+var pct=of2?Math.round(Math.random()*60+30):0;
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:8px;padding:10px;border-top:3px solid '+stColor+'">';
+h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:10px;font-weight:600">'+forno.n+' / '+braco+'</span><span style="font-size:8px;color:var(--text-ter)">'+forno.u+'</span></div>';
+if(of2){
+h+='<div style="font-size:11px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+of2.produto+'</div>';
+h+='<div style="font-size:9px;color:var(--text-sec);margin-bottom:6px">'+of2.cliente+' | '+of2.qtd+' un</div>';
+h+='<div style="display:flex;justify-content:space-between;font-size:9px;margin-bottom:2px"><span class="st '+stClass(of2.estado)+'" style="font-size:8px;padding:1px 6px">'+of2.estado+'</span><span style="font-weight:600">'+pct+'%</span></div>';
+h+='<div class="resource-bar" style="height:4px"><div class="resource-fill" style="width:'+pct+'%;background:'+stColor+'"></div></div>';
+}else{
+h+='<div style="font-size:11px;color:var(--text-ter);padding:8px 0">Disponivel</div>';
+}
+h+='</div>';
+});
+});
 h+='</div></div>';
-h+='<div class="dash-section"><div class="dash-section-title">Equipa</div><div class="dash-grid">';
-h+='<div class="dash-card"><div class="dash-card-title">Por comercial</div><div class="chart-wrap"><canvas id="cE"></canvas></div></div>';
-h+='<div class="dash-card"><div class="dash-card-title">Atividade recente</div>';
-[{c:'#1D9E75',t:'Novo lead: Rui Costa - MuniTejo',s:'Ha 2 dias'},{c:'#7F77DD',t:'Opp. negociacao: Piscinas modulares',s:'Ha 3 dias'},{c:'#BA7517',t:'Proposta enviada: Contentores UrbanAqua',s:'Ha 5 dias'},{c:'#639922',t:'Ganho: Depositos quimicos HidroSul',s:'15/03'},{c:'#A32D2D',t:'Perdido: Reservatorios PlastiForm',s:'01/04'}].forEach(function(e){h+='<div class="timeline-item"><div class="timeline-dot" style="background:'+e.c+'"></div><div class="timeline-content"><div class="timeline-title">'+e.t+'</div><div class="timeline-time">'+e.s+'</div></div></div>'});
+
+// CRONOGRAMA GANTT
+h+='<div class="dash-section"><div class="dash-section-title">Cronograma de producao — Hoje</div>';
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:14px;overflow-x:auto">';
+h+='<div style="display:grid;grid-template-columns:80px repeat(13,1fr);gap:0;min-width:700px">';
+h+='<div style="font-size:9px;color:var(--text-ter);padding:4px"></div>';
+for(var hr=6;hr<=18;hr++){h+='<div style="font-size:9px;color:var(--text-ter);text-align:center;padding:4px;border-left:1px solid var(--border-light)">'+hr+':00</div>'}
+var ganttColors={'Em producao':'#1D9E75','Setup':'#BA7517','Acabamentos':'#D85A30','Planeamento':'#7F77DD','QC/Inspecao':'#FAC775'};
+var ganttData=[
+{label:'F1/A',of:'OF-001',prod:'Dep. quimico',start:6,end:16,st:'Em producao'},
+{label:'F1/B',of:'OF-008',prod:'Dep. PEAD 5000L',start:7,end:14,st:'Expedicao'},
+{label:'F2/B',of:'OF-003',prod:'Piscina modular',start:6,end:18,st:'Planeamento'},
+{label:'F3/A',of:'OF-002',prod:'Sep. gordura',start:8,end:17,st:'Acabamentos'},
+{label:'F4/A',of:'OF-004',prod:'Cuba vinif.',start:6,end:15,st:'Setup'},
+{label:'F7/A',of:'OF-007',prod:'Tanque irrig.',start:6,end:12,st:'QC/Inspecao'}
+];
+ganttData.forEach(function(g){
+h+='<div style="font-size:10px;font-weight:500;padding:6px 4px;border-top:1px solid var(--border-light);display:flex;align-items:center">'+g.label+'</div>';
+var cols='';for(var hr=6;hr<=18;hr++){
+var inRange=hr>=g.start&&hr<g.end;
+var isStart=hr===g.start;var isEnd=hr===g.end-1;
+var bg=inRange?(ganttColors[g.st]||'#509ECB'):'transparent';
+var radius=isStart?'4px 0 0 4px':isEnd?'0 4px 4px 0':'0';
+var txt=isStart?'<span style="font-size:8px;color:#fff;white-space:nowrap;padding-left:4px">'+g.prod+'</span>':'';
+cols+='<div style="border-left:1px solid var(--border-light);border-top:1px solid var(--border-light);padding:5px 0;"><div style="background:'+bg+';height:20px;border-radius:'+radius+';display:flex;align-items:center;overflow:hidden">'+txt+'</div></div>';
+}
+h+=cols;
+});
 h+='</div></div></div>';
+
+// PIPELINE CHARTS
+h+='<div class="dash-section"><div class="dash-section-title">Pipeline comercial</div><div class="dash-grid">';
+h+='<div class="dash-card"><div class="dash-card-title">Por estado</div><div class="chart-wrap"><canvas id="cP"></canvas></div></div>';
+h+='<div class="dash-card"><div class="dash-card-title">Funil de conversao</div><div style="padding:8px 0">';
+[['Nova opp.',2,100,'#509ECB'],['Prop. prep.',1,80,'#7F77DD'],['Prop. enviada',2,60,'#BA7517'],['Aguardando',1,40,'#D85A30'],['Adjudicado',2,30,'#1D9E75'],['Ganho',1,12,'#639922']].forEach(function(f){h+='<div class="funnel-row"><div class="funnel-label">'+f[0]+'</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:'+f[2]+'%;background:'+f[3]+'">'+f[1]+'</div></div><div class="funnel-count">'+f[1]+'</div></div>'});
+h+='</div></div></div></div>';
+
+// LEADS + EQUIPA
+h+='<div class="dash-section"><div class="dash-section-title">Leads &amp; equipa</div><div class="dash-grid">';
+h+='<div class="dash-card"><div class="dash-card-title">Leads por canal</div><div class="chart-wrap-sm"><canvas id="cC"></canvas></div></div>';
+h+='<div class="dash-card"><div class="dash-card-title">Por comercial</div><div class="chart-wrap-sm"><canvas id="cE"></canvas></div></div>';
+h+='</div></div>';
+
+// ALERTAS
+h+='<div class="dash-section"><div class="dash-section-title">Alertas &amp; notificacoes</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+alertas.forEach(function(a){
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:8px;padding:12px;display:flex;gap:10px;border-left:3px solid '+a.cor+'">';
+h+='<div style="flex:1"><div style="font-size:12px;font-weight:600;margin-bottom:3px">'+a.titulo+'</div><div style="font-size:10px;color:var(--text-sec)">'+a.desc+'</div></div>';
+h+='<div style="text-align:right;flex-shrink:0"><div style="font-size:9px;color:var(--text-ter)">'+a.tempo+'</div><span class="prod-tag" style="margin-top:4px;display:inline-block">'+a.tag+'</span></div></div>';
+});
+h+='</div></div>';
+
+// ORDENS ATIVAS
+h+='<div class="dash-section"><div class="dash-section-title">Ordens ativas</div>';
+h+='<div class="tbl-wrap"><table style="min-width:700px"><tr><th>OF</th><th>Produto</th><th>Cliente</th><th>Estado</th><th>Recurso</th><th>Prio.</th><th>Entrega</th></tr>';
+ofsAtivas.slice(0,6).forEach(function(o){var pc=o.prio==='Alta'?'prio-alta':o.prio==='Baixa'?'prio-baixa':'prio-media';
+h+='<tr><td style="font-weight:600;font-family:monospace">'+o.num+'</td><td>'+o.produto+'</td><td><span class="conn">'+o.cliente+'</span></td><td><span class="st '+stClass(o.estado)+'" style="font-size:9px">'+o.estado+'</span></td><td style="font-size:10px">'+(o.forno?o.forno+'/'+o.braco:'—')+'</td><td><span class="prio '+pc+'">'+o.prio+'</span></td><td style="font-size:10px">'+o.dtEntrega+'</td></tr>'});
+h+='</table></div></div>';
+
+// ATIVIDADE
+h+='<div class="dash-section"><div class="dash-section-title">Atividade recente</div><div class="dash-grid"><div class="dash-card">';
+[{c:'#509ECB',t:'Novo lead: Rui Costa - MuniTejo',s:'Ha 2 dias'},{c:'#7F77DD',t:'Proposta enviada: Contentores UrbanAqua',s:'Ha 3 dias'},{c:'#1D9E75',t:'OF-2026-001 em producao',s:'Ha 4 dias'},{c:'#639922',t:'Ganho: Depositos quimicos HidroSul',s:'15/03'},{c:'#A32D2D',t:'Perdido: Reservatorios PlastiForm',s:'01/04'}].forEach(function(e){h+='<div class="timeline-item"><div class="timeline-dot" style="background:'+e.c+'"></div><div class="timeline-content"><div class="timeline-title">'+e.t+'</div><div class="timeline-time">'+e.s+'</div></div></div>'});
+h+='</div><div class="dash-card"><div class="dash-card-title">Evolucao leads</div><div class="chart-wrap-sm"><canvas id="cM"></canvas></div></div></div></div>';
+
 document.getElementById('dashContent').innerHTML=h;
 if(!chartsInit){chartsInit=true;
 Chart.defaults.font.family='DM Sans';Chart.defaults.font.size=10;Chart.defaults.color='#6b6b6b';Chart.defaults.plugins.legend.labels.usePointStyle=true;
 new Chart(document.getElementById('cP'),{type:'bar',data:{labels:['Nova','Prop.prep.','Prop.env.','Aguard.','Adjud.','Ganho','Perdido'],datasets:[{data:[30500,5000,60000,15000,30000,24500,15000],backgroundColor:['#85B7EB','#AFA9EC','#BA7517','#D85A30','#1D9E75','#97C459','#F09595'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
-new Chart(document.getElementById('cC'),{type:'doughnut',data:{labels:['Website','Google Ads'],datasets:[{data:[7,5],backgroundColor:['#378ADD','#D85A30'],borderWidth:0,spacing:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom'}}}});
+new Chart(document.getElementById('cC'),{type:'doughnut',data:{labels:['Website','Google Ads'],datasets:[{data:[7,5],backgroundColor:['#509ECB','#D85A30'],borderWidth:0,spacing:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom'}}}});
 new Chart(document.getElementById('cM'),{type:'line',data:{labels:['Jan','Fev','Mar','Abr'],datasets:[{label:'Leads',data:[2,1,4,5],borderColor:'#509ECB',backgroundColor:'rgba(80,158,203,.08)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#509ECB'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
 new Chart(document.getElementById('cE'),{type:'bar',data:{labels:['Ricardo Silva','Paula Lima'],datasets:[{label:'Pipeline',data:[40000,27000],backgroundColor:'#85B7EB',borderRadius:5,borderSkipped:false},{label:'Ganhos',data:[14000,24500],backgroundColor:'#97C459',borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
 }
@@ -667,6 +756,257 @@ var prods=[];DATA.servicos.forEach(function(p,i){var cb=document.getElementById(
 var dr=g('opp_dt');var dt=dr?dr.split('-').reverse().join('/'):'';
 var o={n:g('opp_n'),cl:g('opp_cl'),prods:prods,v:parseInt(g('opp_v'))||0,margem:parseInt(g('opp_mg'))||0,prob:parseInt(g('opp_prob'))||0,dt:dt,st:st,r:getColabId(g('opp_r')),prio:g('opp_prio'),proxAcao:g('opp_pa'),origem:g('opp_origem'),tipoOpp:g('opp_tipo'),complex:g('opp_cx'),tipoForn:g('opp_forn'),tipoPrazo:g('opp_tp'),desc:g('opp_desc')};
 if(st==='Fechado - Perdido')o.motivo=g('opp_motivo');DATA.opps.push(o);closeAddForm();renderOpps()}
+
+
+// ==================== ENGENHARIA ====================
+DATA.engProjetos=[
+{id:"ENG-2026-001",nome:"Flotador tratamento aguas",cliente:"EcoJardins SA",empresa:"Rotovedras",solicitadoPor:"Maria Santos",comercial:"PL",engenheiro:"AS",fase:"Fase 2",status:"Em curso",tipo:"NPD",prio:"Alta",dtPedido:"15/02/2026",dtPrevista:"30/05/2026",
+modelo3d:true,conceito:true,novoMolde:"Sim",alteracao:false,prototipo:true,metodoProto:"Impressao 3D + rotomoldagem",valid3d:true,validAmostra:false,
+custoEng:3500,custoProto:1800,custoMolde:12000,horasEst:120,horasReais:68,
+aprovadoCliente:null,readyProd:false,feedbackCliente:"Aguarda validacao 3D final",
+subtarefas:[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Concluido"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Concluido"},
+{fase:"Fase 0",nome:"Preparacao custos proposta",status:"Concluido"},
+{fase:"Fase 0",nome:"Envio proposta",status:"Concluido"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 1",nome:"Pesquisa e benchmarking",status:"Concluido"},
+{fase:"Fase 1",nome:"Desenvolvimento sketches",status:"Concluido"},
+{fase:"Fase 1",nome:"Modelacao 3D preliminar",status:"Concluido"},
+{fase:"Fase 1",nome:"Apresentacao ao cliente",status:"Concluido"},
+{fase:"Fase 1",nome:"Validacao do conceito",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 2",nome:"2.1 Modelacao 3D definitiva",status:"Concluido"},
+{fase:"Fase 2",nome:"2.2 Check 3D interno",status:"Concluido"},
+{fase:"Fase 2",nome:"Validacao 3D cliente",status:"Em curso",gate:true},
+{fase:"Fase 2",nome:"2.3 Def. metodo prototipagem",status:"Pendente"},
+{fase:"Fase 2",nome:"2.4 Orcamento prototipagem",status:"Pendente"},
+{fase:"Fase 2",nome:"2.5 Criacao prototipo",status:"Pendente"},
+{fase:"Fase 3",nome:"3.1 Projeto de molde",status:"Pendente"},
+{fase:"Fase 3",nome:"3.2 Construcao do molde",status:"Pendente"},
+{fase:"Fase 3",nome:"3.3 Rececao do molde",status:"Pendente"},
+{fase:"Fase 3",nome:"3.5 Relatorio dimensional",status:"Pendente"},
+{fase:"Fase 3",nome:"3.6 Aprovacao amostra cliente",status:"Pendente",gate:true},
+{fase:"Fase 3",nome:"Reuniao passagem producao",status:"Pendente"}
+]},
+{id:"ENG-2026-002",nome:"Contentor RSU 1100L municipios",cliente:"UrbanAqua",empresa:"Rotovedras",solicitadoPor:"Ines Matos",comercial:"RS",engenheiro:"AS",fase:"Fase 1",status:"Em curso",tipo:"NPD",prio:"Alta",dtPedido:"01/03/2026",dtPrevista:"15/06/2026",
+modelo3d:false,conceito:true,novoMolde:"Sim",alteracao:false,prototipo:true,metodoProto:"A definir",valid3d:true,validAmostra:false,
+custoEng:4200,custoProto:2500,custoMolde:18000,horasEst:160,horasReais:32,
+aprovadoCliente:null,readyProd:false,feedbackCliente:"Muito interessado, aguarda conceitos",
+subtarefas:[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Concluido"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Concluido"},
+{fase:"Fase 0",nome:"Preparacao custos proposta",status:"Concluido"},
+{fase:"Fase 0",nome:"Envio proposta",status:"Concluido"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 1",nome:"Pesquisa e benchmarking",status:"Concluido"},
+{fase:"Fase 1",nome:"Desenvolvimento sketches",status:"Em curso"},
+{fase:"Fase 1",nome:"Modelacao 3D preliminar",status:"Pendente"},
+{fase:"Fase 1",nome:"Apresentacao ao cliente",status:"Pendente"},
+{fase:"Fase 1",nome:"Validacao do conceito",status:"Pendente",gate:true}
+]},
+{id:"ENG-2026-003",nome:"Piscina modular 8m hoteis",cliente:"GreenPool",empresa:"Rotovedras",solicitadoPor:"Clara Reis",comercial:"PL",engenheiro:"AS",fase:"Fase 0",status:"Intake",tipo:"NPD",prio:"Media",dtPedido:"05/04/2026",dtPrevista:"30/08/2026",
+modelo3d:false,conceito:true,novoMolde:"Sim",alteracao:false,prototipo:true,metodoProto:"",valid3d:true,validAmostra:true,
+custoEng:5000,custoProto:3000,custoMolde:25000,horasEst:200,horasReais:8,
+aprovadoCliente:null,readyProd:false,feedbackCliente:"",
+subtarefas:[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Concluido"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Em curso"},
+{fase:"Fase 0",nome:"Preparacao custos proposta",status:"Pendente"},
+{fase:"Fase 0",nome:"Envio proposta",status:"Pendente"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Pendente",gate:true}
+]},
+{id:"ENG-2026-004",nome:"Cuba vinificacao 3000L melhoria",cliente:"VinoPorto",empresa:"Rotovedras",solicitadoPor:"Sara Dias",comercial:"RS",engenheiro:"AS",fase:"Concluido",status:"Passado a producao",tipo:"PI",prio:"Media",dtPedido:"10/01/2026",dtPrevista:"15/03/2026",
+modelo3d:true,conceito:false,novoMolde:"Nao",alteracao:true,prototipo:false,metodoProto:"",valid3d:true,validAmostra:true,
+custoEng:1200,custoProto:0,custoMolde:0,horasEst:40,horasReais:38,
+aprovadoCliente:true,readyProd:true,feedbackCliente:"Aprovado sem alteracoes",dtPassagemProd:"15/03/2026",
+subtarefas:[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Concluido"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Concluido"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 2",nome:"2.1 Modelacao 3D definitiva",status:"Concluido"},
+{fase:"Fase 2",nome:"2.2 Check 3D interno",status:"Concluido"},
+{fase:"Fase 2",nome:"Validacao 3D cliente",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 3",nome:"Reuniao passagem producao",status:"Concluido"}
+]}
+];
+
+var engSubTab='projetos';
+var engFases=['Fase 0','Fase 1','Fase 2','Fase 3','Aguardando validacao','Em revisao','Concluido','Cancelado'];
+var engFaseCores={'Fase 0':'#509ECB','Fase 1':'#85B7EB','Fase 2':'#7F77DD','Fase 3':'#BA7517','Aguardando validacao':'#D85A30','Em revisao':'#FAC775','Concluido':'#639922','Cancelado':'#888'};
+var engFaseNomes={'Fase 0':'Fase 0 — Project Intake','Fase 1':'Fase 1 — Ideia e Conceito','Fase 2':'Fase 2 — Desenv. Produto','Fase 3':'Fase 3 — Desenv. Producao','Aguardando validacao':'Aguardando validacao cliente','Em revisao':'Em revisao / retrabalho','Concluido':'Concluido / Passado a Producao','Cancelado':'Cancelado / Nao aprovado'};
+
+function renderEngenharia(){
+var h='<div class="subtabs"><button class="subtab'+(engSubTab==='projetos'?' active':'')+'" onclick="engSubTab=\'projetos\';renderEngenharia()">Projetos</button><button class="subtab'+(engSubTab==='kanban'?' active':'')+'" onclick="engSubTab=\'kanban\';renderEngenharia()">Kanban</button><button class="subtab'+(engSubTab==='intake'?' active':'')+'" onclick="engSubTab=\'intake\';renderEngenharia()">Novo projeto</button></div>';
+if(engSubTab==='projetos')h+=renderEngProjetos();
+else if(engSubTab==='kanban')h+=renderEngKanban();
+else h+=renderEngIntake();
+document.getElementById('engContent').innerHTML=h;
+}
+
+function renderEngProjetos(){
+var emCurso=DATA.engProjetos.filter(function(p){return p.status!=='Passado a producao'&&p.status!=='Cancelado'});
+var totalHoras=DATA.engProjetos.reduce(function(a,p){return a+p.horasReais},0);
+var totalCusto=DATA.engProjetos.reduce(function(a,p){return a+p.custoEng+p.custoProto+p.custoMolde},0);
+var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
+h+='<div class="metric"><div class="metric-label">Projetos ativos</div><div class="metric-val">'+emCurso.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Total projetos</div><div class="metric-val">'+DATA.engProjetos.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Horas consumidas</div><div class="metric-val">'+totalHoras+'h</div></div>';
+h+='<div class="metric"><div class="metric-label">Custo total est.</div><div class="metric-val">'+euro(totalCusto)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Ready for prod.</div><div class="metric-val">'+DATA.engProjetos.filter(function(p){return p.readyProd}).length+'</div></div></div>';
+
+// Group by fase
+engFases.forEach(function(fase){
+var items=DATA.engProjetos.filter(function(p){return p.fase===fase});if(!items.length)return;
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+(engFaseCores[fase]||'#888')+'"></div><div class="group-name">'+(engFaseNomes[fase]||fase)+'</div><div class="group-count">'+items.length+'</div></div>';
+items.forEach(function(p,pi){
+var pctDone=p.subtarefas.filter(function(s){return s.status==='Concluido'}).length;var pctTotal=p.subtarefas.length;var pct=Math.round(pctDone/pctTotal*100);
+var prioC=p.prio==='Alta'?'prio-alta':p.prio==='Baixa'?'prio-baixa':'prio-media';
+// Project card
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);margin-bottom:10px;overflow:hidden;border-left:4px solid '+(engFaseCores[p.fase]||'#888')+'">';
+// Header row
+h+='<div style="padding:14px 16px;cursor:pointer" onclick="document.getElementById(\'eng'+p.id+'\').style.display=document.getElementById(\'eng'+p.id+'\').style.display===\'none\'?\'block\':\'none\'">';
+h+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">';
+h+='<span style="font-family:monospace;font-size:11px;font-weight:700;color:var(--accent)">'+p.id+'</span>';
+h+='<span style="font-size:14px;font-weight:700;flex:1">'+p.nome+'</span>';
+h+='<span class="prio '+prioC+'">'+p.prio+'</span>';
+h+='<span class="prod-tag" style="background:'+(p.tipo==='NPD'?'#EEEDFE':'#FAEEDA')+';color:'+(p.tipo==='NPD'?'#3C3489':'#633806')+'">'+p.tipo+'</span>';
+h+='<span style="font-size:10px;color:var(--text-ter)">&#9662;</span></div>';
+// Info row
+h+='<div style="display:flex;gap:16px;font-size:11px;color:var(--text-sec);flex-wrap:wrap">';
+h+='<span>Cliente: <strong>'+p.cliente+'</strong></span>';
+h+='<span>Eng.: '+av(p.engenheiro)+'</span>';
+h+='<span>Comercial: '+av(p.comercial)+'</span>';
+h+='<span>Pedido: '+p.dtPedido+'</span>';
+h+='<span>Previsto: '+p.dtPrevista+'</span>';
+h+='</div>';
+// Progress bar
+h+='<div style="display:flex;align-items:center;gap:8px;margin-top:8px"><div class="resource-bar" style="flex:1;height:6px"><div class="resource-fill" style="width:'+pct+'%;background:'+(engFaseCores[p.fase]||'#509ECB')+'"></div></div><span style="font-size:10px;font-weight:600">'+pctDone+'/'+pctTotal+' ('+pct+'%)</span></div>';
+h+='</div>';
+
+// Expandable detail
+h+='<div id="eng'+p.id+'" style="display:none;border-top:1px solid var(--border-light)">';
+// Info cards
+h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 16px;background:var(--bg-surface)">';
+h+='<div style="font-size:10px"><span style="color:var(--text-ter)">Custo eng.</span><br><strong>'+euro(p.custoEng)+'</strong></div>';
+h+='<div style="font-size:10px"><span style="color:var(--text-ter)">Custo proto.</span><br><strong>'+euro(p.custoProto)+'</strong></div>';
+h+='<div style="font-size:10px"><span style="color:var(--text-ter)">Custo molde</span><br><strong>'+euro(p.custoMolde)+'</strong></div>';
+h+='<div style="font-size:10px"><span style="color:var(--text-ter)">Horas</span><br><strong>'+p.horasReais+'/'+p.horasEst+'h</strong></div></div>';
+// Decision flags
+h+='<div style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--border-light)">';
+[['Modelo 3D',p.modelo3d],['Conceito',p.conceito],['Novo molde',p.novoMolde==='Sim'],['Alteracao',p.alteracao],['Prototipo',p.prototipo],['Valid. 3D',p.valid3d],['Valid. amostra',p.validAmostra]].forEach(function(f){
+h+='<span class="prod-tag" style="background:'+(f[1]?'#EAF3DE':'var(--bg-surface)')+';color:'+(f[1]?'#27500A':'var(--text-ter)')+'">'+f[0]+': '+(f[1]?'Sim':'Nao')+'</span>'});
+if(p.readyProd)h+='<span class="prod-tag" style="background:#EAF3DE;color:#27500A;font-weight:700">READY FOR PRODUCTION</span>';
+h+='</div>';
+// Subtasks by phase
+var curFase='';
+p.subtarefas.forEach(function(st){
+if(st.fase!==curFase){curFase=st.fase;h+='<div style="padding:6px 16px;font-size:10px;font-weight:700;color:'+(engFaseCores[curFase]||'var(--text-sec)')+';text-transform:uppercase;background:var(--bg-surface);border-bottom:1px solid var(--border-light)">'+curFase+'</div>'}
+var icon=st.status==='Concluido'?'&#10003;':st.status==='Em curso'?'&#9654;':'&#9675;';
+var stCls=st.status==='Concluido'?'color:#1D9E75':st.status==='Em curso'?'color:#509ECB':'color:var(--text-ter)';
+var bg=st.gate?'background:rgba(80,158,203,.04)':'';
+h+='<div style="display:flex;align-items:center;gap:8px;padding:7px 16px;border-bottom:1px solid var(--border-light);font-size:11px;'+bg+'">';
+h+='<span style="font-size:13px;width:18px;text-align:center;'+stCls+'">'+icon+'</span>';
+h+='<span style="flex:1;'+(st.gate?'font-weight:700':'')+'">'+st.nome+'</span>';
+if(st.gate)h+='<span style="font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700;'+(st.resultado==='Aprovado'?'background:#EAF3DE;color:#27500A':st.resultado==='Rejeitado'?'background:#FCEBEB;color:#791F1F':'background:#FAEEDA;color:#633806')+'">GATE'+(st.resultado?' — '+st.resultado:' — Pendente')+'</span>';
+h+='<span class="st '+(st.status==='Concluido'?'st-ativo':st.status==='Em curso'?'st-novaoportunidade':'st-inativo')+'" style="font-size:9px">'+st.status+'</span>';
+h+='</div>';
+});
+// Feedback
+if(p.feedbackCliente){h+='<div style="padding:10px 16px;font-size:11px;background:var(--bg-surface);border-top:1px solid var(--border-light)"><span style="color:var(--text-ter)">Feedback cliente:</span> '+p.feedbackCliente+'</div>'}
+h+='</div></div>';
+});
+h+='</div>';
+});
+return h;
+}
+
+function renderEngKanban(){
+var h='<div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:16px">';
+engFases.forEach(function(fase){
+var items=DATA.engProjetos.filter(function(p){return p.fase===fase});
+h+='<div style="min-width:200px;max-width:230px;flex:1;background:var(--bg-surface);border-radius:var(--radius);padding:10px;border:1px solid var(--border-light)">';
+h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:11px;font-weight:600"><div style="width:7px;height:7px;border-radius:50%;background:'+(engFaseCores[fase]||'#888')+'"></div>'+(engFaseNomes[fase]||fase).split(' — ')[0]+'<span style="margin-left:auto;font-size:10px;color:var(--text-ter);background:var(--bg-card);padding:1px 6px;border-radius:8px">'+items.length+'</span></div>';
+items.forEach(function(p){
+var pctDone=p.subtarefas.filter(function(s){return s.status==='Concluido'}).length;var pct=Math.round(pctDone/p.subtarefas.length*100);
+var prioC=p.prio==='Alta'?'prio-alta':p.prio==='Baixa'?'prio-baixa':'prio-media';
+h+='<div class="kanban-card"><div style="display:flex;justify-content:space-between"><div class="kanban-card-title" style="font-size:11px">'+p.nome+'</div><span class="prio '+prioC+'" style="flex-shrink:0">'+p.prio+'</span></div>';
+h+='<div class="kanban-card-client">'+p.cliente+'</div>';
+h+='<div class="kanban-card-row"><span class="kanban-card-label">Eng.</span><span>'+av(p.engenheiro)+'</span></div>';
+h+='<div class="kanban-card-row"><span class="kanban-card-label">Previsto</span><span>'+p.dtPrevista+'</span></div>';
+h+='<div style="margin-top:6px"><div class="resource-bar" style="height:4px"><div class="resource-fill" style="width:'+pct+'%;background:'+(engFaseCores[fase]||'#509ECB')+'"></div></div><div style="font-size:9px;color:var(--text-ter);margin-top:2px">'+pct+'% concluido</div></div>';
+h+='</div>';
+});
+if(!items.length)h+='<div style="font-size:10px;color:var(--text-ter);text-align:center;padding:16px 0">Sem projetos</div>';
+h+='</div>';
+});
+h+='</div>';
+return h;
+}
+
+function renderEngIntake(){
+var L='style="display:block;font-size:10px;font-weight:600;color:var(--text-ter);text-transform:uppercase;margin-bottom:3px"';
+var I='style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none"';
+var S='style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text)"';
+var co=getColabOpts();var cl=DATA.clientes.map(function(c){return c.n});
+var h='<div style="max-width:700px">';
+h+='<div style="font-size:14px;font-weight:700;margin-bottom:5px">Novo projeto de engenharia</div>';
+h+='<div style="font-size:12px;color:var(--text-sec);margin-bottom:16px">Formulario de intake — Fase 0</div>';
+// Block 1: Identificacao
+h+='<div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;text-transform:uppercase">Identificacao</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+h+='<div style="grid-column:1/-1"><label '+L+'>Nome do projeto</label><input id="eng_nome" '+I+' placeholder="Ex: Flotador aguas residuais"></div>';
+h+='<div><label '+L+'>Cliente</label><select id="eng_cli" '+S+'><option value="">--</option>';cl.forEach(function(c){h+='<option>'+c+'</option>'});h+='</select></div>';
+h+='<div><label '+L+'>Solicitado por</label><input id="eng_solic" '+I+' placeholder="Nome"></div>';
+h+='<div><label '+L+'>Tipo projeto</label><select id="eng_tipo" '+S+'><option>Desenvolvimento Novo Produto (NPD)</option><option>Alteracao/Melhoria Produto (PI)</option><option>Outro</option></select></div>';
+h+='<div><label '+L+'>Prioridade</label><select id="eng_prio" '+S+'><option>Media</option><option>Alta</option><option>Baixa</option></select></div>';
+h+='<div><label '+L+'>Comercial</label><select id="eng_com" '+S+'>';co.forEach(function(c){h+='<option>'+c+'</option>'});h+='</select></div>';
+h+='<div><label '+L+'>Engenheiro</label><select id="eng_eng" '+S+'>';co.forEach(function(c){h+='<option>'+c+'</option>'});h+='</select></div>';
+h+='<div><label '+L+'>Data prevista conclusao</label><input id="eng_dtprev" type="date" '+I+'></div>';
+h+='</div>';
+// Block 2: Decisoes tecnicas
+h+='<div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;text-transform:uppercase">Decisoes tecnicas</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+['Produto ja existe?','Cliente forneceu 3D/desenho?','Necessario conceito?','Novo molde necessario?','Alteracao de existente?','Necessita prototipagem?','Necessita validacao 3D?','Necessita validacao amostra?'].forEach(function(q,i){
+h+='<div><label '+L+'>'+q+'</label><select id="eng_q'+i+'" '+S+'><option>Nao</option><option>Sim</option><option>Desconhecido</option></select></div>'});
+h+='</div>';
+// Block 3: Custos
+h+='<div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;text-transform:uppercase">Estimativas</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+h+='<div><label '+L+'>Custo eng. (EUR)</label><input id="eng_ce" type="number" '+I+' placeholder="0"></div>';
+h+='<div><label '+L+'>Custo proto. (EUR)</label><input id="eng_cp" type="number" '+I+' placeholder="0"></div>';
+h+='<div><label '+L+'>Custo molde (EUR)</label><input id="eng_cm" type="number" '+I+' placeholder="0"></div>';
+h+='<div><label '+L+'>Horas estimadas</label><input id="eng_he" type="number" '+I+' placeholder="0"></div></div>';
+// Block 4: Descricao
+h+='<div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;text-transform:uppercase">Descricao</div>';
+h+='<div style="margin-bottom:16px"><textarea id="eng_desc" rows="3" placeholder="Descricao detalhada do projeto..." style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none;resize:vertical"></textarea></div>';
+h+='<button class="btn btn-primary" onclick="saveEngProjeto()">Criar projeto</button></div>';
+return h;
+}
+
+function saveEngProjeto(){
+var g=function(id){var e=document.getElementById(id);return e?e.value.trim():''};
+if(!g('eng_nome')||!g('eng_cli')){alert('Preencha Nome e Cliente');return}
+var id='ENG-2026-'+String(DATA.engProjetos.length+1).padStart(3,'0');
+var dr=g('eng_dtprev');var dt=dr?dr.split('-').reverse().join('/'):'';
+var tipo=g('eng_tipo').indexOf('NPD')>-1?'NPD':g('eng_tipo').indexOf('PI')>-1?'PI':'Outro';
+var subs=[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Preencher informacao projeto",status:"Em curso"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Pendente"},
+{fase:"Fase 0",nome:"Form Intake",status:"Pendente"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Pendente"},
+{fase:"Fase 0",nome:"Preparacao custos proposta",status:"Pendente"},
+{fase:"Fase 0",nome:"Relatorio engenharia",status:"Pendente"},
+{fase:"Fase 0",nome:"Envio proposta",status:"Pendente"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Pendente",gate:true}];
+DATA.engProjetos.push({id:id,nome:g('eng_nome'),cliente:g('eng_cli'),empresa:"Rotovedras",solicitadoPor:g('eng_solic'),comercial:getColabId(g('eng_com')),engenheiro:getColabId(g('eng_eng')),fase:"Fase 0",status:"Intake",tipo:tipo,prio:g('eng_prio'),dtPedido:new Date().toLocaleDateString('pt-PT'),dtPrevista:dt,modelo3d:g('eng_q1')==='Sim',conceito:g('eng_q2')==='Sim',novoMolde:g('eng_q3'),alteracao:g('eng_q4')==='Sim',prototipo:g('eng_q5')==='Sim',metodoProto:'',valid3d:g('eng_q6')==='Sim',validAmostra:g('eng_q7')==='Sim',custoEng:parseInt(g('eng_ce'))||0,custoProto:parseInt(g('eng_cp'))||0,custoMolde:parseInt(g('eng_cm'))||0,horasEst:parseInt(g('eng_he'))||0,horasReais:0,aprovadoCliente:null,readyProd:false,feedbackCliente:'',subtarefas:subs});
+engSubTab='projetos';renderEngenharia();
+alert('Projeto '+id+' criado com sucesso!');
+}
 
 // ==================== PROPOSTAS ====================
 DATA.propostas=[
@@ -798,6 +1138,257 @@ DATA.propostas[pi].linhas.push({cod:g('ln_cod'),desig:g('ln_desig'),qtd:parseInt
 closeAddForm();renderPropostas();
 }
 
+
+
+// ==================== ENGENHARIA ====================
+DATA.engProjetos=[
+{id:"ENG-2026-001",nome:"Flotador tratamento aguas",cliente:"EcoJardins SA",empresa:"Rotovedras",solicitadoPor:"Maria Santos",comercial:"PL",engenheiro:"AS",fase:"Fase 2",status:"Em curso",tipo:"NPD",prio:"Alta",dtPedido:"15/02/2026",dtPrevista:"30/05/2026",
+modelo3d:true,conceito:true,novoMolde:"Sim",alteracao:false,prototipo:true,metodoProto:"Impressao 3D + rotomoldagem",valid3d:true,validAmostra:false,
+custoEng:3500,custoProto:1800,custoMolde:12000,horasEst:120,horasReais:68,
+aprovadoCliente:null,readyProd:false,feedbackCliente:"Aguarda validacao 3D final",
+subtarefas:[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Concluido"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Concluido"},
+{fase:"Fase 0",nome:"Preparacao custos proposta",status:"Concluido"},
+{fase:"Fase 0",nome:"Envio proposta",status:"Concluido"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 1",nome:"Pesquisa e benchmarking",status:"Concluido"},
+{fase:"Fase 1",nome:"Desenvolvimento sketches",status:"Concluido"},
+{fase:"Fase 1",nome:"Modelacao 3D preliminar",status:"Concluido"},
+{fase:"Fase 1",nome:"Apresentacao ao cliente",status:"Concluido"},
+{fase:"Fase 1",nome:"Validacao do conceito",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 2",nome:"2.1 Modelacao 3D definitiva",status:"Concluido"},
+{fase:"Fase 2",nome:"2.2 Check 3D interno",status:"Concluido"},
+{fase:"Fase 2",nome:"Validacao 3D cliente",status:"Em curso",gate:true},
+{fase:"Fase 2",nome:"2.3 Def. metodo prototipagem",status:"Pendente"},
+{fase:"Fase 2",nome:"2.4 Orcamento prototipagem",status:"Pendente"},
+{fase:"Fase 2",nome:"2.5 Criacao prototipo",status:"Pendente"},
+{fase:"Fase 3",nome:"3.1 Projeto de molde",status:"Pendente"},
+{fase:"Fase 3",nome:"3.2 Construcao do molde",status:"Pendente"},
+{fase:"Fase 3",nome:"3.3 Rececao do molde",status:"Pendente"},
+{fase:"Fase 3",nome:"3.5 Relatorio dimensional",status:"Pendente"},
+{fase:"Fase 3",nome:"3.6 Aprovacao amostra cliente",status:"Pendente",gate:true},
+{fase:"Fase 3",nome:"Reuniao passagem producao",status:"Pendente"}
+]},
+{id:"ENG-2026-002",nome:"Contentor RSU 1100L municipios",cliente:"UrbanAqua",empresa:"Rotovedras",solicitadoPor:"Ines Matos",comercial:"RS",engenheiro:"AS",fase:"Fase 1",status:"Em curso",tipo:"NPD",prio:"Alta",dtPedido:"01/03/2026",dtPrevista:"15/06/2026",
+modelo3d:false,conceito:true,novoMolde:"Sim",alteracao:false,prototipo:true,metodoProto:"A definir",valid3d:true,validAmostra:false,
+custoEng:4200,custoProto:2500,custoMolde:18000,horasEst:160,horasReais:32,
+aprovadoCliente:null,readyProd:false,feedbackCliente:"Muito interessado, aguarda conceitos",
+subtarefas:[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Concluido"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Concluido"},
+{fase:"Fase 0",nome:"Preparacao custos proposta",status:"Concluido"},
+{fase:"Fase 0",nome:"Envio proposta",status:"Concluido"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 1",nome:"Pesquisa e benchmarking",status:"Concluido"},
+{fase:"Fase 1",nome:"Desenvolvimento sketches",status:"Em curso"},
+{fase:"Fase 1",nome:"Modelacao 3D preliminar",status:"Pendente"},
+{fase:"Fase 1",nome:"Apresentacao ao cliente",status:"Pendente"},
+{fase:"Fase 1",nome:"Validacao do conceito",status:"Pendente",gate:true}
+]},
+{id:"ENG-2026-003",nome:"Piscina modular 8m hoteis",cliente:"GreenPool",empresa:"Rotovedras",solicitadoPor:"Clara Reis",comercial:"PL",engenheiro:"AS",fase:"Fase 0",status:"Intake",tipo:"NPD",prio:"Media",dtPedido:"05/04/2026",dtPrevista:"30/08/2026",
+modelo3d:false,conceito:true,novoMolde:"Sim",alteracao:false,prototipo:true,metodoProto:"",valid3d:true,validAmostra:true,
+custoEng:5000,custoProto:3000,custoMolde:25000,horasEst:200,horasReais:8,
+aprovadoCliente:null,readyProd:false,feedbackCliente:"",
+subtarefas:[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Concluido"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Em curso"},
+{fase:"Fase 0",nome:"Preparacao custos proposta",status:"Pendente"},
+{fase:"Fase 0",nome:"Envio proposta",status:"Pendente"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Pendente",gate:true}
+]},
+{id:"ENG-2026-004",nome:"Cuba vinificacao 3000L melhoria",cliente:"VinoPorto",empresa:"Rotovedras",solicitadoPor:"Sara Dias",comercial:"RS",engenheiro:"AS",fase:"Concluido",status:"Passado a producao",tipo:"PI",prio:"Media",dtPedido:"10/01/2026",dtPrevista:"15/03/2026",
+modelo3d:true,conceito:false,novoMolde:"Nao",alteracao:true,prototipo:false,metodoProto:"",valid3d:true,validAmostra:true,
+custoEng:1200,custoProto:0,custoMolde:0,horasEst:40,horasReais:38,
+aprovadoCliente:true,readyProd:true,feedbackCliente:"Aprovado sem alteracoes",dtPassagemProd:"15/03/2026",
+subtarefas:[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Concluido"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Concluido"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 2",nome:"2.1 Modelacao 3D definitiva",status:"Concluido"},
+{fase:"Fase 2",nome:"2.2 Check 3D interno",status:"Concluido"},
+{fase:"Fase 2",nome:"Validacao 3D cliente",status:"Concluido",gate:true,resultado:"Aprovado"},
+{fase:"Fase 3",nome:"Reuniao passagem producao",status:"Concluido"}
+]}
+];
+
+var engSubTab='projetos';
+var engFases=['Fase 0','Fase 1','Fase 2','Fase 3','Aguardando validacao','Em revisao','Concluido','Cancelado'];
+var engFaseCores={'Fase 0':'#509ECB','Fase 1':'#85B7EB','Fase 2':'#7F77DD','Fase 3':'#BA7517','Aguardando validacao':'#D85A30','Em revisao':'#FAC775','Concluido':'#639922','Cancelado':'#888'};
+var engFaseNomes={'Fase 0':'Fase 0 — Project Intake','Fase 1':'Fase 1 — Ideia e Conceito','Fase 2':'Fase 2 — Desenv. Produto','Fase 3':'Fase 3 — Desenv. Producao','Aguardando validacao':'Aguardando validacao cliente','Em revisao':'Em revisao / retrabalho','Concluido':'Concluido / Passado a Producao','Cancelado':'Cancelado / Nao aprovado'};
+
+function renderEngenharia(){
+var h='<div class="subtabs"><button class="subtab'+(engSubTab==='projetos'?' active':'')+'" onclick="engSubTab=\'projetos\';renderEngenharia()">Projetos</button><button class="subtab'+(engSubTab==='kanban'?' active':'')+'" onclick="engSubTab=\'kanban\';renderEngenharia()">Kanban</button><button class="subtab'+(engSubTab==='intake'?' active':'')+'" onclick="engSubTab=\'intake\';renderEngenharia()">Novo projeto</button></div>';
+if(engSubTab==='projetos')h+=renderEngProjetos();
+else if(engSubTab==='kanban')h+=renderEngKanban();
+else h+=renderEngIntake();
+document.getElementById('engContent').innerHTML=h;
+}
+
+function renderEngProjetos(){
+var emCurso=DATA.engProjetos.filter(function(p){return p.status!=='Passado a producao'&&p.status!=='Cancelado'});
+var totalHoras=DATA.engProjetos.reduce(function(a,p){return a+p.horasReais},0);
+var totalCusto=DATA.engProjetos.reduce(function(a,p){return a+p.custoEng+p.custoProto+p.custoMolde},0);
+var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
+h+='<div class="metric"><div class="metric-label">Projetos ativos</div><div class="metric-val">'+emCurso.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Total projetos</div><div class="metric-val">'+DATA.engProjetos.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Horas consumidas</div><div class="metric-val">'+totalHoras+'h</div></div>';
+h+='<div class="metric"><div class="metric-label">Custo total est.</div><div class="metric-val">'+euro(totalCusto)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Ready for prod.</div><div class="metric-val">'+DATA.engProjetos.filter(function(p){return p.readyProd}).length+'</div></div></div>';
+
+// Group by fase
+engFases.forEach(function(fase){
+var items=DATA.engProjetos.filter(function(p){return p.fase===fase});if(!items.length)return;
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+(engFaseCores[fase]||'#888')+'"></div><div class="group-name">'+(engFaseNomes[fase]||fase)+'</div><div class="group-count">'+items.length+'</div></div>';
+items.forEach(function(p,pi){
+var pctDone=p.subtarefas.filter(function(s){return s.status==='Concluido'}).length;var pctTotal=p.subtarefas.length;var pct=Math.round(pctDone/pctTotal*100);
+var prioC=p.prio==='Alta'?'prio-alta':p.prio==='Baixa'?'prio-baixa':'prio-media';
+// Project card
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);margin-bottom:10px;overflow:hidden;border-left:4px solid '+(engFaseCores[p.fase]||'#888')+'">';
+// Header row
+h+='<div style="padding:14px 16px;cursor:pointer" onclick="document.getElementById(\'eng'+p.id+'\').style.display=document.getElementById(\'eng'+p.id+'\').style.display===\'none\'?\'block\':\'none\'">';
+h+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">';
+h+='<span style="font-family:monospace;font-size:11px;font-weight:700;color:var(--accent)">'+p.id+'</span>';
+h+='<span style="font-size:14px;font-weight:700;flex:1">'+p.nome+'</span>';
+h+='<span class="prio '+prioC+'">'+p.prio+'</span>';
+h+='<span class="prod-tag" style="background:'+(p.tipo==='NPD'?'#EEEDFE':'#FAEEDA')+';color:'+(p.tipo==='NPD'?'#3C3489':'#633806')+'">'+p.tipo+'</span>';
+h+='<span style="font-size:10px;color:var(--text-ter)">&#9662;</span></div>';
+// Info row
+h+='<div style="display:flex;gap:16px;font-size:11px;color:var(--text-sec);flex-wrap:wrap">';
+h+='<span>Cliente: <strong>'+p.cliente+'</strong></span>';
+h+='<span>Eng.: '+av(p.engenheiro)+'</span>';
+h+='<span>Comercial: '+av(p.comercial)+'</span>';
+h+='<span>Pedido: '+p.dtPedido+'</span>';
+h+='<span>Previsto: '+p.dtPrevista+'</span>';
+h+='</div>';
+// Progress bar
+h+='<div style="display:flex;align-items:center;gap:8px;margin-top:8px"><div class="resource-bar" style="flex:1;height:6px"><div class="resource-fill" style="width:'+pct+'%;background:'+(engFaseCores[p.fase]||'#509ECB')+'"></div></div><span style="font-size:10px;font-weight:600">'+pctDone+'/'+pctTotal+' ('+pct+'%)</span></div>';
+h+='</div>';
+
+// Expandable detail
+h+='<div id="eng'+p.id+'" style="display:none;border-top:1px solid var(--border-light)">';
+// Info cards
+h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 16px;background:var(--bg-surface)">';
+h+='<div style="font-size:10px"><span style="color:var(--text-ter)">Custo eng.</span><br><strong>'+euro(p.custoEng)+'</strong></div>';
+h+='<div style="font-size:10px"><span style="color:var(--text-ter)">Custo proto.</span><br><strong>'+euro(p.custoProto)+'</strong></div>';
+h+='<div style="font-size:10px"><span style="color:var(--text-ter)">Custo molde</span><br><strong>'+euro(p.custoMolde)+'</strong></div>';
+h+='<div style="font-size:10px"><span style="color:var(--text-ter)">Horas</span><br><strong>'+p.horasReais+'/'+p.horasEst+'h</strong></div></div>';
+// Decision flags
+h+='<div style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;border-bottom:1px solid var(--border-light)">';
+[['Modelo 3D',p.modelo3d],['Conceito',p.conceito],['Novo molde',p.novoMolde==='Sim'],['Alteracao',p.alteracao],['Prototipo',p.prototipo],['Valid. 3D',p.valid3d],['Valid. amostra',p.validAmostra]].forEach(function(f){
+h+='<span class="prod-tag" style="background:'+(f[1]?'#EAF3DE':'var(--bg-surface)')+';color:'+(f[1]?'#27500A':'var(--text-ter)')+'">'+f[0]+': '+(f[1]?'Sim':'Nao')+'</span>'});
+if(p.readyProd)h+='<span class="prod-tag" style="background:#EAF3DE;color:#27500A;font-weight:700">READY FOR PRODUCTION</span>';
+h+='</div>';
+// Subtasks by phase
+var curFase='';
+p.subtarefas.forEach(function(st){
+if(st.fase!==curFase){curFase=st.fase;h+='<div style="padding:6px 16px;font-size:10px;font-weight:700;color:'+(engFaseCores[curFase]||'var(--text-sec)')+';text-transform:uppercase;background:var(--bg-surface);border-bottom:1px solid var(--border-light)">'+curFase+'</div>'}
+var icon=st.status==='Concluido'?'&#10003;':st.status==='Em curso'?'&#9654;':'&#9675;';
+var stCls=st.status==='Concluido'?'color:#1D9E75':st.status==='Em curso'?'color:#509ECB':'color:var(--text-ter)';
+var bg=st.gate?'background:rgba(80,158,203,.04)':'';
+h+='<div style="display:flex;align-items:center;gap:8px;padding:7px 16px;border-bottom:1px solid var(--border-light);font-size:11px;'+bg+'">';
+h+='<span style="font-size:13px;width:18px;text-align:center;'+stCls+'">'+icon+'</span>';
+h+='<span style="flex:1;'+(st.gate?'font-weight:700':'')+'">'+st.nome+'</span>';
+if(st.gate)h+='<span style="font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700;'+(st.resultado==='Aprovado'?'background:#EAF3DE;color:#27500A':st.resultado==='Rejeitado'?'background:#FCEBEB;color:#791F1F':'background:#FAEEDA;color:#633806')+'">GATE'+(st.resultado?' — '+st.resultado:' — Pendente')+'</span>';
+h+='<span class="st '+(st.status==='Concluido'?'st-ativo':st.status==='Em curso'?'st-novaoportunidade':'st-inativo')+'" style="font-size:9px">'+st.status+'</span>';
+h+='</div>';
+});
+// Feedback
+if(p.feedbackCliente){h+='<div style="padding:10px 16px;font-size:11px;background:var(--bg-surface);border-top:1px solid var(--border-light)"><span style="color:var(--text-ter)">Feedback cliente:</span> '+p.feedbackCliente+'</div>'}
+h+='</div></div>';
+});
+h+='</div>';
+});
+return h;
+}
+
+function renderEngKanban(){
+var h='<div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:16px">';
+engFases.forEach(function(fase){
+var items=DATA.engProjetos.filter(function(p){return p.fase===fase});
+h+='<div style="min-width:200px;max-width:230px;flex:1;background:var(--bg-surface);border-radius:var(--radius);padding:10px;border:1px solid var(--border-light)">';
+h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:11px;font-weight:600"><div style="width:7px;height:7px;border-radius:50%;background:'+(engFaseCores[fase]||'#888')+'"></div>'+(engFaseNomes[fase]||fase).split(' — ')[0]+'<span style="margin-left:auto;font-size:10px;color:var(--text-ter);background:var(--bg-card);padding:1px 6px;border-radius:8px">'+items.length+'</span></div>';
+items.forEach(function(p){
+var pctDone=p.subtarefas.filter(function(s){return s.status==='Concluido'}).length;var pct=Math.round(pctDone/p.subtarefas.length*100);
+var prioC=p.prio==='Alta'?'prio-alta':p.prio==='Baixa'?'prio-baixa':'prio-media';
+h+='<div class="kanban-card"><div style="display:flex;justify-content:space-between"><div class="kanban-card-title" style="font-size:11px">'+p.nome+'</div><span class="prio '+prioC+'" style="flex-shrink:0">'+p.prio+'</span></div>';
+h+='<div class="kanban-card-client">'+p.cliente+'</div>';
+h+='<div class="kanban-card-row"><span class="kanban-card-label">Eng.</span><span>'+av(p.engenheiro)+'</span></div>';
+h+='<div class="kanban-card-row"><span class="kanban-card-label">Previsto</span><span>'+p.dtPrevista+'</span></div>';
+h+='<div style="margin-top:6px"><div class="resource-bar" style="height:4px"><div class="resource-fill" style="width:'+pct+'%;background:'+(engFaseCores[fase]||'#509ECB')+'"></div></div><div style="font-size:9px;color:var(--text-ter);margin-top:2px">'+pct+'% concluido</div></div>';
+h+='</div>';
+});
+if(!items.length)h+='<div style="font-size:10px;color:var(--text-ter);text-align:center;padding:16px 0">Sem projetos</div>';
+h+='</div>';
+});
+h+='</div>';
+return h;
+}
+
+function renderEngIntake(){
+var L='style="display:block;font-size:10px;font-weight:600;color:var(--text-ter);text-transform:uppercase;margin-bottom:3px"';
+var I='style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none"';
+var S='style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text)"';
+var co=getColabOpts();var cl=DATA.clientes.map(function(c){return c.n});
+var h='<div style="max-width:700px">';
+h+='<div style="font-size:14px;font-weight:700;margin-bottom:5px">Novo projeto de engenharia</div>';
+h+='<div style="font-size:12px;color:var(--text-sec);margin-bottom:16px">Formulario de intake — Fase 0</div>';
+// Block 1: Identificacao
+h+='<div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;text-transform:uppercase">Identificacao</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+h+='<div style="grid-column:1/-1"><label '+L+'>Nome do projeto</label><input id="eng_nome" '+I+' placeholder="Ex: Flotador aguas residuais"></div>';
+h+='<div><label '+L+'>Cliente</label><select id="eng_cli" '+S+'><option value="">--</option>';cl.forEach(function(c){h+='<option>'+c+'</option>'});h+='</select></div>';
+h+='<div><label '+L+'>Solicitado por</label><input id="eng_solic" '+I+' placeholder="Nome"></div>';
+h+='<div><label '+L+'>Tipo projeto</label><select id="eng_tipo" '+S+'><option>Desenvolvimento Novo Produto (NPD)</option><option>Alteracao/Melhoria Produto (PI)</option><option>Outro</option></select></div>';
+h+='<div><label '+L+'>Prioridade</label><select id="eng_prio" '+S+'><option>Media</option><option>Alta</option><option>Baixa</option></select></div>';
+h+='<div><label '+L+'>Comercial</label><select id="eng_com" '+S+'>';co.forEach(function(c){h+='<option>'+c+'</option>'});h+='</select></div>';
+h+='<div><label '+L+'>Engenheiro</label><select id="eng_eng" '+S+'>';co.forEach(function(c){h+='<option>'+c+'</option>'});h+='</select></div>';
+h+='<div><label '+L+'>Data prevista conclusao</label><input id="eng_dtprev" type="date" '+I+'></div>';
+h+='</div>';
+// Block 2: Decisoes tecnicas
+h+='<div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;text-transform:uppercase">Decisoes tecnicas</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+['Produto ja existe?','Cliente forneceu 3D/desenho?','Necessario conceito?','Novo molde necessario?','Alteracao de existente?','Necessita prototipagem?','Necessita validacao 3D?','Necessita validacao amostra?'].forEach(function(q,i){
+h+='<div><label '+L+'>'+q+'</label><select id="eng_q'+i+'" '+S+'><option>Nao</option><option>Sim</option><option>Desconhecido</option></select></div>'});
+h+='</div>';
+// Block 3: Custos
+h+='<div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;text-transform:uppercase">Estimativas</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+h+='<div><label '+L+'>Custo eng. (EUR)</label><input id="eng_ce" type="number" '+I+' placeholder="0"></div>';
+h+='<div><label '+L+'>Custo proto. (EUR)</label><input id="eng_cp" type="number" '+I+' placeholder="0"></div>';
+h+='<div><label '+L+'>Custo molde (EUR)</label><input id="eng_cm" type="number" '+I+' placeholder="0"></div>';
+h+='<div><label '+L+'>Horas estimadas</label><input id="eng_he" type="number" '+I+' placeholder="0"></div></div>';
+// Block 4: Descricao
+h+='<div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;text-transform:uppercase">Descricao</div>';
+h+='<div style="margin-bottom:16px"><textarea id="eng_desc" rows="3" placeholder="Descricao detalhada do projeto..." style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none;resize:vertical"></textarea></div>';
+h+='<button class="btn btn-primary" onclick="saveEngProjeto()">Criar projeto</button></div>';
+return h;
+}
+
+function saveEngProjeto(){
+var g=function(id){var e=document.getElementById(id);return e?e.value.trim():''};
+if(!g('eng_nome')||!g('eng_cli')){alert('Preencha Nome e Cliente');return}
+var id='ENG-2026-'+String(DATA.engProjetos.length+1).padStart(3,'0');
+var dr=g('eng_dtprev');var dt=dr?dr.split('-').reverse().join('/'):'';
+var tipo=g('eng_tipo').indexOf('NPD')>-1?'NPD':g('eng_tipo').indexOf('PI')>-1?'PI':'Outro';
+var subs=[
+{fase:"Fase 0",nome:"Atribuicao ID",status:"Concluido"},
+{fase:"Fase 0",nome:"Preencher informacao projeto",status:"Em curso"},
+{fase:"Fase 0",nome:"Briefing com cliente",status:"Pendente"},
+{fase:"Fase 0",nome:"Form Intake",status:"Pendente"},
+{fase:"Fase 0",nome:"Analise tecnica viabilidade",status:"Pendente"},
+{fase:"Fase 0",nome:"Preparacao custos proposta",status:"Pendente"},
+{fase:"Fase 0",nome:"Relatorio engenharia",status:"Pendente"},
+{fase:"Fase 0",nome:"Envio proposta",status:"Pendente"},
+{fase:"Fase 0",nome:"Decisao cliente",status:"Pendente",gate:true}];
+DATA.engProjetos.push({id:id,nome:g('eng_nome'),cliente:g('eng_cli'),empresa:"Rotovedras",solicitadoPor:g('eng_solic'),comercial:getColabId(g('eng_com')),engenheiro:getColabId(g('eng_eng')),fase:"Fase 0",status:"Intake",tipo:tipo,prio:g('eng_prio'),dtPedido:new Date().toLocaleDateString('pt-PT'),dtPrevista:dt,modelo3d:g('eng_q1')==='Sim',conceito:g('eng_q2')==='Sim',novoMolde:g('eng_q3'),alteracao:g('eng_q4')==='Sim',prototipo:g('eng_q5')==='Sim',metodoProto:'',valid3d:g('eng_q6')==='Sim',validAmostra:g('eng_q7')==='Sim',custoEng:parseInt(g('eng_ce'))||0,custoProto:parseInt(g('eng_cp'))||0,custoMolde:parseInt(g('eng_cm'))||0,horasEst:parseInt(g('eng_he'))||0,horasReais:0,aprovadoCliente:null,readyProd:false,feedbackCliente:'',subtarefas:subs});
+engSubTab='projetos';renderEngenharia();
+alert('Projeto '+id+' criado com sucesso!');
+}
 
 // ==================== PROPOSTAS ====================
 DATA.propostas=[
