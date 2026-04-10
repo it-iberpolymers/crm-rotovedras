@@ -33,6 +33,9 @@ td{padding:11px 14px;border-bottom:1px solid var(--border-light)}tr:last-child t
 .st{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
 .st-novo{background:#E1F5EE;color:#085041}.st-contactado{background:#E6F1FB;color:#0C447C}.st-qualificado{background:#EEEDFE;color:#3C3489}.st-nqualificado{background:#FCEBEB;color:#791F1F}.st-convertido{background:#EAF3DE;color:#27500A}
 .st-aberta{background:#E6F1FB;color:#0C447C}.st-proposta{background:#FAEEDA;color:#633806}.st-negociacao{background:#EEEDFE;color:#3C3489}.st-ganha{background:#EAF3DE;color:#27500A}.st-perdida{background:#FCEBEB;color:#791F1F}
+.st-novaoportunidade{background:#E6F1FB;color:#0C447C}.st-qualificacao{background:#E6F1FB;color:#0C447C}.st-viabilidadeinterna{background:#EEEDFE;color:#3C3489}
+.st-propostaempreparacao{background:#EEEDFE;color:#3C3489}.st-propostaenviada{background:#FAEEDA;color:#633806}.st-aguardandodecisao{background:#FAECE7;color:#712B13}
+.st-adjudicado{background:#E1F5EE;color:#085041}.st-ganhohandover{background:#EAF3DE;color:#27500A}.st-perdido{background:#FCEBEB;color:#791F1F}
 .st-prospect{background:#E6F1FB;color:#0C447C}.st-potencial{background:#FAEEDA;color:#633806}.st-ativo{background:#EAF3DE;color:#27500A}.st-inativo{background:#F1EFE8;color:#444}.st-suspenso{background:#FCEBEB;color:#791F1F}
 .ch{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--text-sec)}.ch-dot{width:7px;height:7px;border-radius:50%}
 .avatar{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}.av-rs{background:#EEEDFE;color:#3C3489}.av-pl{background:#E1F5EE;color:#085041}
@@ -164,16 +167,38 @@ leads:[
 {n:"Filipa Gomes",e:"ParkIdeia",em:"filipa@parkideia.pt",t:"913456789",nif:"508901234",s:"Lazer",c:"Google Ads",st:"Nao qualificado",r:"PL",d:"01/03"}
 ],
 opps:[
-{n:"Depositos 5000L",cl:"AquaPark Lda",p:"Deposito PEAD 5000L",v:12000,prob:30,dt:"30/04/2026",st:"Aberta",r:"RS"},
-{n:"Tanques irrigacao",cl:"AgroNorte",p:"Tanque 2000L",v:5000,prob:40,dt:"15/05/2026",st:"Aberta",r:"PL"},
-{n:"Contentores municipais",cl:"UrbanAqua",p:"Contentor RSU 1100L",v:18000,prob:50,dt:"20/04/2026",st:"Proposta",r:"RS"},
-{n:"Piscinas modulares",cl:"GreenPool",p:"Piscina modular 8m",v:22000,prob:65,dt:"10/05/2026",st:"Negociacao",r:"PL"},
-{n:"Cubas vinificacao",cl:"VinoPorto",p:"Cuba 3000L",v:10000,prob:70,dt:"25/04/2026",st:"Negociacao",r:"RS"},
-{n:"Depositos quimicos",cl:"HidroSul",p:"Deposito quimico 1500L",v:24500,prob:100,dt:"15/03/2026",st:"Ganha",r:"PL"},
-{n:"Separadores gordura",cl:"BuildMax",p:"Separador 500L",v:14000,prob:100,dt:"20/03/2026",st:"Ganha",r:"RS"},
-{n:"Reservatorios 10000L",cl:"PlastiForm",p:"Reservatorio 10000L",v:15000,prob:0,dt:"01/04/2026",st:"Perdida",r:"RS",motivo:"Preco concorrente"}
+{n:"Depositos 5000L",cl:"AquaPark Lda",p:"Deposito PEAD 5000L",v:12000,prob:15,dt:"30/04/2026",st:"Nova oportunidade",r:"RS"},
+{n:"Tanques irrigacao",cl:"AgroNorte",p:"Tanque 2000L",v:5000,prob:25,dt:"15/05/2026",st:"Qualificacao",r:"PL"},
+{n:"Flotadores industriais",cl:"EcoJardins SA",p:"Flotador 800L",v:8500,prob:30,dt:"20/05/2026",st:"Viabilidade interna",r:"RS"},
+{n:"Contentores municipais",cl:"UrbanAqua",p:"Contentor RSU 1100L",v:18000,prob:40,dt:"20/04/2026",st:"Proposta em preparacao",r:"RS"},
+{n:"Piscinas modulares",cl:"GreenPool",p:"Piscina modular 8m",v:22000,prob:55,dt:"10/05/2026",st:"Proposta enviada",r:"PL"},
+{n:"Cubas vinificacao",cl:"VinoPorto",p:"Cuba 3000L",v:10000,prob:65,dt:"25/04/2026",st:"Negociacao",r:"RS"},
+{n:"Silos alimentares",cl:"MuniTejo",p:"Silo 4000L",v:16000,prob:70,dt:"28/04/2026",st:"Aguardando decisao",r:"PL"},
+{n:"Separadores gordura",cl:"BuildMax",p:"Separador 500L",v:14000,prob:90,dt:"18/04/2026",st:"Adjudicado",r:"RS"},
+{n:"Depositos quimicos",cl:"HidroSul",p:"Deposito quimico 1500L",v:24500,prob:100,dt:"15/03/2026",st:"Ganho - Handover",r:"PL"},
+{n:"Reservatorios 10000L",cl:"PlastiForm",p:"Reservatorio 10000L",v:15000,prob:0,dt:"01/04/2026",st:"Perdido",r:"RS",motivo:"Preco concorrente"}
 ]
 };
+
+// Contactos and Clientes data
+DATA.contactos=[
+{n:"Joao Ferreira",e:"AquaPark Lda",cargo:"Diretor Operacoes",em:"joao@aquapark.pt",t:"912345678",lead:"Lead #001",ult:"08/04/2026",notas:"Interessado em depositos grandes"},
+{n:"Ana Lopes",e:"HidroSul",cargo:"Resp. Compras",em:"ana@hidrosul.pt",t:"918765432",lead:"Lead #004",ult:"07/04/2026",notas:"Pediu catalogo tecnico"},
+{n:"Sara Dias",e:"VinoPorto",cargo:"Eng. Processo",em:"sara@vinoporto.pt",t:"965432109",lead:"Lead #006",ult:"05/04/2026",notas:"Necessidade sazonal"},
+{n:"Bruno Alves",e:"AgroNorte",cargo:"Gerente",em:"bruno@agronorte.pt",t:"924321098",lead:"Lead #009",ult:"03/04/2026",notas:"Cliente recorrente"},
+{n:"Ines Matos",e:"UrbanAqua",cargo:"Diretora Projetos",em:"ines@urbanaqua.pt",t:"967890123",lead:"Lead #010",ult:"02/04/2026",notas:"Projeto municipal 2026"},
+{n:"Clara Reis",e:"GreenPool",cargo:"CEO",em:"clara@greenpool.pt",t:"916543210",lead:"Lead #008",ult:"01/04/2026",notas:"Expansao cadeia piscinas"},
+{n:"Pedro Nunes",e:"BuildMax",cargo:"Diretor Comercial",em:"pedro@buildmax.pt",t:"927654321",lead:"Lead #005",ult:"28/03/2026",notas:"Parceria construcao civil"},
+{n:"Tiago Mendes",e:"PlastiForm",cargo:"Resp. Producao",em:"tiago@plastiform.pt",t:"933210987",lead:"Lead #007",ult:"25/03/2026",notas:"Concorrente, avaliar oportunidade"}
+];
+DATA.clientes=[
+{n:"HidroSul",nif:"504321098",s:"Trat. agua",cont:"Ana Lopes",em:"ana@hidrosul.pt",cls:"Ativo",opps:"1 ganha",vol:24500,ult:"07/04"},
+{n:"BuildMax",nif:"508765432",s:"Construcao",cont:"Pedro Nunes",em:"pedro@buildmax.pt",cls:"Ativo",opps:"1 ganha",vol:14000,ult:"28/03"},
+{n:"AgroNorte",nif:"502109876",s:"Agricultura",cont:"Bruno Alves",em:"bruno@agronorte.pt",cls:"Ativo",opps:"1 aberta",vol:5000,ult:"03/04"},
+{n:"UrbanAqua",nif:"506789012",s:"Municipal",cont:"Ines Matos",em:"ines@urbanaqua.pt",cls:"Potencial",opps:"1 proposta",vol:18000,ult:"02/04"},
+{n:"GreenPool",nif:"505432109",s:"Lazer",cont:"Clara Reis",em:"clara@greenpool.pt",cls:"Potencial",opps:"1 negociacao",vol:22000,ult:"01/04"},
+{n:"AquaPark Lda",nif:"501234567",s:"Lazer",cont:"Joao Ferreira",em:"joao@aquapark.pt",cls:"Prospect",opps:"1 aberta",vol:12000,ult:"08/04"}
+];
 
 // ============= RENDER HELPERS =============
 function stClass(s){return 'st-'+s.toLowerCase().replace(/[^a-z]/g,'')}
@@ -194,7 +219,7 @@ var h='<div class="metrics"><div class="metric"><div class="metric-label">Total 
 h+='<div class="metric"><div class="metric-label">Qualificados</div><div class="metric-val">'+groups.Qualificado.length+'</div></div>';
 h+='<div class="metric"><div class="metric-label">Convertidos</div><div class="metric-val">'+groups.Convertido.length+'</div></div>';
 h+='<div class="metric"><div class="metric-label">Taxa conversao</div><div class="metric-val">'+Math.round(groups.Convertido.length/DATA.leads.length*100)+'%</div></div></div>';
-h+='<div class="toolbar"><button class="btn btn-primary">+ Novo lead</button><input type="text" class="search-box" placeholder="Pesquisar leads..." onkeyup="filterTable(this,\'leads\')"><button class="btn">Filtrar</button><button class="btn">Exportar</button></div>';
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="openAddForm(\'lead\')">+ Novo lead</button><input type="text" class="search-box" placeholder="Pesquisar leads..." onkeyup="filterTable(this,\'leads\')"><button class="btn">Filtrar</button><button class="btn">Exportar</button></div>';
 Object.keys(merged).forEach(function(gn){
 var items=merged[gn];if(!items.length)return;
 h+='<div class="group" id="g-'+gn.replace(/\s/g,'')+'"><div class="group-header" onclick="toggleGroup(\'g-'+gn.replace(/\s/g,'')+'\')">';
@@ -218,8 +243,8 @@ var ganhas=DATA.opps.filter(function(o){return o.st==='Ganha'});
 h+='<div class="metric"><div class="metric-label">Ganhas</div><div class="metric-val">'+euro(ganhas.reduce(function(a,o){return a+o.v},0))+'</div></div>';
 h+='<div class="metric"><div class="metric-label">Taxa fecho</div><div class="metric-val">'+Math.round(ganhas.length/DATA.opps.length*100)+'%</div></div></div>';
 h+='<div class="toolbar"><button class="btn btn-primary">+ Nova oportunidade</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'oportunidades\')"><div class="view-toggle"><button class="view-btn active" onclick="setView(\'table\')">Tabela</button><button class="view-btn" onclick="setView(\'kanban\')">Kanban</button></div></div>';
-var stOrder=['Aberta','Proposta','Negociacao','Ganha','Perdida'];
-var stColors={Aberta:'#378ADD',Proposta:'#BA7517',Negociacao:'#7F77DD',Ganha:'#639922',Perdida:'#A32D2D'};
+var stOrder=['Nova oportunidade','Qualificacao','Viabilidade interna','Proposta em preparacao','Proposta enviada','Negociacao','Aguardando decisao','Adjudicado','Ganho - Handover','Perdido'];
+var stColors={'Nova oportunidade':'#378ADD','Qualificacao':'#85B7EB','Viabilidade interna':'#AFA9EC','Proposta em preparacao':'#7F77DD','Proposta enviada':'#BA7517','Negociacao':'#FAC775','Aguardando decisao':'#D85A30','Adjudicado':'#1D9E75','Ganho - Handover':'#639922','Perdido':'#A32D2D'};
 h+='<div id="opp-table-view">';
 stOrder.forEach(function(st){
 var items=DATA.opps.filter(function(o){return o.st===st});if(!items.length)return;
@@ -253,15 +278,15 @@ document.getElementById('oportContent').innerHTML=h;
 
 function renderDashboard(){
 var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
-h+='<div class="metric"><div class="metric-label">Pipeline ativo</div><div class="metric-val">67.000 \u20ac</div><div class="metric-change up">5 oportunidades</div></div>';
-h+='<div class="metric"><div class="metric-label">Valor ponderado</div><div class="metric-val">35.900 \u20ac</div></div>';
-h+='<div class="metric"><div class="metric-label">Ganhas (YTD)</div><div class="metric-val">38.500 \u20ac</div><div class="metric-change up">&#9650; 2 negocios</div></div>';
+h+='<div class="metric"><div class="metric-label">Pipeline ativo</div><div class="metric-val">105.500 \u20ac</div><div class="metric-change up">8 oportunidades</div></div>';
+h+='<div class="metric"><div class="metric-label">Valor ponderado</div><div class="metric-val">48.600 \u20ac</div></div>';
+h+='<div class="metric"><div class="metric-label">Ganho (YTD)</div><div class="metric-val">24.500 \u20ac</div><div class="metric-change up">&#9650; 1 negocio</div></div>';
 h+='<div class="metric"><div class="metric-label">Taxa fecho</div><div class="metric-val">44%</div></div>';
 h+='<div class="metric"><div class="metric-label">Leads este mes</div><div class="metric-val">5</div><div class="metric-change up">&#9650; 67%</div></div></div>';
 h+='<div class="dash-section"><div class="dash-section-title">Pipeline comercial</div><div class="dash-grid">';
 h+='<div class="dash-card"><div class="dash-card-title">Pipeline por estado <span class="badge">valor</span></div><div class="chart-wrap"><canvas id="chartPipeline"></canvas></div></div>';
 h+='<div class="dash-card"><div class="dash-card-title">Funil de conversao</div><div style="padding:10px 0">';
-[['Leads',12,100,'#1D9E75'],['Contactados',9,75,'#378ADD'],['Qualificados',6,50,'#7F77DD'],['Propostas',4,33,'#BA7517'],['Ganhas',2,17,'#639922']].forEach(function(f){
+[['Nova oportunidade',10,100,'#378ADD'],['Qualificacao',8,80,'#85B7EB'],['Viabilidade',7,70,'#AFA9EC'],['Proposta prep.',6,60,'#7F77DD'],['Proposta enviada',5,50,'#BA7517'],['Negociacao',4,40,'#FAC775'],['Aguardando decisao',3,30,'#D85A30'],['Adjudicado',2,20,'#1D9E75'],['Ganho',1,10,'#639922']].forEach(function(f){
 h+='<div class="funnel-row"><div class="funnel-label">'+f[0]+'</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:'+f[2]+'%;background:'+f[3]+'">'+f[1]+'</div></div><div class="funnel-count">'+f[1]+'</div></div>';
 });
 h+='</div></div></div></div>';
@@ -277,6 +302,125 @@ document.getElementById('dashContent').innerHTML=h;
 initCharts();
 }
 
+// ============= CONTACTOS RENDERER =============
+function renderContactos(){
+var h='<div class="toolbar"><button class="btn btn-primary" onclick="openAddForm(\'contacto\')">+ Novo contacto</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'contactos\')"><button class="btn">Exportar</button></div>';
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:#7F77DD"></div><div class="group-name">Todos os contactos</div><div class="group-count">'+DATA.contactos.length+'</div></div>';
+h+='<div class="tbl-wrap"><table><tr><th>Nome</th><th>Empresa</th><th>Cargo</th><th>Email</th><th>Telemovel</th><th>Lead origem</th><th>Ultimo contacto</th><th>Notas</th></tr>';
+DATA.contactos.forEach(function(c){
+h+='<tr><td>'+c.n+'</td><td>'+c.e+'</td><td>'+c.cargo+'</td><td>'+c.em+'</td><td>'+c.t+'</td><td><span class="conn">'+c.lead+'</span></td><td>'+c.ult+'</td><td style="font-size:11px;color:var(--text-ter)">'+c.notas+'</td></tr>';
+});
+h+='</table></div></div>';
+document.getElementById('contactosContent').innerHTML=h;
+}
+
+// ============= CLIENTES RENDERER =============
+function renderClientes(){
+var groups={Ativo:[],Potencial:[],Prospect:[],Inativo:[],Suspenso:[]};
+DATA.clientes.forEach(function(c){(groups[c.cls]||(groups[c.cls]=[])).push(c)});
+var gColors={Ativo:'#639922',Potencial:'#BA7517',Prospect:'#378ADD',Inativo:'#888',Suspenso:'#A32D2D'};
+var totalVol=DATA.clientes.reduce(function(a,c){return a+c.vol},0);
+var ativos=groups.Ativo.length;
+h='<div class="metrics"><div class="metric"><div class="metric-label">Total clientes</div><div class="metric-val">'+DATA.clientes.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Ativos</div><div class="metric-val">'+ativos+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Potenciais</div><div class="metric-val">'+groups.Potencial.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Volume acumulado</div><div class="metric-val">'+euro(totalVol)+'</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="openAddForm(\'cliente\')">+ Novo cliente</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'clientes\')"><button class="btn">Filtrar</button><button class="btn">Exportar</button></div>';
+['Ativo','Potencial','Prospect','Inativo','Suspenso'].forEach(function(cls){
+var items=groups[cls];if(!items||!items.length)return;
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+(gColors[cls]||'#888')+'"></div><div class="group-name">'+cls+(cls==='Ativo'?'s':cls==='Potencial'?'ais':'s')+'</div><div class="group-count">'+items.length+'</div></div>';
+h+='<div class="tbl-wrap"><table><tr><th>Cliente</th><th>NIF</th><th>Setor</th><th>Contacto</th><th>Email</th><th>Class.</th><th>Oportunidades</th><th>Volume</th><th>Ultima ativ.</th></tr>';
+items.forEach(function(c){
+h+='<tr><td style="font-weight:600">'+c.n+'</td><td>'+c.nif+'</td><td class="setor">'+c.s+'</td><td>'+c.cont+'</td><td>'+c.em+'</td>';
+h+='<td><span class="st '+stClass(c.cls)+'">'+c.cls+'</span></td><td><span class="conn">'+c.opps+'</span></td><td class="val">'+euro(c.vol)+'</td><td style="font-size:11px;color:var(--text-ter)">'+c.ult+'</td></tr>';
+});
+h+='</table></div></div>';
+});
+document.getElementById('clientesContent').innerHTML=h;
+}
+
+// ============= ADD FORM (MODAL) =============
+function openAddForm(type){
+var overlay=document.createElement('div');
+overlay.id='addModal';
+overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px';
+var fields={
+lead:[
+{id:'n',label:'Nome',ph:'Nome completo'},
+{id:'e',label:'Empresa',ph:'Nome da empresa'},
+{id:'em',label:'Email',ph:'email@empresa.pt'},
+{id:'t',label:'Telemovel',ph:'912345678'},
+{id:'nif',label:'NIF',ph:'501234567'},
+{id:'s',label:'Setor',ph:'Ex: Lazer, Agricultura...'},
+{id:'c',label:'Canal',type:'select',opts:['Website','Google Ads','Email direto','Telefone']},
+{id:'st',label:'Estado',type:'select',opts:['Novo','Contactado','Qualificado']},
+{id:'r',label:'Responsavel',type:'select',opts:['RS','PL']}
+],
+contacto:[
+{id:'n',label:'Nome',ph:'Nome completo'},
+{id:'e',label:'Empresa',ph:'Nome da empresa'},
+{id:'cargo',label:'Cargo',ph:'Ex: Diretor Comercial'},
+{id:'em',label:'Email',ph:'email@empresa.pt'},
+{id:'t',label:'Telemovel',ph:'912345678'},
+{id:'notas',label:'Notas',ph:'Observacoes...'}
+],
+cliente:[
+{id:'n',label:'Nome empresa',ph:'Nome da empresa'},
+{id:'nif',label:'NIF',ph:'501234567'},
+{id:'s',label:'Setor',ph:'Ex: Construcao, Lazer...'},
+{id:'cont',label:'Contacto principal',ph:'Nome do contacto'},
+{id:'em',label:'Email',ph:'email@empresa.pt'},
+{id:'cls',label:'Classificacao',type:'select',opts:['Prospect','Potencial','Ativo','Inativo','Suspenso']},
+{id:'vol',label:'Volume estimado (EUR)',ph:'0',num:true}
+]
+};
+var f=fields[type];
+var titles={lead:'Novo Lead',contacto:'Novo Contacto',cliente:'Novo Cliente'};
+var html='<div style="background:var(--bg-card);border-radius:var(--radius-lg);padding:28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md)">';
+html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><div style="font-size:17px;font-weight:700">'+titles[type]+'</div><button onclick="closeAddForm()" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--text-sec)">&times;</button></div>';
+html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+f.forEach(function(field){
+html+='<div style="'+(field.id==='notas'?'grid-column:1/-1':'')+'"><label style="display:block;font-size:11px;font-weight:600;color:var(--text-ter);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px">'+field.label+'</label>';
+if(field.type==='select'){
+html+='<select id="add_'+field.id+'" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text)">';
+field.opts.forEach(function(o){html+='<option value="'+o+'">'+o+'</option>'});
+html+='</select>';
+}else{
+html+='<input id="add_'+field.id+'" type="'+(field.num?'number':'text')+'" placeholder="'+field.ph+'" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none">';
+}
+html+='</div>';
+});
+html+='</div>';
+html+='<div style="display:flex;gap:8px;margin-top:20px;justify-content:flex-end">';
+html+='<button class="btn" onclick="closeAddForm()">Cancelar</button>';
+html+='<button class="btn btn-primary" onclick="saveAdd(\''+type+'\')">Guardar</button>';
+html+='</div></div>';
+overlay.innerHTML=html;
+document.body.appendChild(overlay);
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeAddForm()});
+}
+
+function closeAddForm(){var m=document.getElementById('addModal');if(m)m.remove()}
+
+function saveAdd(type){
+var get=function(id){var el=document.getElementById('add_'+id);return el?el.value.trim():''};
+if(type==='lead'){
+if(!get('n')||!get('e')){alert('Preencha pelo menos Nome e Empresa');return}
+var today=new Date();var dd=String(today.getDate()).padStart(2,'0')+'/'+String(today.getMonth()+1).padStart(2,'0');
+DATA.leads.push({n:get('n'),e:get('e'),em:get('em'),t:get('t'),nif:get('nif'),s:get('s'),c:get('c'),st:get('st'),r:get('r'),d:dd});
+closeAddForm();renderLeads();
+}else if(type==='contacto'){
+if(!get('n')||!get('e')){alert('Preencha pelo menos Nome e Empresa');return}
+var today=new Date();var dt=String(today.getDate()).padStart(2,'0')+'/'+String(today.getMonth()+1).padStart(2,'0')+'/'+today.getFullYear();
+DATA.contactos.push({n:get('n'),e:get('e'),cargo:get('cargo'),em:get('em'),t:get('t'),lead:'Manual',ult:dt,notas:get('notas')});
+closeAddForm();renderContactos();
+}else if(type==='cliente'){
+if(!get('n')){alert('Preencha pelo menos o Nome da empresa');return}
+DATA.clientes.push({n:get('n'),nif:get('nif'),s:get('s'),cont:get('cont'),em:get('em'),cls:get('cls'),opps:'-',vol:parseInt(get('vol'))||0,ult:String(new Date().getDate()).padStart(2,'0')+'/'+String(new Date().getMonth()+1).padStart(2,'0')});
+closeAddForm();renderClientes();
+}
+}
+
 // ============= NAVIGATION =============
 function switchTab(tab){
 document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
@@ -287,7 +431,9 @@ document.querySelectorAll('.sidebar-item[data-tab="'+tab+'"]').forEach(function(
 document.getElementById(tab).classList.add('active');
 if(tab==='dashboard')renderDashboard();
 if(tab==='leads')renderLeads();
+if(tab==='contactos')renderContactos();
 if(tab==='oportunidades')renderOpps();
+if(tab==='clientes')renderClientes();
 if(tab==='classificacao')renderClf();
 }
 document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
@@ -308,7 +454,7 @@ function initCharts(){
 if(chartsInit)return;chartsInit=true;
 Chart.defaults.font.family='DM Sans';Chart.defaults.font.size=11;Chart.defaults.color='#6b6b6b';
 Chart.defaults.plugins.legend.labels.usePointStyle=true;
-new Chart(document.getElementById('chartPipeline'),{type:'bar',data:{labels:['Aberta','Proposta','Negociacao','Ganha','Perdida'],datasets:[{data:[17000,18000,32000,38500,15000],backgroundColor:['#85B7EB','#FAC775','#AFA9EC','#97C459','#F09595'],borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
+new Chart(document.getElementById('chartPipeline'),{type:'bar',data:{labels:['Nova op.','Qualif.','Viabil.','Prop. prep.','Prop. env.','Negoc.','Aguard.','Adjud.','Ganho','Perdido'],datasets:[{data:[12000,5000,8500,18000,22000,10000,16000,14000,24500,15000],backgroundColor:['#85B7EB','#85B7EB','#AFA9EC','#7F77DD','#BA7517','#FAC775','#D85A30','#1D9E75','#97C459','#F09595'],borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
 new Chart(document.getElementById('chartCanal'),{type:'doughnut',data:{labels:['Website','Google Ads'],datasets:[{data:[7,5],backgroundColor:['#378ADD','#D85A30'],borderWidth:0,spacing:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom'}}}});
 new Chart(document.getElementById('chartMensal'),{type:'line',data:{labels:['Jan','Fev','Mar','Abr'],datasets:[{label:'Leads',data:[2,1,4,5],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.08)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#1D9E75'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
 new Chart(document.getElementById('chartComerc'),{type:'bar',data:{labels:['Ricardo Silva','Paula Lima'],datasets:[{label:'Pipeline',data:[40000,27000],backgroundColor:'#85B7EB',borderRadius:6,borderSkipped:false},{label:'Ganhas',data:[14000,24500],backgroundColor:'#97C459',borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
