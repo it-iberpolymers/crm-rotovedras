@@ -109,6 +109,14 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 /* Forms */
 .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}.check-item{display:flex;align-items:center;gap:5px;font-size:11px;padding:5px 7px;border:1px solid var(--border-light);border-radius:5px;cursor:pointer}.check-item:hover{background:var(--bg-hover)}.check-item input{accent-color:var(--accent)}
 /* Placeholder */
+.user-bar{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--bg-surface);border-bottom:1px solid var(--border-light);font-size:11px}
+.user-bar select{padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;font-family:var(--font);background:var(--bg-card);color:var(--text)}
+.perm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.perm-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px}
+.perm-card-title{font-size:13px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.perm-badge{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:600}
+.perm-list{font-size:11px;color:var(--text-sec);margin-top:8px;display:flex;flex-direction:column;gap:3px}
+.perm-item{display:flex;align-items:center;gap:6px}.perm-check{color:#1D9E75;font-size:12px}.perm-x{color:#A32D2D;font-size:12px}
 .placeholder-page{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 20px;text-align:center}
 .ph-icon{font-size:40px;margin-bottom:12px;opacity:.35}.ph-title{font-size:18px;font-weight:700;margin-bottom:6px}.ph-desc{font-size:13px;color:var(--text-sec);max-width:460px;line-height:1.6;margin-bottom:16px}
 .ph-status{display:inline-block;padding:5px 14px;border-radius:16px;font-size:11px;font-weight:600;background:var(--bg-surface);color:var(--text-ter)}
@@ -170,6 +178,7 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 </div>
 <div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#128196;</span><span class="sl-text">Outros</span></div>
 <div class="sidebar-item" data-tab="concursos">Concursos publicos</div>
+<div class="sidebar-item" data-tab="permissoes">&#128274; Permissoes</div>
 <div class="sidebar-item" data-tab="it_suporte">IT Suporte</div>
 <div class="sidebar-item" data-tab="com_fichas">Comunicacao</div>
 </div>
@@ -177,6 +186,22 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 <div class="sidebar-footer">Rotovedras v3.0 &middot; Mockup Monday.com</div>
 </aside>
 <div class="main">
+<div class="user-bar">
+<span style="color:var(--text-ter)">Perfil:</span>
+<select id="userProfile" onchange="setUserProfile(this.value)">
+<option value="admin">Administrador</option>
+<option value="dir_comercial">Diretor Comercial</option>
+<option value="comercial">Comercial</option>
+<option value="dir_producao">Diretor Producao</option>
+<option value="operador">Operador Producao</option>
+<option value="engenheiro">Engenheiro</option>
+<option value="supply">Supply Chain</option>
+<option value="qualidade">Qualidade</option>
+<option value="financeiro">Financeiro</option>
+</select>
+<span id="userProfileName" style="font-weight:600">Administrador</span>
+<span style="margin-left:auto;color:var(--text-ter)">Acesso total</span>
+</div>
 <div class="header"><div class="header-title"><span class="dot"></span><span id="headerLabel">Dashboard</span></div></div>
 <div class="tabs" id="topTabs"></div>
 <div class="content">
@@ -193,8 +218,8 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 <div class="board" id="ep_artigos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Produtos — Artigos</div><div class="ph-desc">Catalogo unico de produtos e materiais com codigos, designacoes e ligacoes.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="ep_bom"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Produtos — BOM (Estrutura de produto)</div><div class="ph-desc">Definicao tecnica de como o produto e composto — componentes, materiais e quantidades.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="stk_inventario"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Stock — Inventario</div><div class="ph-desc">Controlo de quantidades e disponibilidade de materiais e produtos.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="ops_enc_cliente"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Operacoes — Encomendas cliente</div><div class="ph-desc">Compromisso formal com o cliente final — estados, prazos e acompanhamento ate expedicao.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="ops_enc_internas"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Operacoes — Encomendas internas</div><div class="ph-desc">Cadeia intercompany: Ambiconcept → Iberpolymers → Rotovedras. Rastreabilidade end-to-end.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ops_enc_cliente"><div id="encClienteContent"></div></div>
+<div class="board" id="ops_enc_internas"><div id="encInternasContent"></div></div>
 <div class="board" id="sc_compras"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras</div><div class="ph-desc">Aquisicao de materiais e servicos — requisicoes, aprovacoes, encomendas a fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="sc_compras_eng"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras engenharia</div><div class="ph-desc">Compras associadas a novos produtos e projetos de desenvolvimento.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="sc_logistica"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Logistica</div><div class="ph-desc">Gestao de rececao, expedicao e transporte de materiais e produtos.</div><div class="ph-status">Em construcao</div></div></div>
@@ -222,65 +247,111 @@ var DATA={
 leads:[
 {n:"Joao Ferreira",e:"AquaPark Lda",em:"joao@aquapark.pt",t:"912345678",nif:"501234567",s:"Lazer",c:"Website",st:"Novo",r:"RS",d:"08/04"},
 {n:"Maria Santos",e:"EcoJardins SA",em:"maria@ecojardins.pt",t:"936789012",nif:"509876543",s:"Agricultura",c:"Google Ads",st:"Novo",r:"PL",d:"07/04"},
-{n:"Rui Costa",e:"MuniTejo",em:"rui.costa@munitejo.pt",t:"961234567",nif:"506543210",s:"Municipal",c:"Website",st:"Novo",r:"RS",d:"06/04"},
+{n:"Rui Costa",e:"MuniTejo",em:"rui.costa@munitejo.pt",t:"961234567",nif:"506543210",s:"Municipal",c:"Website",st:"<div class="board" id="permissoes"><div id="permContent"></div></div>
+Novo",r:"RS",d:"06/04"},
+{n:"Teresa Almeida",e:"PharmaStore",em:"teresa@pharmastore.pt",t:"914567890",nif:"510234567",s:"Farmaceutico",c:"Email direto",st:"Novo",r:"MC",d:"05/04"},
+{n:"Carlos Mendes",e:"SolarTech PT",em:"carlos@solartech.pt",t:"926789012",nif:"511234567",s:"Energia",c:"Google Ads",st:"Novo",r:"PL",d:"04/04"},
 {n:"Ana Lopes",e:"HidroSul",em:"ana@hidrosul.pt",t:"918765432",nif:"504321098",s:"Trat. agua",c:"Google Ads",st:"Contactado",r:"PL",d:"02/04"},
 {n:"Pedro Nunes",e:"BuildMax",em:"pedro@buildmax.pt",t:"927654321",nif:"508765432",s:"Construcao",c:"Website",st:"Contactado",r:"RS",d:"01/04"},
+{n:"Marta Ribeiro",e:"AquaVida",em:"marta@aquavida.pt",t:"935678901",nif:"512345678",s:"Piscinas",c:"Telefone",st:"Contactado",r:"RS",d:"30/03"},
+{n:"Nuno Ferreira",e:"Agri360",em:"nuno@agri360.pt",t:"917890123",nif:"513456789",s:"Agricultura",c:"Website",st:"Contactado",r:"PL",d:"28/03"},
 {n:"Sara Dias",e:"VinoPorto",em:"sara@vinoporto.pt",t:"965432109",nif:"503210987",s:"Vinicultura",c:"Website",st:"Qualificado",r:"PL",d:"28/03"},
 {n:"Tiago Mendes",e:"PlastiForm",em:"tiago@plastiform.pt",t:"933210987",nif:"507654321",s:"Industrial",c:"Google Ads",st:"Qualificado",r:"RS",d:"25/03"},
 {n:"Clara Reis",e:"GreenPool",em:"clara@greenpool.pt",t:"916543210",nif:"505432109",s:"Lazer",c:"Website",st:"Qualificado",r:"PL",d:"22/03"},
+{n:"Ricardo Fonseca",e:"WaterPure",em:"ricardo@waterpure.pt",t:"928901234",nif:"514567890",s:"Trat. agua",c:"Referencia",st:"Qualificado",r:"RS",d:"20/03"},
+{n:"Luisa Marques",e:"OceanBlue",em:"luisa@oceanblue.pt",t:"919012345",nif:"515678901",s:"Maritimo",c:"Evento",st:"Qualificado",r:"MC",d:"18/03"},
 {n:"Bruno Alves",e:"AgroNorte",em:"bruno@agronorte.pt",t:"924321098",nif:"502109876",s:"Agricultura",c:"Google Ads",st:"Convertido",r:"RS",d:"15/03"},
 {n:"Ines Matos",e:"UrbanAqua",em:"ines@urbanaqua.pt",t:"967890123",nif:"506789012",s:"Municipal",c:"Website",st:"Convertido",r:"PL",d:"10/03"},
+{n:"Joana Silva",e:"ChemTank PT",em:"joana@chemtank.pt",t:"931234567",nif:"516789012",s:"Quimico",c:"Google Ads",st:"Convertido",r:"RS",d:"05/03"},
+{n:"Andre Oliveira",e:"FarmAgua",em:"andre@farmagua.pt",t:"922345678",nif:"517890123",s:"Agricultura",c:"Telefone",st:"Convertido",r:"PL",d:"01/03"},
 {n:"Hugo Pinto",e:"SolTech",em:"hugo@soltech.pt",t:"939012345",nif:"501098765",s:"Energia",c:"Website",st:"Nao qualificado",r:"RS",d:"05/03"},
-{n:"Filipa Gomes",e:"ParkIdeia",em:"filipa@parkideia.pt",t:"913456789",nif:"508901234",s:"Lazer",c:"Google Ads",st:"Nao qualificado",r:"PL",d:"01/03"}
-],
+{n:"Filipa Gomes",e:"ParkIdeia",em:"filipa@parkideia.pt",t:"913456789",nif:"508901234",s:"Lazer",c:"Google Ads",st:"Nao qualificado",r:"PL",d:"01/03"},
+{n:"Sergio Costa",e:"MiniTank",em:"sergio@minitank.pt",t:"925678901",nif:"518901234",s:"Industrial",c:"Website",st:"Nao qualificado",r:"RS",d:"25/02"},
+{n:"Paula Carvalho",e:"AgroSol",em:"paula@agrosol.pt",t:"916789012",nif:"519012345",s:"Agricultura",c:"Email direto",st:"Nao qualificado",r:"PL",d:"20/02"}
+]],
 contactos:[
 {n:"Joao Ferreira",e:"AquaPark Lda",cargo:"Diretor Operacoes",em:"joao@aquapark.pt",t:"912345678",lead:"Lead #001",ult:"08/04/2026",notas:"Interessado em depositos grandes"},
-{n:"Ana Lopes",e:"HidroSul",cargo:"Resp. Compras",em:"ana@hidrosul.pt",t:"918765432",lead:"Lead #004",ult:"07/04/2026",notas:"Pediu catalogo tecnico"},
-{n:"Sara Dias",e:"VinoPorto",cargo:"Eng. Processo",em:"sara@vinoporto.pt",t:"965432109",lead:"Lead #006",ult:"05/04/2026",notas:"Necessidade sazonal"},
-{n:"Bruno Alves",e:"AgroNorte",cargo:"Gerente",em:"bruno@agronorte.pt",t:"924321098",lead:"Lead #009",ult:"03/04/2026",notas:"Cliente recorrente"},
-{n:"Ines Matos",e:"UrbanAqua",cargo:"Diretora Projetos",em:"ines@urbanaqua.pt",t:"967890123",lead:"Lead #010",ult:"02/04/2026",notas:"Projeto municipal 2026"},
-{n:"Clara Reis",e:"GreenPool",cargo:"CEO",em:"clara@greenpool.pt",t:"916543210",lead:"Lead #008",ult:"01/04/2026",notas:"Expansao cadeia piscinas"},
-{n:"Pedro Nunes",e:"BuildMax",cargo:"Diretor Comercial",em:"pedro@buildmax.pt",t:"927654321",lead:"Lead #005",ult:"28/03/2026",notas:"Parceria construcao civil"},
-{n:"Tiago Mendes",e:"PlastiForm",cargo:"Resp. Producao",em:"tiago@plastiform.pt",t:"933210987",lead:"Lead #007",ult:"25/03/2026",notas:"Concorrente, avaliar oportunidade"}
-],
+{n:"Ana Lopes",e:"HidroSul",cargo:"Resp. Compras",em:"ana@hidrosul.pt",t:"918765432",lead:"Lead #006",ult:"07/04/2026",notas:"Pediu catalogo tecnico"},
+{n:"Sara Dias",e:"VinoPorto",cargo:"Eng. Processo",em:"sara@vinoporto.pt",t:"965432109",lead:"Lead #010",ult:"05/04/2026",notas:"Necessidade sazonal vindimas"},
+{n:"Bruno Alves",e:"AgroNorte",cargo:"Gerente",em:"bruno@agronorte.pt",t:"924321098",lead:"Lead #015",ult:"03/04/2026",notas:"Cliente recorrente, compra anual"},
+{n:"Ines Matos",e:"UrbanAqua",cargo:"Diretora Projetos",em:"ines@urbanaqua.pt",t:"967890123",lead:"Lead #016",ult:"02/04/2026",notas:"Projeto municipal 2026, concurso publico"},
+{n:"Clara Reis",e:"GreenPool",cargo:"CEO",em:"clara@greenpool.pt",t:"916543210",lead:"Lead #012",ult:"01/04/2026",notas:"Expansao cadeia piscinas, 3 hoteis"},
+{n:"Pedro Nunes",e:"BuildMax",cargo:"Diretor Comercial",em:"pedro@buildmax.pt",t:"927654321",lead:"Lead #007",ult:"28/03/2026",notas:"Parceria construcao civil, volume alto"},
+{n:"Tiago Mendes",e:"PlastiForm",cargo:"Resp. Producao",em:"tiago@plastiform.pt",t:"933210987",lead:"Lead #011",ult:"25/03/2026",notas:"Concorrente, mas quer subcontratar producao"},
+{n:"Teresa Almeida",e:"PharmaStore",cargo:"Dir. Qualidade",em:"teresa@pharmastore.pt",t:"914567890",lead:"Lead #004",ult:"05/04/2026",notas:"Necessita certificacao alimentar"},
+{n:"Ricardo Fonseca",e:"WaterPure",cargo:"Eng. Projetos",em:"ricardo@waterpure.pt",t:"928901234",lead:"Lead #013",ult:"20/03/2026",notas:"Estacoes tratamento municipais"},
+{n:"Luisa Marques",e:"OceanBlue",cargo:"Resp. Compras",em:"luisa@oceanblue.pt",t:"919012345",lead:"Lead #014",ult:"18/03/2026",notas:"Boias e equipamento maritimo"},
+{n:"Joana Silva",e:"ChemTank PT",cargo:"Dir. Operacoes",em:"joana@chemtank.pt",t:"931234567",lead:"Lead #017",ult:"05/03/2026",notas:"Tanques quimicos especiais, alta resistencia"},
+{n:"Marta Ribeiro",e:"AquaVida",cargo:"Gerente",em:"marta@aquavida.pt",t:"935678901",lead:"Lead #008",ult:"30/03/2026",notas:"Piscinas residenciais e hoteis boutique"},
+{n:"Andre Oliveira",e:"FarmAgua",cargo:"Resp. Irrigacao",em:"andre@farmagua.pt",t:"922345678",lead:"Lead #018",ult:"01/03/2026",notas:"Sistema irrigacao grande escala Alentejo"},
+{n:"Maria Santos",e:"EcoJardins SA",cargo:"Resp. Ambiente",em:"maria@ecojardins.pt",t:"936789012",lead:"Lead #002",ult:"07/04/2026",notas:"Flotadores para ETAR agricola"}
+]],
 clientes:[
-{n:"HidroSul",nif:"504321098",s:"Trat. agua",cont:"Ana Lopes",em:"ana@hidrosul.pt",cls:"Ativo",opps:"1 ganha",vol:24500,ult:"07/04"},
-{n:"BuildMax",nif:"508765432",s:"Construcao",cont:"Pedro Nunes",em:"pedro@buildmax.pt",cls:"Ativo",opps:"1 ganha",vol:14000,ult:"28/03"},
-{n:"AgroNorte",nif:"502109876",s:"Agricultura",cont:"Bruno Alves",em:"bruno@agronorte.pt",cls:"Ativo",opps:"1 aberta",vol:5000,ult:"03/04"},
-{n:"UrbanAqua",nif:"506789012",s:"Municipal",cont:"Ines Matos",em:"ines@urbanaqua.pt",cls:"Potencial",opps:"1 proposta",vol:18000,ult:"02/04"},
-{n:"GreenPool",nif:"505432109",s:"Lazer",cont:"Clara Reis",em:"clara@greenpool.pt",cls:"Potencial",opps:"1 negociacao",vol:22000,ult:"01/04"},
-{n:"AquaPark Lda",nif:"501234567",s:"Lazer",cont:"Joao Ferreira",em:"joao@aquapark.pt",cls:"Prospect",opps:"1 aberta",vol:12000,ult:"08/04"}
-],
+{n:"HidroSul",nif:"504321098",s:"Trat. agua",cont:"Ana Lopes",em:"ana@hidrosul.pt",cls:"Ativo",opps:"2 ganhas",vol:48500,ult:"07/04",grade:"A",score:82.5},
+{n:"BuildMax",nif:"508765432",s:"Construcao",cont:"Pedro Nunes",em:"pedro@buildmax.pt",cls:"Ativo",opps:"1 ganha",vol:14000,ult:"28/03",grade:"B",score:68},
+{n:"AgroNorte",nif:"502109876",s:"Agricultura",cont:"Bruno Alves",em:"bruno@agronorte.pt",cls:"Ativo",opps:"2 em curso",vol:18000,ult:"03/04",grade:"B",score:71},
+{n:"ChemTank PT",nif:"516789012",s:"Quimico",cont:"Joana Silva",em:"joana@chemtank.pt",cls:"Ativo",opps:"1 ganha",vol:22000,ult:"05/03",grade:"A",score:85},
+{n:"FarmAgua",nif:"517890123",s:"Agricultura",cont:"Andre Oliveira",em:"andre@farmagua.pt",cls:"Ativo",opps:"1 em curso",vol:9500,ult:"01/03",grade:"B",score:62},
+{n:"UrbanAqua",nif:"506789012",s:"Municipal",cont:"Ines Matos",em:"ines@urbanaqua.pt",cls:"Potencial",opps:"1 proposta",vol:28000,ult:"02/04"},
+{n:"GreenPool",nif:"505432109",s:"Lazer",cont:"Clara Reis",em:"clara@greenpool.pt",cls:"Potencial",opps:"1 negociacao",vol:32000,ult:"01/04"},
+{n:"WaterPure",nif:"514567890",s:"Trat. agua",cont:"Ricardo Fonseca",em:"ricardo@waterpure.pt",cls:"Potencial",opps:"1 proposta",vol:15000,ult:"20/03"},
+{n:"OceanBlue",nif:"515678901",s:"Maritimo",cont:"Luisa Marques",em:"luisa@oceanblue.pt",cls:"Potencial",opps:"1 aberta",vol:8500,ult:"18/03"},
+{n:"AquaPark Lda",nif:"501234567",s:"Lazer",cont:"Joao Ferreira",em:"joao@aquapark.pt",cls:"Prospect",opps:"1 aberta",vol:12000,ult:"08/04"},
+{n:"EcoJardins SA",nif:"509876543",s:"Agricultura",cont:"Maria Santos",em:"maria@ecojardins.pt",cls:"Prospect",opps:"1 nova",vol:18500,ult:"07/04"},
+{n:"AquaVida",nif:"512345678",s:"Piscinas",cont:"Marta Ribeiro",em:"marta@aquavida.pt",cls:"Prospect",opps:"Em qualificacao",vol:0,ult:"30/03"},
+{n:"PharmaStore",nif:"510234567",s:"Farmaceutico",cont:"Teresa Almeida",em:"teresa@pharmastore.pt",cls:"Prospect",opps:"Novo",vol:0,ult:"05/04"},
+{n:"VinoPorto",nif:"503210987",s:"Vinicultura",cont:"Sara Dias",em:"sara@vinoporto.pt",cls:"Ativo",opps:"1 adjudicado",vol:15000,ult:"05/04",grade:"B",score:65},
+{n:"MuniTejo",nif:"506543210",s:"Municipal",cont:"Rui Costa",em:"rui.costa@munitejo.pt",cls:"Potencial",opps:"1 adjudicado",vol:16000,ult:"06/04"},
+{n:"PlastiForm",nif:"507654321",s:"Industrial",cont:"Tiago Mendes",em:"tiago@plastiform.pt",cls:"Inativo",opps:"1 perdida",vol:0,ult:"01/04",grade:"C",score:42}
+]],
 opps:[
 {n:"Depositos 5000L - AquaPark",cl:"AquaPark Lda",prods:["Producao Produto"],v:12000,margem:35,prob:20,dt:"30/04/2026",st:"Nova oportunidade",r:"RS",prio:"Media",proxAcao:"Agendar visita",origem:"Site",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"10 depositos PEAD 5000L para parque aquatico"},
 {n:"Flotadores - EcoJardins",cl:"EcoJardins SA",prods:["Desenvolvimento Produto","Producao de Molde"],v:18500,margem:42,prob:30,dt:"20/05/2026",st:"Nova oportunidade",r:"PL",prio:"Alta",proxAcao:"Enviar viabilidade",origem:"Referencia",tipoOpp:"Novo produto",complex:"Alta",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Flotador para aguas residuais agricolas"},
+{n:"Boias sinalizacao - OceanBlue",cl:"OceanBlue",prods:["Desenvolvimento Produto","Producao Produto"],v:8500,margem:38,prob:25,dt:"15/06/2026",st:"Nova oportunidade",r:"MC",prio:"Media",proxAcao:"Reuniao tecnica",origem:"Evento",tipoOpp:"Novo produto",complex:"Media",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Boias sinalizacao maritima costeira"},
 {n:"Tanques irrigacao - AgroNorte",cl:"AgroNorte",prods:["Producao Produto"],v:5000,margem:30,prob:40,dt:"15/05/2026",st:"Proposta em preparacao",r:"PL",prio:"Baixa",proxAcao:"Validar specs",origem:"Telefone",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Reposicao tanques irrigacao"},
+{n:"Tanques quimicos - ChemTank",cl:"ChemTank PT",prods:["Producao de Molde","Producao Produto"],v:22000,margem:40,prob:45,dt:"30/05/2026",st:"Proposta em preparacao",r:"RS",prio:"Alta",proxAcao:"Definir especificacoes",origem:"Email",tipoOpp:"Novo produto",complex:"Alta",tipoForn:"Producao Rotovedras",tipoPrazo:"Obrigatorio",desc:"Tanques quimicos alta resistencia para industria"},
 {n:"Contentores RSU - UrbanAqua",cl:"UrbanAqua",prods:["Desenvolvimento de Molde","Producao de Molde","Producao Produto"],v:28000,margem:38,prob:50,dt:"20/04/2026",st:"Proposta enviada",r:"RS",prio:"Alta",proxAcao:"Follow-up",origem:"Concurso publico",tipoOpp:"Novo produto",complex:"Alta",tipoForn:"Producao Rotovedras",tipoPrazo:"Obrigatorio",desc:"Concurso publico contentores RSU"},
 {n:"Piscinas modulares - GreenPool",cl:"GreenPool",prods:["Prototipo","Desenvolvimento Produto","Producao Produto"],v:32000,margem:45,prob:55,dt:"10/05/2026",st:"Proposta enviada",r:"PL",prio:"Alta",proxAcao:"Reuniao negociacao",origem:"Evento",tipoOpp:"Novo produto",complex:"Media",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Piscinas modulares para hoteis"},
+{n:"Estacoes tratamento - WaterPure",cl:"WaterPure",prods:["Engenharia Inversa","Producao de Molde","Producao Produto"],v:15000,margem:36,prob:50,dt:"30/05/2026",st:"Proposta enviada",r:"RS",prio:"Media",proxAcao:"Aguardar feedback tecnico",origem:"Referencia",tipoOpp:"Novo produto",complex:"Alta",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Componentes para estacoes tratamento municipais"},
 {n:"Cubas vinificacao - VinoPorto",cl:"VinoPorto",prods:["Engenharia Inversa","Producao de Molde","Producao Produto"],v:15000,margem:32,prob:65,dt:"25/04/2026",st:"Aguardando decisao",r:"RS",prio:"Media",proxAcao:"Aguardar resposta",origem:"Email",tipoOpp:"Novo produto",complex:"Media",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Cubas vinificacao com engenharia inversa"},
+{n:"Irrigacao Alentejo - FarmAgua",cl:"FarmAgua",prods:["Producao Produto"],v:9500,margem:28,prob:60,dt:"15/05/2026",st:"Aguardando decisao",r:"PL",prio:"Media",proxAcao:"Visita obra",origem:"Telefone",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Sistema tanques irrigacao grande escala"},
 {n:"Silos alimentares - MuniTejo",cl:"MuniTejo",prods:["Producao Produto"],v:16000,margem:28,prob:75,dt:"28/04/2026",st:"Adjudicado",r:"PL",prio:"Alta",proxAcao:"Planeamento producao",origem:"Parceiro",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Obrigatorio",desc:"Silos armazenamento alimentar"},
 {n:"Separadores gordura - BuildMax",cl:"BuildMax",prods:["Producao de Molde","Producao Produto"],v:14000,margem:36,prob:90,dt:"18/04/2026",st:"Adjudicado",r:"RS",prio:"Media",proxAcao:"Handover operacoes",origem:"Site",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Separadores gordura construcao civil"},
 {n:"Depositos quimicos - HidroSul",cl:"HidroSul",prods:["Producao Produto"],v:24500,margem:40,prob:100,dt:"15/03/2026",st:"Fechado - Ganho",r:"PL",prio:"Alta",origem:"Referencia",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Obrigatorio",desc:"Depositos quimicos estacao tratamento"},
+{n:"Tanques tratamento - HidroSul",cl:"HidroSul",prods:["Producao Produto"],v:24000,margem:38,prob:100,dt:"20/02/2026",st:"Fechado - Ganho",r:"PL",prio:"Media",origem:"Referencia",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Tanques tratamento 3000L segunda encomenda"},
+{n:"Tanques quimicos - ChemTank v1",cl:"ChemTank PT",prods:["Producao Produto"],v:22000,margem:42,prob:100,dt:"10/01/2026",st:"Fechado - Ganho",r:"RS",prio:"Alta",origem:"Email",tipoOpp:"Produto existente",complex:"Media",tipoForn:"Producao Rotovedras",tipoPrazo:"Obrigatorio",desc:"Primeira encomenda tanques quimicos"},
 {n:"Reservatorios - PlastiForm",cl:"PlastiForm",prods:["Desenvolvimento de Molde","Producao Produto"],v:15000,margem:25,prob:0,dt:"01/04/2026",st:"Fechado - Perdido",r:"RS",prio:"Media",motivo:"Concorrente com melhor proposta",origem:"Site",tipoOpp:"Novo produto",complex:"Alta",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Reservatorios grande capacidade"}
-],
+]],
 colaboradores:[
 {id:"RS",nome:"Ricardo Silva",cargo:"Comercial Senior",dept:"Comercial",em:"ricardo.silva@rotovedras.pt",tel:"917111222",ativo:true,cor:"#EEEDFE",corTxt:"#3C3489"},
 {id:"PL",nome:"Paula Lima",cargo:"Comercial",dept:"Comercial",em:"paula.lima@rotovedras.pt",tel:"918333444",ativo:true,cor:"#E1F5EE",corTxt:"#085041"},
 {id:"MC",nome:"Manuel Costa",cargo:"Diretor Comercial",dept:"Direcao Comercial",em:"manuel.costa@rotovedras.pt",tel:"916555666",ativo:true,cor:"#FAEEDA",corTxt:"#633806"},
 {id:"VR",nome:"Vania Rodrigues",cargo:"Gestora Planeamento",dept:"Planeamento",em:"vania.rodrigues@rotovedras.pt",tel:"914777888",ativo:true,cor:"#FAECE7",corTxt:"#712B13"},
-{id:"AS",nome:"Andre Santos",cargo:"Engenheiro Produto",dept:"Engenharia",em:"andre.santos@rotovedras.pt",tel:"915999000",ativo:true,cor:"#E6F1FB",corTxt:"#0C447C"}
-],
+{id:"AS",nome:"Andre Santos",cargo:"Engenheiro Produto",dept:"Engenharia",em:"andre.santos@rotovedras.pt",tel:"915999000",ativo:true,cor:"#E6F1FB",corTxt:"#0C447C"},
+{id:"DS",nome:"Diana Sousa",cargo:"Designer Industrial",dept:"Engenharia",em:"diana.sousa@rotovedras.pt",tel:"913222333",ativo:true,cor:"#FCEBEB",corTxt:"#791F1F"},
+{id:"LG",nome:"Luis Gomes",cargo:"Resp. Supply Chain",dept:"Supply Chain",em:"luis.gomes@rotovedras.pt",tel:"917444555",ativo:true,cor:"#EAF3DE",corTxt:"#27500A"},
+{id:"CF",nome:"Carla Ferreira",cargo:"Resp. Qualidade",dept:"Qualidade",em:"carla.ferreira@rotovedras.pt",tel:"918666777",ativo:true,cor:"#F1EFE8",corTxt:"#444"},
+{id:"BM",nome:"Bernardo Martins",cargo:"Chefe Producao",dept:"Producao",em:"bernardo.martins@rotovedras.pt",tel:"919888999",ativo:true,cor:"#E1F5EE",corTxt:"#085041"},
+{id:"JP",nome:"Joana Pereira",cargo:"Financeiro",dept:"Financeiro",em:"joana.pereira@rotovedras.pt",tel:"916000111",ativo:true,cor:"#FAEEDA",corTxt:"#633806"}
+]],
 servicos:["Desenvolvimento Produto","Desenvolvimento de Molde","Producao de Molde","Producao Produto","Prototipo","Engenharia Inversa"],
 moldes:[
 {cod:"M-HIDROSUL-001",cliente:"HidroSul",desc:"Deposito quimico 1500L",estado:"Ativo",loc:"Unidade 1 - Torres Vedras",prodRef:"P-HIDROSUL-001",dtEntrada:"10/01/2024"},
-{cod:"M-HIDROSUL-002",cliente:"HidroSul",desc:"Tanque tratamento 3000L",estado:"Em armazem",loc:"Unidade 1 - Torres Vedras",prodRef:"P-HIDROSUL-002",dtEntrada:"15/06/2023"},
+{cod:"M-HIDROSUL-002",cliente:"HidroSul",desc:"Tanque tratamento 3000L",estado:"Ativo",loc:"Unidade 1 - Torres Vedras",prodRef:"P-HIDROSUL-002",dtEntrada:"15/06/2023"},
 {cod:"M-BUILDMAX-001",cliente:"BuildMax",desc:"Separador gordura 500L",estado:"Ativo",loc:"Unidade 2 - Casalinhos",prodRef:"P-BUILDMAX-001",dtEntrada:"20/09/2024"},
 {cod:"M-URBANAQUA-001",cliente:"UrbanAqua",desc:"Contentor RSU 1100L",estado:"Em manutencao",loc:"Unidade 3 - Paul",prodRef:"P-URBANAQUA-001",dtEntrada:"05/03/2025"},
 {cod:"M-GREENPOOL-001",cliente:"GreenPool",desc:"Piscina modular 8m",estado:"Ativo",loc:"Unidade 1 - Torres Vedras",prodRef:"P-GREENPOOL-001",dtEntrada:"12/11/2024"},
 {cod:"M-VINOPORTO-001",cliente:"VinoPorto",desc:"Cuba vinificacao 3000L",estado:"Ativo",loc:"Unidade 2 - Casalinhos",prodRef:"P-VINOPORTO-001",dtEntrada:"01/02/2025"},
-{cod:"M-AGRONORTE-001",cliente:"AgroNorte",desc:"Tanque irrigacao 2000L",estado:"Em armazem",loc:"Unidade 3 - Paul",prodRef:"P-AGRONORTE-001",dtEntrada:"18/07/2023"},
-{cod:"M-AQUAPARK-001",cliente:"AquaPark Lda",desc:"Deposito PEAD 5000L",estado:"Em transito",loc:"Unidade 1 - Torres Vedras",prodRef:"P-AQUAPARK-001",dtEntrada:"28/03/2026"}
-],
+{cod:"M-AGRONORTE-001",cliente:"AgroNorte",desc:"Tanque irrigacao 2000L",estado:"Ativo",loc:"Unidade 3 - Paul",prodRef:"P-AGRONORTE-001",dtEntrada:"18/07/2023"},
+{cod:"M-AQUAPARK-001",cliente:"AquaPark Lda",desc:"Deposito PEAD 5000L",estado:"Ativo",loc:"Unidade 1 - Torres Vedras",prodRef:"P-AQUAPARK-001",dtEntrada:"28/03/2026"},
+{cod:"M-CHEMTANK-001",cliente:"ChemTank PT",desc:"Tanque quimico 500L",estado:"Ativo",loc:"Unidade 2 - Casalinhos",prodRef:"P-CHEMTANK-001",dtEntrada:"15/12/2024"},
+{cod:"M-CHEMTANK-002",cliente:"ChemTank PT",desc:"Tanque quimico 1000L",estado:"Ativo",loc:"Unidade 2 - Casalinhos",prodRef:"P-CHEMTANK-002",dtEntrada:"20/01/2025"},
+{cod:"M-FARMAGUA-001",cliente:"FarmAgua",desc:"Tanque irrigacao 3000L",estado:"Em armazem",loc:"Unidade 3 - Paul",prodRef:"P-FARMAGUA-001",dtEntrada:"05/08/2024"},
+{cod:"M-MUNITEJO-001",cliente:"MuniTejo",desc:"Silo alimentar 4000L",estado:"Em transito",loc:"Unidade 3 - Paul",prodRef:"P-MUNITEJO-001",dtEntrada:"01/04/2026"},
+{cod:"M-HIDROSUL-003",cliente:"HidroSul",desc:"Separador oleos 800L",estado:"Ativo",loc:"Unidade 1 - Torres Vedras",prodRef:"P-HIDROSUL-003",dtEntrada:"20/03/2025"},
+{cod:"M-PLASTIFORM-001",cliente:"PlastiForm",desc:"Reservatorio 10000L",estado:"Abatido",loc:"Unidade 1 - Torres Vedras",prodRef:"P-PLASTIFORM-001",dtEntrada:"10/06/2022"},
+{cod:"M-AGRONORTE-002",cliente:"AgroNorte",desc:"Bebedouro animal 200L",estado:"Ativo",loc:"Unidade 3 - Paul",prodRef:"P-AGRONORTE-002",dtEntrada:"01/09/2023"}
+]],
 produtosFicha:[
 {ref:"P-HIDROSUL-001",nome:"Deposito quimico 1500L",cliente:"HidroSul",molde:"M-HIDROSUL-001",peso:"45 kg",material:"PEAD",cor:"Natural",dim:"1200x1200x1500mm",tempoCiclo:"18 min",unidProd:"Unidade 1",precoUnit:"850 EUR",ficha:""},
 {ref:"P-HIDROSUL-002",nome:"Tanque tratamento 3000L",cliente:"HidroSul",molde:"M-HIDROSUL-002",peso:"82 kg",material:"PEAD",cor:"Preto",dim:"1500x1500x2000mm",tempoCiclo:"25 min",unidProd:"Unidade 1",precoUnit:"1.400 EUR",ficha:""},
@@ -296,11 +367,16 @@ ofs:[
 {num:"OF-2026-002",cliente:"BuildMax",produto:"Separador gordura 500L",molde:"M-BUILDMAX-001",qtd:30,dtEntrega:"18/04/2026",estado:"Acabamentos",unidade:"Unidade 2",forno:"Forno 3",braco:"Braco A",r:"VR",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Concluido"},{tipo:"Soldadura plastica",estado:"Em curso"},{tipo:"Pintura/decoracao",estado:"Pendente"}]},
 {num:"OF-2026-003",cliente:"GreenPool",produto:"Piscina modular 8m",molde:"M-GREENPOOL-001",qtd:5,dtEntrega:"10/05/2026",estado:"Planeamento",unidade:"Unidade 1",forno:"Forno 2",braco:"Braco B",r:"VR",prio:"Alta",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Montagem acessorios",estado:"Pendente"},{tipo:"Testes estanquicidade",estado:"Pendente"}]},
 {num:"OF-2026-004",cliente:"VinoPorto",produto:"Cuba vinificacao 3000L",molde:"M-VINOPORTO-001",qtd:20,dtEntrega:"25/04/2026",estado:"Setup",unidade:"Unidade 2",forno:"Forno 4",braco:"Braco A",r:"VR",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Soldadura plastica",estado:"Pendente"}]},
-{num:"OF-2026-005",cliente:"MuniTejo",produto:"Silos alimentares 4000L",molde:"M-AQUAPARK-001",qtd:15,dtEntrega:"28/04/2026",estado:"Validacao tecnica",unidade:"Unidade 3",forno:"",braco:"",r:"AS",prio:"Alta",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Montagem acessorios",estado:"Pendente"}]},
+{num:"OF-2026-005",cliente:"MuniTejo",produto:"Silo alimentar 4000L",molde:"M-MUNITEJO-001",qtd:15,dtEntrega:"28/04/2026",estado:"Validacao tecnica",unidade:"Unidade 3",forno:"",braco:"",r:"AS",prio:"Alta",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Montagem acessorios",estado:"Pendente"}]},
 {num:"OF-2026-006",cliente:"UrbanAqua",produto:"Contentor RSU 1100L",molde:"M-URBANAQUA-001",qtd:100,dtEntrega:"20/05/2026",estado:"OF criada",unidade:"Unidade 3",forno:"",braco:"",r:"VR",prio:"Alta",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Pintura/decoracao",estado:"Pendente"},{tipo:"Montagem acessorios",estado:"Pendente"},{tipo:"Testes estanquicidade",estado:"Pendente"}]},
 {num:"OF-2026-007",cliente:"AgroNorte",produto:"Tanque irrigacao 2000L",molde:"M-AGRONORTE-001",qtd:25,dtEntrega:"15/05/2026",estado:"QC/Inspecao",unidade:"Unidade 3",forno:"Forno 7",braco:"Braco A",r:"VR",prio:"Baixa",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Concluido"},{tipo:"Testes estanquicidade",estado:"Concluido"}]},
-{num:"OF-2026-008",cliente:"AquaPark Lda",produto:"Deposito PEAD 5000L",molde:"M-AQUAPARK-001",qtd:10,dtEntrega:"30/04/2026",estado:"Expedicao",unidade:"Unidade 1",forno:"Forno 1",braco:"Braco B",r:"VR",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Concluido"},{tipo:"Montagem acessorios",estado:"Concluido"},{tipo:"Testes estanquicidade",estado:"Concluido"}]}
-]
+{num:"OF-2026-008",cliente:"AquaPark Lda",produto:"Deposito PEAD 5000L",molde:"M-AQUAPARK-001",qtd:10,dtEntrega:"30/04/2026",estado:"Expedicao",unidade:"Unidade 1",forno:"Forno 1",braco:"Braco B",r:"VR",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Concluido"},{tipo:"Montagem acessorios",estado:"Concluido"},{tipo:"Testes estanquicidade",estado:"Concluido"}]},
+{num:"OF-2026-009",cliente:"ChemTank PT",produto:"Tanque quimico 500L",molde:"M-CHEMTANK-001",qtd:40,dtEntrega:"05/05/2026",estado:"Em producao",unidade:"Unidade 2",forno:"Forno 3",braco:"Braco B",r:"BM",prio:"Alta",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Testes estanquicidade",estado:"Pendente"}]},
+{num:"OF-2026-010",cliente:"HidroSul",produto:"Tanque tratamento 3000L",molde:"M-HIDROSUL-002",qtd:20,dtEntrega:"12/05/2026",estado:"Em producao",unidade:"Unidade 1",forno:"Forno 2",braco:"Braco A",r:"BM",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Montagem acessorios",estado:"Pendente"},{tipo:"Testes estanquicidade",estado:"Pendente"}]},
+{num:"OF-2026-011",cliente:"AgroNorte",produto:"Bebedouro animal 200L",molde:"M-AGRONORTE-002",qtd:100,dtEntrega:"20/05/2026",estado:"Planeamento",unidade:"Unidade 3",forno:"Forno 8",braco:"Braco A",r:"VR",prio:"Baixa",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"}]},
+{num:"OF-2026-012",cliente:"HidroSul",produto:"Separador oleos 800L",molde:"M-HIDROSUL-003",qtd:15,dtEntrega:"08/05/2026",estado:"Setup",unidade:"Unidade 1",forno:"Forno 1",braco:"Braco B",r:"BM",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Montagem acessorios",estado:"Pendente"},{tipo:"Testes estanquicidade",estado:"Pendente"}]},
+{num:"OF-2026-013",cliente:"FarmAgua",produto:"Tanque irrigacao 3000L",molde:"M-FARMAGUA-001",qtd:12,dtEntrega:"25/05/2026",estado:"OF criada",unidade:"Unidade 3",forno:"",braco:"",r:"VR",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Testes estanquicidade",estado:"Pendente"}]}
+]]
 };
 
 // ==================== HELPERS ====================
@@ -314,8 +390,8 @@ function getColabOpts(){return DATA.colaboradores.filter(function(c){return c.at
 function getColabId(val){return val?val.split(' - ')[0]:val}
 
 // ==================== NAVIGATION ====================
-var tabGroups={dashboard:['dashboard'],crm:['leads','contactos','oportunidades','propostas','clientes','classificacao','colaboradores'],produtos:['moldes','ep_bom','stk_inventario'],operacoes:['ops_enc_cliente','ops_enc_internas'],supplychain:['sc_compras','sc_compras_eng','sc_logistica'],producao:['producao'],engenharia:['eng_projetos'],qualidade:['ql_rececao','ql_nc','ql_auditorias'],financeiro:['fin_faturacao','fin_receber','fin_pagar','fin_margens'],outros:['concursos','it_suporte','com_fichas']}
-var tabLabels={dashboard:'Dashboard',leads:'Leads',contactos:'Contactos',oportunidades:'Oportunidades',propostas:'Propostas',clientes:'Clientes',classificacao:'Classificacao',colaboradores:'Colaboradores',moldes:'Artigos & Moldes',ep_bom:'BOM',stk_inventario:'Inventario',ops_enc_cliente:'Enc. cliente',ops_enc_internas:'Enc. internas',sc_compras:'Compras',sc_compras_eng:'Compras eng.',sc_logistica:'Logistica',producao:'Producao',eng_projetos:'Projetos',ql_rececao:'Controlo rececao',ql_nc:'Nao conformidades',ql_auditorias:'Auditorias',fin_faturacao:'Faturacao',fin_receber:'Contas a receber',fin_pagar:'Contas a pagar',fin_margens:'Controlo margens',concursos:'Concursos publicos',it_suporte:'IT Suporte',com_fichas:'Comunicacao'}
+var tabGroups={dashboard:['dashboard'],crm:['leads','contactos','oportunidades','propostas','clientes','classificacao','colaboradores'],produtos:['moldes','ep_bom','stk_inventario'],operacoes:['ops_enc_cliente','ops_enc_internas'],supplychain:['sc_compras','sc_compras_eng','sc_logistica'],producao:['producao'],engenharia:['eng_projetos'],qualidade:['ql_rececao','ql_nc','ql_auditorias'],financeiro:['fin_faturacao','fin_receber','fin_pagar','fin_margens'],outros:['concursos','it_suporte','com_fichas','permissoes']}
+var tabLabels={dashboard:'Dashboard',leads:'Leads',contactos:'Contactos',oportunidades:'Oportunidades',propostas:'Propostas',clientes:'Clientes',classificacao:'Classificacao',colaboradores:'Colaboradores',moldes:'Artigos & Moldes',ep_bom:'BOM',stk_inventario:'Inventario',ops_enc_cliente:'Enc. cliente',ops_enc_internas:'Enc. internas',sc_compras:'Compras',sc_compras_eng:'Compras eng.',sc_logistica:'Logistica',producao:'Producao',eng_projetos:'Projetos',ql_rececao:'Controlo rececao',ql_nc:'Nao conformidades',ql_auditorias:'Auditorias',fin_faturacao:'Faturacao',fin_receber:'Contas a receber',fin_pagar:'Contas a pagar',fin_margens:'Controlo margens',concursos:'Concursos publicos',permissoes:'Permissoes',it_suporte:'IT Suporte',com_fichas:'Comunicacao'}
 function switchTab(tab){
 document.querySelectorAll('.board').forEach(function(x){x.classList.remove('active')});
 document.querySelectorAll('.sidebar-item').forEach(function(x){x.classList.remove('active')});
@@ -325,8 +401,8 @@ document.getElementById('headerLabel').textContent=tabLabels[tab]||tab;
 var group=null;Object.keys(tabGroups).forEach(function(g){if(tabGroups[g].indexOf(tab)>-1)group=g});
 var topTabs=document.getElementById('topTabs');
 if(group&&tabGroups[group].length>1){topTabs.style.display='flex';topTabs.innerHTML=tabGroups[group].map(function(t){return '<button class="tab'+(t===tab?' active':'')+'" onclick="switchTab(\''+t+'\')">'+tabLabels[t]+'</button>'}).join('')}else{topTabs.style.display='none'}
-if(tab==='dashboard')renderDashboard();if(tab==='leads')renderLeads();if(tab==='contactos')renderContactos();if(tab==='oportunidades')renderOpps();if(tab==='clientes')renderClientes();if(tab==='classificacao')renderClf();if(tab==='moldes')renderMoldes();if(tab==='colaboradores')renderColaboradores();if(tab==='producao')renderProducao();if(tab==='propostas')renderPropostas();if(tab==='eng_projetos')renderEngenharia();
-if(tab==='propostas')renderPropostas();if(tab==='eng_projetos')renderEngenharia();
+if(tab==='dashboard')renderDashboard();if(tab==='leads')renderLeads();if(tab==='contactos')renderContactos();if(tab==='oportunidades')renderOpps();if(tab==='clientes')renderClientes();if(tab==='classificacao')renderClf();if(tab==='moldes')renderMoldes();if(tab==='colaboradores')renderColaboradores();if(tab==='producao')renderProducao();if(tab==='propostas')renderPropostas();if(tab==='eng_projetos')renderEngenharia();if(tab==='permissoes')renderPermissoes();if(tab==='ops_enc_cliente')renderEncCliente();if(tab==='ops_enc_internas')renderEncInternas();
+if(tab==='propostas')renderPropostas();if(tab==='eng_projetos')renderEngenharia();if(tab==='permissoes')renderPermissoes();if(tab==='ops_enc_cliente')renderEncCliente();if(tab==='ops_enc_internas')renderEncInternas();
 }
 document.querySelectorAll('.sidebar-item[data-tab]').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
 function toggleGroup(id){document.getElementById(id).classList.toggle('collapsed')}
@@ -1620,6 +1696,129 @@ h+='</div></div>';
 document.getElementById('propostasContent').innerHTML=h;
 }
 function togglePropDetail(id){var el=document.getElementById(id);if(el)el.style.display=el.style.display==='none'?'block':'none'}
+
+
+// ==================== PERMISSIONS ====================
+var PROFILES={
+admin:{nome:'Administrador',desc:'Acesso total a todas as areas',acesso:['*'],nivel:'total'},
+dir_comercial:{nome:'Diretor Comercial',desc:'Gestao completa da area comercial',acesso:['dashboard','leads','contactos','oportunidades','propostas','clientes','classificacao','colaboradores','concursos'],nivel:'departamento'},
+comercial:{nome:'Comercial',desc:'Ve apenas os seus leads, oportunidades e clientes',acesso:['dashboard','leads','contactos','oportunidades','propostas','clientes'],nivel:'proprio',filtro:'r'},
+dir_producao:{nome:'Diretor Producao',desc:'Gestao completa da producao e planeamento',acesso:['dashboard','producao','moldes','ops_enc_cliente','ops_enc_internas'],nivel:'departamento'},
+operador:{nome:'Operador Producao',desc:'Ve apenas as OFs alocadas a si',acesso:['producao'],nivel:'proprio',filtro:'r'},
+engenheiro:{nome:'Engenheiro',desc:'Projetos engenharia, produtos e moldes',acesso:['dashboard','eng_projetos','moldes'],nivel:'departamento'},
+supply:{nome:'Supply Chain',desc:'Compras, logistica e encomendas',acesso:['dashboard','sc_compras','sc_compras_eng','sc_logistica','ops_enc_cliente','ops_enc_internas','stk_inventario'],nivel:'departamento'},
+qualidade:{nome:'Qualidade',desc:'Controlo qualidade, NC e auditorias',acesso:['dashboard','ql_rececao','ql_nc','ql_auditorias'],nivel:'departamento'},
+financeiro:{nome:'Financeiro',desc:'Faturacao, contas e margens',acesso:['dashboard','fin_faturacao','fin_receber','fin_pagar','fin_margens','propostas'],nivel:'departamento'}
+};
+var currentProfile='admin';
+function setUserProfile(p){
+currentProfile=p;var prof=PROFILES[p];
+document.getElementById('userProfileName').textContent=prof.nome;
+document.querySelector('.user-bar span:last-child').textContent=prof.nivel==='total'?'Acesso total':prof.nivel==='departamento'?'Acesso departamental':'Acesso restrito (proprio)';
+// Show/hide sidebar items
+document.querySelectorAll('.sidebar-item[data-tab]').forEach(function(item){
+var tab=item.getAttribute('data-tab');
+if(prof.acesso[0]==='*')item.style.display='';
+else item.style.display=prof.acesso.indexOf(tab)>-1?'':'none';
+});
+// Always show permissoes for admin
+if(p==='admin')document.querySelectorAll('.sidebar-item[data-tab="permissoes"]').forEach(function(i){i.style.display=''});
+switchTab('dashboard');
+}
+
+function renderPermissoes(){
+var h='<div style="font-size:14px;font-weight:700;margin-bottom:5px">Gestao de permissoes</div>';
+h+='<div style="font-size:12px;color:var(--text-sec);margin-bottom:16px">Perfis de acesso por funcao. Selecione um perfil na barra superior para simular.</div>';
+h+='<div class="perm-grid">';
+Object.keys(PROFILES).forEach(function(k){
+var p=PROFILES[k];var isActive=currentProfile===k;
+var borderColor=isActive?'var(--accent)':'var(--border-light)';
+var borderWidth=isActive?'2px':'1px';
+h+='<div class="perm-card" style="border:'+borderWidth+' solid '+borderColor+'">';
+h+='<div class="perm-card-title">'+p.nome;
+if(isActive)h+=' <span class="perm-badge" style="background:rgba(80,158,203,.1);color:var(--accent)">Ativo</span>';
+h+='</div>';
+h+='<div style="font-size:10px;color:var(--text-sec);margin-bottom:8px">'+p.desc+'</div>';
+h+='<div style="font-size:10px;margin-bottom:6px"><span class="perm-badge" style="background:'+(p.nivel==='total'?'#EAF3DE;color:#27500A':p.nivel==='departamento'?'#E6F1FB;color:#0C447C':'#FAEEDA;color:#633806')+'">'+p.nivel+'</span></div>';
+h+='<div class="perm-list">';
+var allTabs=['dashboard','leads','contactos','oportunidades','propostas','clientes','classificacao','colaboradores','moldes','producao','eng_projetos','ops_enc_cliente','ops_enc_internas','sc_compras','sc_logistica','ql_rececao','ql_nc','fin_faturacao','fin_margens','concursos','permissoes'];
+var tabNames={dashboard:'Dashboard',leads:'Leads',contactos:'Contactos',oportunidades:'Oportunidades',propostas:'Propostas',clientes:'Clientes',classificacao:'Classificacao',colaboradores:'Colaboradores',moldes:'Artigos/Moldes',producao:'Producao',eng_projetos:'Engenharia',ops_enc_cliente:'Enc. cliente',ops_enc_internas:'Enc. internas',sc_compras:'Compras',sc_logistica:'Logistica',ql_rececao:'Qualidade',ql_nc:'Nao conformidades',fin_faturacao:'Faturacao',fin_margens:'Margens',concursos:'Concursos',permissoes:'Permissoes'};
+allTabs.forEach(function(t){
+var hasAccess=p.acesso[0]==='*'||p.acesso.indexOf(t)>-1;
+h+='<div class="perm-item"><span class="'+(hasAccess?'perm-check':'perm-x')+'">'+(hasAccess?'&#10003;':'&#10007;')+'</span>'+(tabNames[t]||t)+'</div>';
+});
+h+='</div></div>';
+});
+h+='</div>';
+document.getElementById('permContent').innerHTML=h;
+}
+
+// ==================== ENCOMENDAS ====================
+DATA.encCliente=[
+{id:"ENC-2026-001",cliente:"HidroSul",proposta:"PROP-2026-001",dtEncomenda:"20/03/2026",dtEntregaPrev:"30/04/2026",status:"Em producao",valor:24500,itens:3,of:"OF-2026-001",r:"RS",notas:"Primeira encomenda 2026"},
+{id:"ENC-2026-002",cliente:"BuildMax",proposta:"PROP-2026-004",dtEncomenda:"25/03/2026",dtEntregaPrev:"18/04/2026",status:"Em producao",valor:14000,itens:2,of:"OF-2026-002",r:"RS",notas:"Separadores para obra Almada"},
+{id:"ENC-2026-003",cliente:"AquaPark Lda",proposta:"-",dtEncomenda:"01/04/2026",dtEntregaPrev:"30/04/2026",status:"Expedida",valor:12000,itens:1,of:"OF-2026-008",r:"RS",notas:"Depositos 5000L - entregues"},
+{id:"ENC-2026-004",cliente:"MuniTejo",proposta:"-",dtEncomenda:"05/04/2026",dtEntregaPrev:"28/04/2026",status:"Em producao",valor:16000,itens:1,of:"OF-2026-005",r:"PL",notas:"Silos alimentares - prazo critico"},
+{id:"ENC-2026-005",cliente:"ChemTank PT",proposta:"-",dtEncomenda:"10/04/2026",dtEntregaPrev:"05/05/2026",status:"Em producao",valor:22000,itens:1,of:"OF-2026-009",r:"RS",notas:"Tanques quimicos - prioridade alta"},
+{id:"ENC-2026-006",cliente:"HidroSul",proposta:"-",dtEncomenda:"15/03/2026",dtEntregaPrev:"12/05/2026",status:"Em producao",valor:24000,itens:1,of:"OF-2026-010",r:"PL",notas:"Segunda encomenda tanques tratamento"},
+{id:"ENC-2026-007",cliente:"AgroNorte",proposta:"-",dtEncomenda:"20/03/2026",dtEntregaPrev:"15/05/2026",status:"QC",valor:5000,itens:1,of:"OF-2026-007",r:"PL",notas:"Tanques irrigacao - em inspecao"},
+{id:"ENC-2026-008",cliente:"VinoPorto",proposta:"-",dtEncomenda:"28/03/2026",dtEntregaPrev:"25/04/2026",status:"Confirmada",valor:15000,itens:1,of:"OF-2026-004",r:"RS",notas:"Cubas vinificacao - setup iniciado"},
+{id:"ENC-2026-009",cliente:"UrbanAqua",proposta:"PROP-2026-002",dtEncomenda:"08/04/2026",dtEntregaPrev:"20/05/2026",status:"Confirmada",valor:28000,itens:3,of:"OF-2026-006",r:"RS",notas:"Contentores RSU - aguarda molde"},
+{id:"ENC-2026-010",cliente:"GreenPool",proposta:"PROP-2026-003",dtEncomenda:"09/04/2026",dtEntregaPrev:"10/06/2026",status:"Nova",valor:32000,itens:4,of:"-",r:"PL",notas:"Piscinas modulares - aguarda planeamento"}
+];
+DATA.encInternas=[
+{id:"EI-2026-001",origem:"Rotovedras",destino:"Producao",ref:"ENC-2026-001",produto:"Deposito quimico 1500L x50",status:"Em execucao",dtCriacao:"20/03/2026",dtPrevista:"25/04/2026",valor:24500},
+{id:"EI-2026-002",origem:"Rotovedras",destino:"Producao",ref:"ENC-2026-002",produto:"Separador gordura 500L x30",status:"Em execucao",dtCriacao:"25/03/2026",dtPrevista:"15/04/2026",valor:14000},
+{id:"EI-2026-003",origem:"Rotovedras",destino:"Producao",ref:"ENC-2026-004",produto:"Silo alimentar 4000L x15",status:"Em validacao",dtCriacao:"05/04/2026",dtPrevista:"24/04/2026",valor:16000},
+{id:"EI-2026-004",origem:"Rotovedras",destino:"Producao",ref:"ENC-2026-005",produto:"Tanque quimico 500L x40",status:"Em execucao",dtCriacao:"10/04/2026",dtPrevista:"02/05/2026",valor:22000},
+{id:"EI-2026-005",origem:"Rotovedras",destino:"Supply Chain",ref:"ENC-2026-009",produto:"Kit rodas+travao x100 + Tampas x100",status:"Encomendado fornecedor",dtCriacao:"08/04/2026",dtPrevista:"18/04/2026",valor:4300},
+{id:"EI-2026-006",origem:"Rotovedras",destino:"Engenharia",ref:"ENG-2026-001",produto:"Projeto molde flotador EcoJardins",status:"Em curso",dtCriacao:"15/02/2026",dtPrevista:"30/04/2026",valor:3500},
+{id:"EI-2026-007",origem:"Rotovedras",destino:"Supply Chain",ref:"ENC-2026-008",produto:"Acessorios cuba vinificacao x20",status:"Recebido",dtCriacao:"28/03/2026",dtPrevista:"10/04/2026",valor:1200}
+];
+
+var encStColors={Nova:'#509ECB',Confirmada:'#7F77DD','Em producao':'#1D9E75',QC:'#BA7517',Expedida:'#639922',Entregue:'#888',Cancelada:'#A32D2D'};
+var eiStColors={'Em validacao':'#509ECB','Encomendado fornecedor':'#7F77DD','Em execucao':'#1D9E75','Em curso':'#BA7517',Recebido:'#639922',Concluido:'#888'};
+
+function renderEncCliente(){
+var byStatus={};DATA.encCliente.forEach(function(e){(byStatus[e.status]||(byStatus[e.status]=[])).push(e)});
+var totalVal=DATA.encCliente.reduce(function(a,e){return a+e.valor},0);
+var emProd=DATA.encCliente.filter(function(e){return e.status==='Em producao'});
+var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
+h+='<div class="metric"><div class="metric-label">Total encomendas</div><div class="metric-val">'+DATA.encCliente.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Valor total</div><div class="metric-val">'+euro(totalVal)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Em producao</div><div class="metric-val">'+emProd.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Expedidas</div><div class="metric-val">'+DATA.encCliente.filter(function(e){return e.status==='Expedida'}).length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Novas</div><div class="metric-val">'+(byStatus.Nova?byStatus.Nova.length:0)+'</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="alert(\'Gerar a partir de proposta adjudicada\')">+ Nova encomenda</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'ops_enc_cliente\')"></div>';
+['Nova','Confirmada','Em producao','QC','Expedida','Entregue','Cancelada'].forEach(function(st){
+var items=byStatus[st];if(!items||!items.length)return;
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+(encStColors[st]||'#888')+'"></div><div class="group-name">'+st+'</div><div class="group-count">'+items.length+'</div></div>';
+h+='<div class="tbl-wrap"><table style="min-width:900px"><tr><th>Encomenda</th><th>Cliente</th><th>Proposta</th><th>Dt. encomenda</th><th>Dt. entrega</th><th>Valor</th><th>Itens</th><th>OF</th><th>Estado</th><th>Resp.</th></tr>';
+items.forEach(function(e){
+h+='<tr><td style="font-weight:600;font-family:monospace">'+e.id+'</td><td><span class="conn">'+e.cliente+'</span></td><td>'+(e.proposta!=='-'?'<span class="conn">'+e.proposta+'</span>':'-')+'</td><td style="font-size:10px">'+e.dtEncomenda+'</td><td style="font-size:10px">'+e.dtEntregaPrev+'</td><td class="val">'+euro(e.valor)+'</td><td>'+e.itens+'</td><td>'+(e.of!=='-'?'<span class="conn">'+e.of+'</span>':'-')+'</td><td><span class="st" style="background:'+(encStColors[e.status]||'#888')+'20;color:'+(encStColors[e.status]||'#888')+'">'+e.status+'</span></td><td>'+av(e.r)+'</td></tr>';
+if(e.notas)h+='<tr><td colspan="10" style="padding:2px 12px 6px;font-size:10px;color:var(--text-ter)">'+e.notas+'</td></tr>';
+});
+h+='</table></div></div>'});
+document.getElementById('encClienteContent').innerHTML=h;
+}
+
+function renderEncInternas(){
+var byStatus={};DATA.encInternas.forEach(function(e){(byStatus[e.status]||(byStatus[e.status]=[])).push(e)});
+var h='<div class="metrics" style="grid-template-columns:repeat(4,1fr)">';
+h+='<div class="metric"><div class="metric-label">Total internas</div><div class="metric-val">'+DATA.encInternas.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Valor total</div><div class="metric-val">'+euro(DATA.encInternas.reduce(function(a,e){return a+e.valor},0))+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Em execucao</div><div class="metric-val">'+DATA.encInternas.filter(function(e){return e.status==='Em execucao'}).length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Concluidas</div><div class="metric-val">'+DATA.encInternas.filter(function(e){return e.status==='Recebido'||e.status==='Concluido'}).length+'</div></div></div>';
+h+='<div style="font-size:12px;color:var(--text-sec);margin-bottom:12px">Encomendas entre departamentos e empresas do grupo: Rotovedras → Producao / Supply Chain / Engenharia</div>';
+['Em validacao','Encomendado fornecedor','Em execucao','Em curso','Recebido','Concluido'].forEach(function(st){
+var items=byStatus[st];if(!items||!items.length)return;
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+(eiStColors[st]||'#888')+'"></div><div class="group-name">'+st+'</div><div class="group-count">'+items.length+'</div></div>';
+h+='<div class="tbl-wrap"><table style="min-width:700px"><tr><th>ID</th><th>Origem</th><th>Destino</th><th>Ref.</th><th>Produto/Servico</th><th>Estado</th><th>Criacao</th><th>Prevista</th><th>Valor</th></tr>';
+items.forEach(function(e){
+h+='<tr><td style="font-weight:600;font-family:monospace">'+e.id+'</td><td>'+e.origem+'</td><td><span class="prod-tag">'+e.destino+'</span></td><td><span class="conn">'+e.ref+'</span></td><td style="font-size:11px">'+e.produto+'</td><td><span class="st" style="background:'+(eiStColors[e.status]||'#888')+'20;color:'+(eiStColors[e.status]||'#888')+'">'+e.status+'</span></td><td style="font-size:10px">'+e.dtCriacao+'</td><td style="font-size:10px">'+e.dtPrevista+'</td><td class="val">'+euro(e.valor)+'</td></tr>'});
+h+='</table></div></div>'});
+document.getElementById('encInternasContent').innerHTML=h;
+}
 
 // ==================== INIT ====================
 renderDashboard();
