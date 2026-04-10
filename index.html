@@ -37,7 +37,7 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 /* Status pills */
 .st{display:inline-block;padding:2px 10px;border-radius:16px;font-size:10px;font-weight:600;white-space:nowrap}
 .st-novo{background:#E1F5EE;color:#085041}.st-contactado{background:#E6F1FB;color:#0C447C}.st-qualificado{background:#EEEDFE;color:#3C3489}.st-naoqualificado{background:#FCEBEB;color:#791F1F}.st-convertido{background:#EAF3DE;color:#27500A}
-.st-novaoportunidade{background:#E6F1FB;color:#0C447C}.st-propostaempreparacao{background:#EEEDFE;color:#3C3489}.st-propostaenviada{background:#FAEEDA;color:#633806}.st-aguardandodecisao{background:#FAECE7;color:#712B13}.st-adjudicado{background:#E1F5EE;color:#085041}.st-fechadoganho{background:#EAF3DE;color:#27500A}.st-fechadoperdido{background:#FCEBEB;color:#791F1F}
+.st-novaoportunidade{background:#E6F1FB;color:#0C447C}.st-propostaempreparacao{background:#EEEDFE;color:#3C3489}.st-propostaenviada{background:#FAEEDA;color:#633806}.st-aguardandodecisao{background:#FAECE7;color:#712B13}.st-adjudicado{background:#E1F5EE;color:#085041}.st-adjudicada{background:#EAF3DE;color:#27500A}.st-enviada{background:#FAEEDA;color:#633806}.st-empreparacao{background:#EEEDFE;color:#3C3489}.st-rascunho{background:#F1EFE8;color:#444}.st-fechadoganho{background:#EAF3DE;color:#27500A}.st-fechadoperdido{background:#FCEBEB;color:#791F1F}
 .st-prospect{background:#E6F1FB;color:#0C447C}.st-potencial{background:#FAEEDA;color:#633806}.st-ativo{background:#EAF3DE;color:#27500A}.st-inativo{background:#F1EFE8;color:#444}.st-suspenso{background:#FCEBEB;color:#791F1F}
 .st-emarmazem{background:#FAEEDA;color:#633806}.st-emmanutencao{background:#FAECE7;color:#712B13}.st-abatido{background:#F1EFE8;color:#444}.st-emtransito{background:#E6F1FB;color:#0C447C}
 .st-encomendarecebida{background:#E6F1FB;color:#0C447C}.st-validacaotecnica{background:#E6F1FB;color:#0C447C}.st-ofcriada{background:#EEEDFE;color:#3C3489}.st-planeamento{background:#EEEDFE;color:#3C3489}.st-setup{background:#FAEEDA;color:#633806}.st-emproducao{background:#E1F5EE;color:#085041}.st-acabamentos{background:#FAECE7;color:#712B13}.st-qcinspecao{background:#FAEEDA;color:#633806}.st-expedicao{background:#EAF3DE;color:#27500A}
@@ -117,25 +117,43 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 <aside class="sidebar">
 <div class="sidebar-brand"><div class="sidebar-logo">R</div><div><div class="sidebar-title">Rotovedras</div><div class="sidebar-subtitle">Grupo Iberpolymers</div></div></div>
 <div class="sidebar-scroll">
-<div class="sidebar-section"><div class="sidebar-label">Comercial</div>
+<div class="sidebar-section"><div class="sidebar-label">CRM</div>
 <div class="sidebar-item active" data-tab="dashboard">&#9632; Dashboard</div>
 <div class="sidebar-item" data-tab="leads">&#9679; Leads</div>
 <div class="sidebar-item" data-tab="contactos">&#9679; Contactos</div>
 <div class="sidebar-item" data-tab="oportunidades">&#9679; Oportunidades</div>
+<div class="sidebar-item" data-tab="propostas">&#9679; Propostas</div>
 <div class="sidebar-item" data-tab="clientes">&#9679; Clientes</div>
 <div class="sidebar-item" data-tab="classificacao">&#9679; Classificacao</div>
 <div class="sidebar-item" data-tab="moldes">&#9679; Moldes &amp; Produtos</div>
 <div class="sidebar-item" data-tab="colaboradores">&#9679; Colaboradores</div>
 </div>
-<div class="sidebar-section"><div class="sidebar-label">Producao</div>
-<div class="sidebar-item" data-tab="producao">&#9679; Ordens Fabrico</div>
+<div class="sidebar-section"><div class="sidebar-label">Estrutura Produto</div>
+<div class="sidebar-item" data-tab="ep_artigos">&#9679; Artigos</div>
+<div class="sidebar-item" data-tab="ep_bom">&#9679; BOM</div>
+</div>
+<div class="sidebar-section"><div class="sidebar-label">Stock</div>
+<div class="sidebar-item" data-tab="stk_inventario">&#9679; Inventario</div>
+</div>
+<div class="sidebar-section"><div class="sidebar-label">Operacoes</div>
+<div class="sidebar-item" data-tab="ops_enc_cliente">&#9679; Encomendas cliente</div>
+<div class="sidebar-item" data-tab="ops_enc_internas">&#9679; Encomendas internas</div>
 </div>
 <div class="sidebar-section"><div class="sidebar-label">Supply Chain</div>
-<div class="sidebar-item" data-tab="sc_planeamento">&#9679; Planeamento</div>
-<div class="sidebar-item" data-tab="sc_encomendas">&#9679; Encomendas</div>
+<div class="sidebar-item" data-tab="sc_compras">&#9679; Compras</div>
+<div class="sidebar-item" data-tab="sc_compras_eng">&#9679; Compras engenharia</div>
+<div class="sidebar-item" data-tab="sc_logistica">&#9679; Logistica</div>
+</div>
+<div class="sidebar-section"><div class="sidebar-label">Producao</div>
+<div class="sidebar-item" data-tab="producao">&#9679; Ordens producao</div>
 </div>
 <div class="sidebar-section"><div class="sidebar-label">Engenharia</div>
 <div class="sidebar-item" data-tab="eng_projetos">&#9679; Projetos</div>
+</div>
+<div class="sidebar-section"><div class="sidebar-label">Qualidade</div>
+<div class="sidebar-item" data-tab="ql_rececao">&#9679; Rececao</div>
+<div class="sidebar-item" data-tab="ql_nc">&#9679; Nao conformidades</div>
+<div class="sidebar-item" data-tab="ql_auditorias">&#9679; Auditorias</div>
 </div>
 <div class="sidebar-section"><div class="sidebar-label">IT</div>
 <div class="sidebar-item" data-tab="it_suporte">&#9679; Pedidos suporte</div>
@@ -150,7 +168,12 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 </div>
 <div class="sidebar-section"><div class="sidebar-label">Financeiro</div>
 <div class="sidebar-item" data-tab="fin_faturacao">&#9679; Faturacao</div>
-<div class="sidebar-item" data-tab="fin_performance">&#9679; Performance</div>
+<div class="sidebar-item" data-tab="fin_receber">&#9679; Receber</div>
+<div class="sidebar-item" data-tab="fin_pagar">&#9679; Pagar</div>
+<div class="sidebar-item" data-tab="fin_margens">&#9679; Margens</div>
+</div>
+<div class="sidebar-section"><div class="sidebar-label">Outros</div>
+<div class="sidebar-item" data-tab="concursos">&#9679; Concursos publicos</div>
 </div>
 </div>
 <div class="sidebar-footer">Rotovedras v2.0 &middot; Mockup Monday.com</div>
@@ -168,18 +191,31 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 <div class="board" id="moldes"><div id="moldesContent"></div></div>
 <div class="board" id="colaboradores"><div id="colabContent"></div></div>
 <div class="board" id="producao"><div id="producaoContent"></div></div>
-<div class="board" id="sc_planeamento"><div class="placeholder-page"><div class="ph-icon">&#9881;</div><div class="ph-title">Supply Chain — Planeamento</div><div class="ph-desc">Planeamento de necessidades, capacidade produtiva e calendarizacao.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="sc_encomendas"><div class="placeholder-page"><div class="ph-icon">&#9993;</div><div class="ph-title">Supply Chain — Encomendas</div><div class="ph-desc">Gestao de encomendas a fornecedores, entregas e recepcao.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="eng_projetos"><div class="placeholder-page"><div class="ph-icon">&#9998;</div><div class="ph-title">Engenharia — Projetos</div><div class="ph-desc">Gestao de projetos de engenharia, desenvolvimento produto e molde.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="it_suporte"><div class="placeholder-page"><div class="ph-icon">&#9743;</div><div class="ph-title">IT — Pedidos de suporte</div><div class="ph-desc">Tickets de suporte tecnico interno, incidentes e resolucao.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="it_politicas"><div class="placeholder-page"><div class="ph-icon">&#9670;</div><div class="ph-title">IT — Politicas</div><div class="ph-desc">Politicas de seguranca, utilizacao de equipamentos e procedimentos.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="it_faqs"><div class="placeholder-page"><div class="ph-icon">&#10067;</div><div class="ph-title">IT — FAQs</div><div class="ph-desc">Perguntas frequentes sobre sistemas, acessos, VPN e equipamentos.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="it_equipamentos"><div class="placeholder-page"><div class="ph-icon">&#9000;</div><div class="ph-title">IT — Aquisicao de equipamentos</div><div class="ph-desc">Requisicao de hardware, software e licencas com fluxo de aprovacao.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="com_fichas"><div class="placeholder-page"><div class="ph-icon">&#9783;</div><div class="ph-title">Comunicacao — Fichas tecnicas</div><div class="ph-desc">Repositorio de fichas tecnicas de produtos e especificacoes.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="com_catalogos"><div class="placeholder-page"><div class="ph-icon">&#9776;</div><div class="ph-title">Comunicacao — Catalogos</div><div class="ph-desc">Catalogos comerciais, brochuras e material de comunicacao.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="com_merch"><div class="placeholder-page"><div class="ph-icon">&#9733;</div><div class="ph-title">Comunicacao — Merchandising</div><div class="ph-desc">Requisicao de material promocional, brindes e fardamento.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="fin_faturacao"><div class="placeholder-page"><div class="ph-icon">&#8364;</div><div class="ph-title">Financeiro — Faturacao</div><div class="ph-desc">Acompanhamento de faturacao, pagamentos e recebimentos.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="fin_performance"><div class="placeholder-page"><div class="ph-icon">&#9650;</div><div class="ph-title">Financeiro — Performance</div><div class="ph-desc">Dashboards de KPIs financeiros, margens e indicadores de gestao.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="propostas"><div id="propostasContent"></div></div>
+<div class="board" id="ep_artigos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Estrutura Produto — Artigos</div><div class="ph-desc">Catalogo de artigos, codigos, designacoes e ligacoes a moldes/produtos.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ep_bom"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Estrutura Produto — BOM</div><div class="ph-desc">Bill of Materials — lista de componentes e materiais por produto.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="stk_inventario"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Stock — Inventario</div><div class="ph-desc">Controlo de inventario de materias-primas, componentes e produto acabado.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ops_enc_cliente"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Operacoes — Encomendas cliente</div><div class="ph-desc">Gestao de encomendas de cliente, estados e acompanhamento ate expedicao.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ops_enc_internas"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Operacoes — Encomendas internas</div><div class="ph-desc">Encomendas entre empresas do grupo (Ambiconcept-Iberpolymers-Rotovedras).</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="sc_compras"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras</div><div class="ph-desc">Requisicoes de compra, aprovacoes, encomendas a fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="sc_compras_eng"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras engenharia</div><div class="ph-desc">Compras especificas para projetos de engenharia e desenvolvimento.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="sc_logistica"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Logistica</div><div class="ph-desc">Gestao de transportes, expedicoes e recepcao de materiais.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="eng_projetos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Engenharia — Projetos</div><div class="ph-desc">Projetos de engenharia: Fase 0 Intake, Fase 1 Conceito, Fase 2 Desenv. Produto, Fase 3 Desenv. Producao.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ql_rececao"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Rececao</div><div class="ph-desc">Inspecao de materiais e componentes na rececao.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ql_nc"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Nao conformidades</div><div class="ph-desc">Registo e gestao de nao conformidades internas e de fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ql_auditorias"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Auditorias</div><div class="ph-desc">Planeamento e acompanhamento de auditorias internas e externas.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="it_suporte"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">IT — Pedidos suporte</div><div class="ph-desc">Tickets de suporte tecnico interno.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="it_politicas"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">IT — Politicas</div><div class="ph-desc">Documentacao de politicas e procedimentos IT.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="it_faqs"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">IT — FAQs</div><div class="ph-desc">Perguntas frequentes sobre sistemas e equipamentos.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="it_equipamentos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">IT — Aquisicao equipamentos</div><div class="ph-desc">Requisicao de hardware, software e licencas.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="com_fichas"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Comunicacao — Fichas tecnicas</div><div class="ph-desc">Repositorio de fichas tecnicas.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="com_catalogos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Comunicacao — Catalogos</div><div class="ph-desc">Catalogos comerciais e brochuras.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="com_merch"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Comunicacao — Merchandising</div><div class="ph-desc">Requisicao de material promocional.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="fin_faturacao"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Faturacao</div><div class="ph-desc">Acompanhamento de faturacao.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="fin_receber"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Receber</div><div class="ph-desc">Controlo de contas a receber e cobranças.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="fin_pagar"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Pagar</div><div class="ph-desc">Controlo de contas a pagar e fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="fin_margens"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Margens</div><div class="ph-desc">Analise de margens por cliente, produto e projeto.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="concursos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Concursos publicos</div><div class="ph-desc">Gestao de concursos publicos, prazos, documentacao e acompanhamento.</div><div class="ph-status">Em construcao</div></div></div>
 </div></div></div>
 <script>
 
@@ -280,8 +316,8 @@ function getColabOpts(){return DATA.colaboradores.filter(function(c){return c.at
 function getColabId(val){return val?val.split(' - ')[0]:val}
 
 // ==================== NAVIGATION ====================
-var tabGroups={comercial:['dashboard','leads','contactos','oportunidades','clientes','classificacao','moldes','colaboradores'],producao:['producao'],supplychain:['sc_planeamento','sc_encomendas'],engenharia:['eng_projetos'],it:['it_suporte','it_politicas','it_faqs','it_equipamentos'],comunicacao:['com_fichas','com_catalogos','com_merch'],financeiro:['fin_faturacao','fin_performance']};
-var tabLabels={dashboard:'Dashboard',leads:'Leads',contactos:'Contactos',oportunidades:'Oportunidades',clientes:'Clientes',classificacao:'Classificacao',moldes:'Moldes & Produtos',colaboradores:'Colaboradores',producao:'Producao',sc_planeamento:'Planeamento',sc_encomendas:'Encomendas',eng_projetos:'Projetos',it_suporte:'Suporte',it_politicas:'Politicas',it_faqs:'FAQs',it_equipamentos:'Equipamentos',com_fichas:'Fichas tecnicas',com_catalogos:'Catalogos',com_merch:'Merchandising',fin_faturacao:'Faturacao',fin_performance:'Performance'};
+var tabGroups={crm:['dashboard','leads','contactos','oportunidades','propostas','clientes','classificacao','moldes','colaboradores'],estrutura:['wp_artigos','wp_bom'],stock:['wp_inventario'],operacoes:['wp_enc_cliente','wp_enc_internas'],supplychain:['sc_compras','sc_compras_eng','sc_logistica'],producao:['producao'],engenharia:['eng_projetos'],qualidade:['qa_rececao','qa_nc','qa_auditorias'],financeiro:['fin_faturacao','fin_receber','fin_pagar','fin_margens'],outros:['concursos','it_suporte','com_fichas','com_catalogos']};
+var tabLabels={dashboard:'Dashboard',leads:'Leads',contactos:'Contactos',oportunidades:'Oportunidades',propostas:'Propostas',clientes:'Clientes',classificacao:'Classificacao',moldes:'Moldes & Produtos',colaboradores:'Colaboradores',wp_artigos:'Artigos',wp_bom:'BOM',wp_inventario:'Inventario',wp_enc_cliente:'Enc. cliente',wp_enc_internas:'Enc. internas',sc_compras:'Compras',sc_compras_eng:'Compras eng.',sc_logistica:'Logistica',producao:'Producao',eng_projetos:'Projetos',qa_rececao:'Rececao',qa_nc:'Nao conform.',qa_auditorias:'Auditorias',fin_faturacao:'Faturacao',fin_receber:'Receber',fin_pagar:'Pagar',fin_margens:'Margens',concursos:'Concursos',it_suporte:'IT',com_fichas:'Fichas tec.',com_catalogos:'Catalogos'};
 function switchTab(tab){
 document.querySelectorAll('.board').forEach(function(x){x.classList.remove('active')});
 document.querySelectorAll('.sidebar-item').forEach(function(x){x.classList.remove('active')});
@@ -291,7 +327,8 @@ document.getElementById('headerLabel').textContent=tabLabels[tab]||tab;
 var group=null;Object.keys(tabGroups).forEach(function(g){if(tabGroups[g].indexOf(tab)>-1)group=g});
 var topTabs=document.getElementById('topTabs');
 if(group&&tabGroups[group].length>1){topTabs.style.display='flex';topTabs.innerHTML=tabGroups[group].map(function(t){return '<button class="tab'+(t===tab?' active':'')+'" onclick="switchTab(\''+t+'\')">'+tabLabels[t]+'</button>'}).join('')}else{topTabs.style.display='none'}
-if(tab==='dashboard')renderDashboard();if(tab==='leads')renderLeads();if(tab==='contactos')renderContactos();if(tab==='oportunidades')renderOpps();if(tab==='clientes')renderClientes();if(tab==='classificacao')renderClf();if(tab==='moldes')renderMoldes();if(tab==='colaboradores')renderColaboradores();if(tab==='producao')renderProducao();
+if(tab==='dashboard')renderDashboard();if(tab==='leads')renderLeads();if(tab==='contactos')renderContactos();if(tab==='oportunidades')renderOpps();if(tab==='clientes')renderClientes();if(tab==='classificacao')renderClf();if(tab==='moldes')renderMoldes();if(tab==='colaboradores')renderColaboradores();if(tab==='producao')renderProducao();if(tab==='propostas')renderPropostas();
+if(tab==='propostas')renderPropostas();
 }
 document.querySelectorAll('.sidebar-item[data-tab]').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
 function toggleGroup(id){document.getElementById(id).classList.toggle('collapsed')}
@@ -620,6 +657,218 @@ var prods=[];DATA.servicos.forEach(function(p,i){var cb=document.getElementById(
 var dr=g('opp_dt');var dt=dr?dr.split('-').reverse().join('/'):'';
 var o={n:g('opp_n'),cl:g('opp_cl'),prods:prods,v:parseInt(g('opp_v'))||0,margem:parseInt(g('opp_mg'))||0,prob:parseInt(g('opp_prob'))||0,dt:dt,st:st,r:getColabId(g('opp_r')),prio:g('opp_prio'),proxAcao:g('opp_pa'),origem:g('opp_origem'),tipoOpp:g('opp_tipo'),complex:g('opp_cx'),tipoForn:g('opp_forn'),tipoPrazo:g('opp_tp'),desc:g('opp_desc')};
 if(st==='Fechado - Perdido')o.motivo=g('opp_motivo');DATA.opps.push(o);closeAddForm();renderOpps()}
+
+// ==================== PROPOSTAS ====================
+DATA.propostas=[
+{id:"PROP-2026-001",cliente:"HidroSul",deal:"Depositos quimicos - HidroSul",versao:2,status:"Adjudicada",valorTotal:24500,linhas:[
+{cod:"ART-001",desig:"Deposito quimico 1500L",qtd:20,custoUnit:510,desconto:0,margem:40,iva:23,prod:"Rotovedras",fornecedor:"",condPag:"30 dias"},
+{cod:"ART-002",desig:"Valvula esfera 2''",qtd:20,custoUnit:12,desconto:5,margem:35,iva:23,prod:"Externo",fornecedor:"ValvTech",condPag:"30 dias"},
+{cod:"ART-003",desig:"Tampa rosca DN400",qtd:20,custoUnit:8,desconto:0,margem:30,iva:23,prod:"Externo",fornecedor:"PlastParts",condPag:"30 dias"}]},
+{id:"PROP-2026-002",cliente:"UrbanAqua",deal:"Contentores RSU - UrbanAqua",versao:1,status:"Enviada",valorTotal:28000,linhas:[
+{cod:"ART-010",desig:"Contentor RSU 1100L",qtd:100,custoUnit:145,desconto:10,margem:38,iva:23,prod:"Rotovedras",fornecedor:"",condPag:"60 dias"},
+{cod:"ART-011",desig:"Kit rodas + tampas",qtd:100,custoUnit:22,desconto:0,margem:25,iva:23,prod:"Externo",fornecedor:"WheelPro",condPag:"60 dias"}]},
+{id:"PROP-2026-003",cliente:"GreenPool",deal:"Piscinas modulares - GreenPool",versao:3,status:"Em preparacao",valorTotal:32000,linhas:[
+{cod:"ART-020",desig:"Piscina modular 8m corpo",qtd:5,custoUnit:1800,desconto:0,margem:45,iva:23,prod:"Rotovedras",fornecedor:"",condPag:"30 dias"},
+{cod:"ART-021",desig:"Kit skimmers + ralo",qtd:5,custoUnit:85,desconto:0,margem:30,iva:23,prod:"Externo",fornecedor:"PoolEquip",condPag:"30 dias"},
+{cod:"ART-022",desig:"Perfis aluminio reforco",qtd:5,custoUnit:220,desconto:5,margem:28,iva:23,prod:"Externo",fornecedor:"AluStruct",condPag:"30 dias"}]},
+{id:"PROP-2026-004",cliente:"VinoPorto",deal:"Cubas vinificacao - VinoPorto",versao:1,status:"Enviada",valorTotal:15000,linhas:[
+{cod:"ART-030",desig:"Cuba vinificacao 3000L",qtd:10,custoUnit:750,desconto:0,margem:32,iva:23,prod:"Rotovedras",fornecedor:"",condPag:"60 dias"}]}
+];
+
+function calcLinha(l){
+var precoBase=l.custoUnit*(1+l.margem/100);
+var precoUnit=precoBase*(1-l.desconto/100);
+var valorLinha=precoUnit*l.qtd;
+var valorIva=valorLinha*(1+l.iva/100);
+return{precoUnit:Math.round(precoUnit*100)/100,valorLinha:Math.round(valorLinha*100)/100,valorIva:Math.round(valorIva*100)/100};
+}
+
+function renderPropostas(){
+var stColors={'Adjudicada':'#639922','Enviada':'#BA7517','Em preparacao':'#7F77DD','Perdida':'#A32D2D','Rascunho':'#888'};
+var totalVal=DATA.propostas.reduce(function(a,p){return a+p.valorTotal},0);
+var env=DATA.propostas.filter(function(p){return p.status==='Enviada'}).length;
+var adj=DATA.propostas.filter(function(p){return p.status==='Adjudicada'}).length;
+
+var h='<div class="metrics" style="grid-template-columns:repeat(4,1fr)"><div class="metric"><div class="metric-label">Total propostas</div><div class="metric-val">'+DATA.propostas.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Valor total</div><div class="metric-val">'+euro(totalVal)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Enviadas</div><div class="metric-val">'+env+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Adjudicadas</div><div class="metric-val">'+adj+'</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="openPropForm()">+ Nova proposta</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'propostas\')"></div>';
+
+DATA.propostas.forEach(function(p,idx){
+var totalCalc=p.linhas.reduce(function(a,l){return a+calcLinha(l).valorLinha},0);
+var totalIva=p.linhas.reduce(function(a,l){return a+calcLinha(l).valorIva},0);
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);margin-bottom:14px;overflow:hidden">';
+// Header
+h+='<div style="padding:14px 16px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap">';
+h+='<span style="font-family:monospace;font-weight:700;font-size:13px">'+p.id+'</span>';
+h+='<span class="st '+stClass(p.status)+'" style="font-size:10px">'+p.status+'</span>';
+h+='<span style="font-size:12px;font-weight:600">'+p.cliente+'</span>';
+h+='<span style="font-size:11px;color:var(--text-sec)">'+p.deal+'</span>';
+h+='<span style="font-size:10px;color:var(--text-ter)">v'+p.versao+'</span>';
+h+='<span style="margin-left:auto;font-size:14px;font-weight:700">'+euro(Math.round(totalCalc))+'</span>';
+h+='<span style="font-size:11px;color:var(--text-sec)">(c/ IVA: '+euro(Math.round(totalIva))+')</span>';
+h+='</div>';
+// Lines table
+h+='<div style="overflow-x:auto"><table style="min-width:1000px"><tr><th>Cod.</th><th>Artigo</th><th>Qtd</th><th>Custo unit.</th><th>Desc.%</th><th>Margem%</th><th>Preco unit.</th><th>Valor linha</th><th>IVA%</th><th>Valor c/IVA</th><th>Producao</th><th>Cond. pag.</th></tr>';
+p.linhas.forEach(function(l){
+var c=calcLinha(l);
+var prodTag=l.prod==='Rotovedras'?'<span class="prod-tag" style="background:#E1F5EE;color:#085041">Rotovedras</span>':'<span class="prod-tag">Externo</span>';
+h+='<tr><td style="font-family:monospace;font-size:10px">'+l.cod+'</td><td style="font-weight:500">'+l.desig+'</td><td class="val">'+l.qtd+'</td>';
+h+='<td>'+euro(l.custoUnit)+'</td><td>'+(l.desconto>0?l.desconto+'%':'-')+'</td><td>'+l.margem+'%</td>';
+h+='<td class="val">'+euro(c.precoUnit)+'</td><td class="val">'+euro(c.valorLinha)+'</td>';
+h+='<td>'+l.iva+'%</td><td class="val">'+euro(c.valorIva)+'</td>';
+h+='<td>'+prodTag+(l.fornecedor?' <span style="font-size:9px;color:var(--text-ter)">'+l.fornecedor+'</span>':'')+'</td>';
+h+='<td style="font-size:10px">'+l.condPag+'</td></tr>';
+});
+// Totals row
+h+='<tr style="background:var(--bg-surface);font-weight:600"><td colspan="7" style="text-align:right;padding:8px 12px">TOTAL</td><td style="padding:8px 12px">'+euro(Math.round(totalCalc))+'</td><td></td><td style="padding:8px 12px">'+euro(Math.round(totalIva))+'</td><td colspan="2"></td></tr>';
+h+='</table></div>';
+// Actions
+h+='<div style="padding:10px 16px;border-top:1px solid var(--border-light);display:flex;gap:6px">';
+if(p.status==='Adjudicada')h+='<button class="btn btn-primary" style="font-size:10px" onclick="alert(\'Criar encomenda a partir de '+p.id+'\')">Criar encomenda</button>';
+h+='<button class="btn" style="font-size:10px" onclick="addLinhaForm('+idx+')">+ Linha</button><button class="btn" style="font-size:10px">Duplicar</button><button class="btn" style="font-size:10px">PDF</button></div>';
+h+='</div>';
+});
+document.getElementById('propostasContent').innerHTML=h;
+}
+
+// ==================== PROPOSAL FORMS ====================
+function openPropForm(){
+var overlay=document.createElement('div');overlay.id='addModal';overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px';
+var cl=DATA.clientes.map(function(c){return c.n});var deals=DATA.opps.map(function(o){return o.n});
+var L='style="display:block;font-size:10px;font-weight:600;color:var(--text-ter);text-transform:uppercase;margin-bottom:3px"';
+var I='style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none"';
+var S='style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text)"';
+var h='<div style="background:var(--bg-card);border-radius:var(--radius-lg);padding:24px;width:100%;max-width:520px;box-shadow:var(--shadow-md)">';
+h+='<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-size:16px;font-weight:700">Nova proposta</div><button onclick="closeAddForm()" style="border:none;background:none;font-size:18px;cursor:pointer;color:var(--text-sec)">&times;</button></div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+h+='<div><label '+L+'>Cliente</label><select id="prop_cl" '+S+'>';cl.forEach(function(c){h+='<option>'+c+'</option>'});h+='</select></div>';
+h+='<div><label '+L+'>Deal / Oportunidade</label><select id="prop_deal" '+S+'><option value="">--</option>';deals.forEach(function(d){h+='<option>'+d+'</option>'});h+='</select></div>';
+h+='<div><label '+L+'>Versao</label><input id="prop_ver" type="number" value="1" '+I+'></div>';
+h+='<div><label '+L+'>Status</label><select id="prop_st" '+S+'><option>Em preparacao</option><option>Enviada</option><option>Adjudicada</option><option>Perdida</option></select></div>';
+h+='</div><div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end"><button class="btn" onclick="closeAddForm()">Cancelar</button><button class="btn btn-primary" onclick="saveProp()">Criar</button></div></div>';
+overlay.innerHTML=h;document.body.appendChild(overlay);overlay.addEventListener('click',function(e){if(e.target===overlay)closeAddForm()});
+}
+function saveProp(){
+var g=function(id){var e=document.getElementById(id);return e?e.value.trim():''};
+if(!g('prop_cl'))return alert('Selecione cliente');
+var id='PROP-2026-'+String(DATA.propostas.length+1).padStart(3,'0');
+DATA.propostas.push({id:id,cliente:g('prop_cl'),deal:g('prop_deal')||'-',versao:parseInt(g('prop_ver'))||1,status:g('prop_st'),valorTotal:0,linhas:[]});
+closeAddForm();renderPropostas();
+}
+function addLinhaForm(pi){
+var overlay=document.createElement('div');overlay.id='addModal';overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px';
+var L='style="display:block;font-size:10px;font-weight:600;color:var(--text-ter);text-transform:uppercase;margin-bottom:3px"';
+var I='style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none"';
+var S='style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:var(--font);background:var(--bg-card);color:var(--text)"';
+var BH='style="font-size:11px;font-weight:600;color:var(--accent);margin:10px 0 5px;text-transform:uppercase"';
+var h='<div style="background:var(--bg-card);border-radius:var(--radius-lg);padding:24px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md)">';
+h+='<div style="display:flex;justify-content:space-between;margin-bottom:16px"><div style="font-size:16px;font-weight:700">Adicionar linha</div><button onclick="closeAddForm()" style="border:none;background:none;font-size:18px;cursor:pointer;color:var(--text-sec)">&times;</button></div>';
+h+='<div '+BH+'>Artigo</div><div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px">';
+h+='<div><label '+L+'>Codigo</label><input id="ln_cod" '+I+' placeholder="ART-XXX"></div>';
+h+='<div><label '+L+'>Designacao</label><input id="ln_desig" '+I+' placeholder="Nome artigo"></div>';
+h+='<div><label '+L+'>Quantidade</label><input id="ln_qtd" type="number" '+I+' value="1"></div></div>';
+h+='<div '+BH+'>Preco</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">';
+h+='<div><label '+L+'>Custo unitario</label><input id="ln_custo" type="number" step="0.01" '+I+' placeholder="0"></div>';
+h+='<div><label '+L+'>Desconto (%)</label><input id="ln_desc" type="number" '+I+' value="0"></div>';
+h+='<div><label '+L+'>Margem (%)</label><input id="ln_margem" type="number" '+I+' value="30"></div></div>';
+h+='<div '+BH+'>Fiscal &amp; Fornecimento</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px">';
+h+='<div><label '+L+'>IVA</label><select id="ln_iva" '+S+'><option value="23">23%</option><option value="13">13%</option><option value="6">6%</option><option value="0">Isento</option></select></div>';
+h+='<div><label '+L+'>Producao</label><select id="ln_prod" '+S+'><option>Rotovedras</option><option>Externo</option></select></div>';
+h+='<div><label '+L+'>Fornecedor</label><input id="ln_forn" '+I+' placeholder="Opcional"></div>';
+h+='<div><label '+L+'>Cond. pag.</label><select id="ln_cond" '+S+'><option>30 dias</option><option>60 dias</option><option>90 dias</option><option>Pronto</option></select></div></div>';
+h+='<div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end"><button class="btn" onclick="closeAddForm()">Cancelar</button><button class="btn btn-primary" onclick="saveLinha('+pi+')">Adicionar</button></div></div>';
+overlay.innerHTML=h;document.body.appendChild(overlay);overlay.addEventListener('click',function(e){if(e.target===overlay)closeAddForm()});
+}
+function saveLinha(pi){
+var g=function(id){var e=document.getElementById(id);return e?e.value.trim():''};
+if(!g('ln_cod')||!g('ln_desig'))return alert('Preencha codigo e designacao');
+DATA.propostas[pi].linhas.push({cod:g('ln_cod'),desig:g('ln_desig'),qtd:parseInt(g('ln_qtd'))||1,custoUnit:parseFloat(g('ln_custo'))||0,desconto:parseInt(g('ln_desc'))||0,margem:parseInt(g('ln_margem'))||30,iva:parseInt(g('ln_iva'))||23,prod:g('ln_prod'),fornecedor:g('ln_forn'),condPag:g('ln_cond')});
+closeAddForm();renderPropostas();
+}
+
+
+// ==================== PROPOSTAS ====================
+DATA.propostas=[
+{id:"PROP-2026-001",cliente:"HidroSul",deal:"Depositos quimicos - HidroSul",versao:"v1.0",status:"Adjudicada",linhas:[
+{cod:"ART-001",desig:"Deposito quimico 1500L",qtd:50,custoUnit:520,desconto:0,margem:40,iva:23,producao:"Rotovedras",condPag:"30 dias"},
+{cod:"ART-002",desig:"Valvula esfera 2''",qtd:50,custoUnit:12,desconto:5,margem:35,iva:23,producao:"Externo",condPag:"30 dias"},
+{cod:"ART-003",desig:"Tampa rosca DN400",qtd:50,custoUnit:8,desconto:0,margem:30,iva:23,producao:"Externo",condPag:"30 dias"}
+]},
+{id:"PROP-2026-002",cliente:"UrbanAqua",deal:"Contentores RSU - UrbanAqua",versao:"v2.1",status:"Enviada",linhas:[
+{cod:"ART-004",desig:"Contentor RSU 1100L",qtd:100,custoUnit:380,desconto:3,margem:38,iva:23,producao:"Rotovedras",condPag:"60 dias"},
+{cod:"ART-005",desig:"Kit rodas + travao",qtd:100,custoUnit:25,desconto:0,margem:25,iva:23,producao:"Externo",condPag:"60 dias"},
+{cod:"ART-006",desig:"Tampa basculante",qtd:100,custoUnit:18,desconto:0,margem:30,iva:23,producao:"Rotovedras",condPag:"60 dias"}
+]},
+{id:"PROP-2026-003",cliente:"GreenPool",deal:"Piscinas modulares - GreenPool",versao:"v1.0",status:"Em preparacao",linhas:[
+{cod:"ART-007",desig:"Piscina modular 8m corpo",qtd:5,custoUnit:1800,desconto:0,margem:45,iva:23,producao:"Rotovedras",condPag:"30 dias"},
+{cod:"ART-008",desig:"Kit skimmers (2un)",qtd:5,custoUnit:85,desconto:0,margem:30,iva:23,producao:"Externo",condPag:"30 dias"},
+{cod:"ART-009",desig:"Sistema drenagem completo",qtd:5,custoUnit:120,desconto:0,margem:28,iva:23,producao:"Externo",condPag:"30 dias"},
+{cod:"ART-010",desig:"Perfil aluminio reforco (kit)",qtd:5,custoUnit:210,desconto:5,margem:25,iva:23,producao:"Externo",condPag:"30 dias"}
+]},
+{id:"PROP-2026-004",cliente:"BuildMax",deal:"Separadores gordura - BuildMax",versao:"v1.2",status:"Adjudicada",linhas:[
+{cod:"ART-011",desig:"Separador gordura 500L",qtd:30,custoUnit:310,desconto:0,margem:36,iva:23,producao:"Rotovedras",condPag:"30 dias"},
+{cod:"ART-012",desig:"Tubagem entrada/saida DN110",qtd:30,custoUnit:15,desconto:0,margem:28,iva:23,producao:"Externo",condPag:"30 dias"}
+]}
+];
+
+function calcLinha(l){
+var pu=l.custoUnit*(1+l.margem/100)*(1-l.desconto/100);
+var vl=pu*l.qtd;var viva=vl*(1+l.iva/100);
+return{pu:Math.round(pu*100)/100,vl:Math.round(vl*100)/100,viva:Math.round(viva*100)/100};
+}
+function calcPropTotal(p){return p.linhas.reduce(function(a,l){return a+calcLinha(l).vl},0)}
+function calcPropTotalIva(p){return p.linhas.reduce(function(a,l){return a+calcLinha(l).viva},0)}
+
+var propView='lista';
+function renderPropostas(){
+var stColors={'Em preparacao':'#7F77DD','Enviada':'#BA7517','Adjudicada':'#1D9E75','Recusada':'#A32D2D','Expirada':'#888'};
+var totalSIva=DATA.propostas.reduce(function(a,p){return a+calcPropTotal(p)},0);
+var totalCIva=DATA.propostas.reduce(function(a,p){return a+calcPropTotalIva(p)},0);
+var adj=DATA.propostas.filter(function(p){return p.status==='Adjudicada'});
+var adjVal=adj.reduce(function(a,p){return a+calcPropTotal(p)},0);
+
+var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
+h+='<div class="metric"><div class="metric-label">Total propostas</div><div class="metric-val">'+DATA.propostas.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Valor s/ IVA</div><div class="metric-val">'+euro(Math.round(totalSIva))+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Valor c/ IVA</div><div class="metric-val">'+euro(Math.round(totalCIva))+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Adjudicadas</div><div class="metric-val">'+adj.length+'</div><div class="metric-change up">'+euro(Math.round(adjVal))+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Linhas totais</div><div class="metric-val">'+DATA.propostas.reduce(function(a,p){return a+p.linhas.length},0)+'</div></div></div>';
+
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="alert(\'Form proposta em desenvolvimento\')">+ Nova proposta</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'propostas\')"></div>';
+
+// Proposals list
+DATA.propostas.forEach(function(p,pi){
+var total=calcPropTotal(p);var totalIva=calcPropTotalIva(p);
+var sc=stColors[p.status]||'#888';
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);margin-bottom:14px;overflow:hidden">';
+// Header
+h+='<div style="padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border-light);cursor:pointer" onclick="togglePropDetail(\'pd'+pi+'\')">';
+h+='<div style="width:4px;height:36px;border-radius:2px;background:'+sc+';flex-shrink:0"></div>';
+h+='<div style="flex:1"><div style="font-size:13px;font-weight:700">'+p.id+'</div><div style="font-size:11px;color:var(--text-sec)">'+p.deal+'</div></div>';
+h+='<div style="text-align:center;margin:0 12px"><div style="font-size:10px;color:var(--text-ter)">Cliente</div><div style="font-size:12px;font-weight:600">'+p.cliente+'</div></div>';
+h+='<div style="text-align:center;margin:0 12px"><div style="font-size:10px;color:var(--text-ter)">Versao</div><div style="font-size:12px;font-weight:600">'+p.versao+'</div></div>';
+h+='<div style="text-align:center;margin:0 12px"><div style="font-size:10px;color:var(--text-ter)">Valor s/IVA</div><div style="font-size:13px;font-weight:700">'+euro(Math.round(total))+'</div></div>';
+h+='<div style="text-align:center;margin:0 12px"><div style="font-size:10px;color:var(--text-ter)">c/IVA</div><div style="font-size:12px;font-weight:600;color:var(--text-sec)">'+euro(Math.round(totalIva))+'</div></div>';
+h+='<span class="st '+stClass(p.status)+'">'+p.status+'</span>';
+h+='<span style="font-size:10px;color:var(--text-ter);margin-left:8px">&#9662;</span></div>';
+// Lines detail (collapsible)
+h+='<div id="pd'+pi+'" style="display:none">';
+h+='<div style="overflow-x:auto"><table style="min-width:1000px"><tr><th>Codigo</th><th>Designacao</th><th>Qtd</th><th>Custo unit.</th><th>Desc. %</th><th>Margem %</th><th>Preco unit.</th><th>Valor linha</th><th>IVA %</th><th>Valor c/IVA</th><th>Producao</th><th>Cond. pag.</th></tr>';
+p.linhas.forEach(function(l){
+var c=calcLinha(l);var prodTag=l.producao==='Rotovedras'?'<span class="prod-tag" style="background:#E1F5EE;color:#085041">Rotovedras</span>':'<span class="prod-tag" style="background:#FAEEDA;color:#633806">Externo</span>';
+h+='<tr><td style="font-family:monospace;font-size:10px">'+l.cod+'</td><td style="font-weight:500">'+l.desig+'</td><td class="val">'+l.qtd+'</td><td>'+euro(l.custoUnit)+'</td><td>'+(l.desconto||0)+'%</td><td>'+l.margem+'%</td><td class="val">'+euro(c.pu)+'</td><td class="val">'+euro(c.vl)+'</td><td>'+l.iva+'%</td><td class="val">'+euro(c.viva)+'</td><td>'+prodTag+'</td><td style="font-size:10px">'+l.condPag+'</td></tr>'});
+// Totals row
+h+='<tr style="background:var(--bg-surface);font-weight:600"><td colspan="7" style="text-align:right;padding-right:12px">TOTAIS</td><td class="val">'+euro(Math.round(total))+'</td><td></td><td class="val">'+euro(Math.round(totalIva))+'</td><td colspan="2"></td></tr>';
+h+='</table></div>';
+// Action buttons
+if(p.status==='Adjudicada'){h+='<div style="padding:10px 16px;border-top:1px solid var(--border-light);display:flex;gap:8px"><button class="btn btn-primary" onclick="alert(\'Gerar encomenda cliente a partir de '+p.id+'\')">Gerar encomenda cliente</button><button class="btn" onclick="alert(\'Gerar encomenda interna a partir de '+p.id+'\')">Gerar encomenda interna</button></div>'}
+h+='</div></div>';
+});
+document.getElementById('propostasContent').innerHTML=h;
+}
+function togglePropDetail(id){var el=document.getElementById(id);if(el)el.style.display=el.style.display==='none'?'block':'none'}
 
 // ==================== INIT ====================
 renderDashboard();
