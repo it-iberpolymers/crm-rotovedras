@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Rotovedras — Grupo Iberpolymers</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231D9E75'/><text x='16' y='22' text-anchor='middle' fill='white' font-size='18' font-weight='700' font-family='sans-serif'>R</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+<style>
+:root{
+--bg:#f5f4f0;--bg-card:#ffffff;--bg-surface:#f9f8f5;--bg-hover:#f2f1ed;
+--text:#1a1a1a;--text-sec:#6b6b6b;--text-ter:#9b9b9b;
+--border:#e5e3de;--border-light:#eeedea;
+--accent:#1D9E75;--accent-dark:#0F6E56;
+--radius:10px;--radius-lg:14px;
+--shadow-sm:0 1px 3px rgba(0,0,0,.04);
+--shadow-md:0 2px 8px rgba(0,0,0,.06);
+--font:'DM Sans',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
+.app{display:flex;min-height:100vh}
+
+/* Sidebar */
+.sidebar{width:240px;background:var(--bg-card);border-right:1px solid var(--border);padding:20px 0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:10}
+.sidebar-brand{display:flex;align-items:center;gap:10px;padding:0 20px;margin-bottom:24px}
+.sidebar-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1D9E75,#15805e);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.sidebar-title{font-size:14px;font-weight:600}
+.sidebar-subtitle{font-size:11px;color:var(--text-sec)}
+.sidebar-section{padding:0 12px;margin-bottom:8px}
+.sidebar-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-ter);padding:8px 8px 4px;font-weight:600}
+.sidebar-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;font-size:13px;color:var(--text-sec);cursor:pointer;font-weight:500;transition:all .12s}
+.sidebar-item:hover{background:var(--bg-hover);color:var(--text)}
+.sidebar-item.active{background:rgba(29,158,117,.08);color:var(--accent);font-weight:600}
+.sidebar-item .icon{width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.sidebar-item .count{margin-left:auto;font-size:11px;background:var(--bg-surface);padding:1px 7px;border-radius:10px;color:var(--text-ter);font-weight:500}
+.sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border-light);font-size:11px;color:var(--text-ter)}
+
+/* Main */
+.main{margin-left:240px;flex:1;padding:0}
+.header{padding:20px 32px 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.header-title{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
+.header-title .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.header-actions{margin-left:auto;display:flex;gap:8px}
+
+/* Tabs */
+.tabs{display:flex;gap:0;padding:16px 32px 0;border-bottom:1px solid var(--border)}
+.tab{padding:10px 18px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text-sec);border-bottom:2.5px solid transparent;transition:all .15s;font-family:var(--font)}
+.tab.active{color:var(--text);border-bottom-color:var(--accent)}
+.tab:hover{color:var(--text)}
+
+/* View toggle */
+.view-toggle{display:flex;gap:2px;background:var(--bg-surface);border-radius:8px;padding:2px;border:1px solid var(--border-light)}
+.view-btn{padding:5px 14px;font-size:12px;font-weight:500;border:none;background:none;border-radius:6px;cursor:pointer;color:var(--text-sec);font-family:var(--font);transition:all .12s}
+.view-btn.active{background:var(--bg-card);color:var(--text);box-shadow:var(--shadow-sm)}
+
+/* Content */
+.content{padding:20px 32px 40px}
+.board{display:none}
+.board.active{display:block}
+
+/* Metrics */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.metric{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:16px;transition:box-shadow .15s}
+.metric:hover{box-shadow:var(--shadow-sm)}
+.metric-label{font-size:11px;color:var(--text-ter);text-transform:uppercase;letter-spacing:.4px;font-weight:600}
+.metric-val{font-size:24px;font-weight:700;margin-top:4px;letter-spacing:-.5px}
+.metric-change{font-size:11px;margin-top:2px;font-weight:500}
+.metric-change.up{color:#1D9E75}
+.metric-change.down{color:#A32D2D}
+
+/* Toolbar */
+.toolbar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.btn{font-size:12px;padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-sec);cursor:pointer;font-weight:500;font-family:var(--font);transition:all .12s;display:inline-flex;align-items:center;gap:5px}
+.btn:hover{background:var(--bg-hover);border-color:#ccc}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent-dark)}
+.search-box{padding:7px 14px;border-radius:8px;border:1px solid var(--border);font-size:12px;font-family:var(--font);width:200px;background:var(--bg-card);color:var(--text);outline:none;transition:border-color .15s}
+.search-box:focus{border-color:var(--accent)}
+.search-box::placeholder{color:var(--text-ter)}
+
+/* Groups */
+.group{margin-bottom:20px}
+.group-header{display:flex;align-items:center;gap:8px;padding:8px 0;cursor:pointer;user-select:none}
+.group-color{width:4px;height:22px;border-radius:2px}
+.group-name{font-size:13px;font-weight:600}
+.group-count{font-size:11px;color:var(--text-ter);background:var(--bg-surface);padding:1px 8px;border-radius:10px}
+.group-toggle{margin-left:auto;font-size:10px;color:var(--text-ter);transition:transform .2s}
+.group.collapsed .group-toggle{transform:rotate(-90deg)}
+.group.collapsed .tbl-wrap{display:none}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border-light);border-radius:var(--radius);background:var(--bg-card);box-shadow:var(--shadow-sm);margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:900px}
+th{text-align:left;padding:10px 14px;font-weight:600;color:var(--text-ter);background:var(--bg-surface);border-bottom:1px solid var(--border-light);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;position:sticky;top:0}
+td{padding:11px 14px;border-bottom:1px solid var(--border-light)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg-hover)}
+
+/* Status pills */
+.st{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.st-novo{background:#E1F5EE;color:#085041}
+.st-contactado{background:#E6F1FB;color:#0C447C}
+.st-qualificado{background:#EEEDFE;color:#3C3489}
+.st-nqualificado{background:#FCEBEB;color:#791F1F}
+.st-convertido{background:#EAF3DE;color:#27500A}
+.st-aberta{background:#E6F1FB;color:#0C447C}
+.st-proposta{background:#FAEEDA;color:#633806}
+.st-negociacao{background:#EEEDFE;color:#3C3489}
+.st-ganha{background:#EAF3DE;color:#27500A}
+.st-perdida{background:#FCEBEB;color:#791F1F}
+.st-prospect{background:#E6F1FB;color:#0C447C}
+.st-potencial{background:#FAEEDA;color:#633806}
+.st-ativo{background:#EAF3DE;color:#27500A}
+.st-inativo{background:#F1EFE8;color:#444}
+.st-suspenso{background:#FCEBEB;color:#791F1F}
+
+/* Misc elements */
+.ch{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--text-sec)}
+.ch-dot{width:7px;height:7px;border-radius:50%}
+.avatar{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;letter-spacing:.3px}
+.av-rs{background:#EEEDFE;color:#3C3489}
+.av-pl{background:#E1F5EE;color:#085041}
+.av-mc{background:#FAEEDA;color:#633806}
+.conn{font-size:11px;color:#185FA5;cursor:pointer;font-weight:500}
+.conn:hover{text-decoration:underline}
+.setor{color:var(--text-sec)}
+.val{font-weight:700}
+.motivo{font-size:11px;color:var(--text-sec);font-style:italic}
+.add-row{padding:10px 14px;font-size:12px;color:var(--text-ter);cursor:pointer;display:flex;align-items:center;gap:6px;font-weight:500}
+.add-row:hover{color:var(--accent)}
+
+/* Probability bar */
+.prob-bar{display:flex;align-items:center;gap:6px}
+.prob-track{width:50px;height:6px;background:var(--bg-surface);border-radius:3px;overflow:hidden}
+.prob-fill{height:100%;border-radius:3px;transition:width .3s}
+.prob-val{font-size:11px;font-weight:600;min-width:28px}
+
+/* Kanban */
+.kanban{display:none;gap:14px;padding-bottom:20px;overflow-x:auto}
+.kanban.active{display:flex}
+.kanban-col{min-width:240px;max-width:280px;flex:1;background:var(--bg-surface);border-radius:var(--radius-lg);padding:12px;border:1px solid var(--border-light)}
+.kanban-col-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:0 4px}
+.kanban-col-dot{width:8px;height:8px;border-radius:50%}
+.kanban-col-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.kanban-col-count{font-size:11px;color:var(--text-ter);margin-left:auto;background:var(--bg-card);padding:1px 8px;border-radius:10px}
+.kanban-col-total{font-size:11px;color:var(--text-sec);font-weight:600;margin-left:4px}
+.kanban-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:12px;margin-bottom:8px;cursor:default;transition:box-shadow .15s}
+.kanban-card:hover{box-shadow:var(--shadow-md)}
+.kanban-card:last-child{margin-bottom:0}
+.kanban-card-title{font-size:13px;font-weight:600;margin-bottom:6px}
+.kanban-card-client{font-size:11px;color:var(--text-sec);margin-bottom:8px}
+.kanban-card-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;margin-bottom:4px}
+.kanban-card-row:last-child{margin-bottom:0}
+.kanban-card-label{color:var(--text-ter)}
+.kanban-card-value{font-weight:600}
+.kanban-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid var(--border-light)}
+
+/* Responsive */
+@media(max-width:900px){
+.sidebar{display:none}
+.main{margin-left:0}
+.metrics{grid-template-columns:repeat(2,1fr)}
+.header{padding:16px 20px 0}
+.tabs{padding:12px 20px 0}
+.content{padding:16px 20px 32px}
+}
+@media(max-width:500px){
+.metrics{grid-template-columns:1fr}
+.toolbar{flex-direction:column;align-items:stretch}
+.search-box{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- Sidebar -->
+<aside class="sidebar">
+<div class="sidebar-brand">
+<div class="sidebar-logo">R</div>
+<div><div class="sidebar-title">Rotovedras</div><div class="sidebar-subtitle">Grupo Iberpolymers</div></div>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-label">CRM</div>
+<div class="sidebar-item active" data-tab="leads"><span class="icon">&#9679;</span>Leads<span class="count">12</span></div>
+<div class="sidebar-item" data-tab="contactos"><span class="icon">&#9679;</span>Contactos<span class="count">8</span></div>
+<div class="sidebar-item" data-tab="oportunidades"><span class="icon">&#9679;</span>Oportunidades<span class="count">8</span></div>
+<div class="sidebar-item" data-tab="clientes"><span class="icon">&#9679;</span>Clientes<span class="count">6</span></div>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-label">Vistas</div>
+<div class="sidebar-item" onclick="showDash()"><span class="icon">&#9679;</span>Dashboard</div>
+</div>
+<div class="sidebar-footer">CRM Rotovedras v1.0<br>Monday.com &middot; Mockup</div>
+</aside>
+
+<!-- Main -->
+<div class="main">
+<div class="header">
+<div class="header-title"><span class="dot"></span>CRM Rotovedras</div>
+</div>
+<div class="tabs" id="tabs">
+<button class="tab active" data-tab="leads">Leads</button>
+<button class="tab" data-tab="contactos">Contactos</button>
+<button class="tab" data-tab="oportunidades">Oportunidades</button>
+<button class="tab" data-tab="clientes">Clientes</button>
+</div>
+<div class="content">
+
+<!-- LEADS -->
+<div class="board active" id="leads">
+<div class="metrics">
+<div class="metric"><div class="metric-label">Total leads</div><div class="metric-val">12</div><div class="metric-change up">&#9650; 3 esta semana</div></div>
+<div class="metric"><div class="metric-label">Qualificados</div><div class="metric-val">4</div><div class="metric-change up">&#9650; 33%</div></div>
+<div class="metric"><div class="metric-label">Convertidos</div><div class="metric-val">2</div></div>
+<div class="metric"><div class="metric-label">Taxa conversão</div><div class="metric-val">17%</div></div>
+</div>
+<div class="toolbar">
+<button class="btn btn-primary">+ Novo lead</button>
+<input type="text" class="search-box" placeholder="Pesquisar leads..." onkeyup="filterTable(this,'leads')">
+<button class="btn">Filtrar por estado</button>
+<button class="btn">Exportar</button>
+</div>
+
+<div class="group" id="g-novos">
+<div class="group-header" onclick="toggleGroup('g-novos')"><div class="group-color" style="background:#1D9E75"></div><div class="group-name">Novos</div><div class="group-count">3</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Lead</th><th>Empresa</th><th>Email</th><th>Telemóvel</th><th>NIF</th><th>Setor</th><th>Canal</th><th>Estado</th><th>Responsável</th><th>Criado</th></tr>
+<tr><td>João Ferreira</td><td>AquaPark Lda</td><td>joao@aquapark.pt</td><td>912 345 678</td><td>501234567</td><td class="setor">Lazer</td><td><span class="ch"><span class="ch-dot" style="background:#378ADD"></span>Website</span></td><td><span class="st st-novo">Novo</span></td><td><span class="avatar av-rs">RS</span></td><td style="color:var(--text-ter);font-size:11px">08/04</td></tr>
+<tr><td>Maria Santos</td><td>EcoJardins SA</td><td>maria@ecojardins.pt</td><td>936 789 012</td><td>509876543</td><td class="setor">Agricultura</td><td><span class="ch"><span class="ch-dot" style="background:#D85A30"></span>Google Ads</span></td><td><span class="st st-novo">Novo</span></td><td><span class="avatar av-pl">PL</span></td><td style="color:var(--text-ter);font-size:11px">07/04</td></tr>
+<tr><td>Rui Costa</td><td>MuniTejo</td><td>rui.costa@munitejo.pt</td><td>961 234 567</td><td>506543210</td><td class="setor">Municipal</td><td><span class="ch"><span class="ch-dot" style="background:#378ADD"></span>Website</span></td><td><span class="st st-novo">Novo</span></td><td><span class="avatar av-rs">RS</span></td><td style="color:var(--text-ter);font-size:11px">06/04</td></tr>
+</table></div></div>
+
+<div class="group" id="g-prog">
+<div class="group-header" onclick="toggleGroup('g-prog')"><div class="group-color" style="background:#378ADD"></div><div class="group-name">Em progresso</div><div class="group-count">5</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Lead</th><th>Empresa</th><th>Email</th><th>Telemóvel</th><th>NIF</th><th>Setor</th><th>Canal</th><th>Estado</th><th>Responsável</th><th>Criado</th></tr>
+<tr><td>Ana Lopes</td><td>HidroSul</td><td>ana@hidrosul.pt</td><td>918 765 432</td><td>504321098</td><td class="setor">Trat. água</td><td><span class="ch"><span class="ch-dot" style="background:#D85A30"></span>Google Ads</span></td><td><span class="st st-contactado">Contactado</span></td><td><span class="avatar av-pl">PL</span></td><td style="color:var(--text-ter);font-size:11px">02/04</td></tr>
+<tr><td>Pedro Nunes</td><td>BuildMax</td><td>pedro@buildmax.pt</td><td>927 654 321</td><td>508765432</td><td class="setor">Construção</td><td><span class="ch"><span class="ch-dot" style="background:#378ADD"></span>Website</span></td><td><span class="st st-contactado">Contactado</span></td><td><span class="avatar av-rs">RS</span></td><td style="color:var(--text-ter);font-size:11px">01/04</td></tr>
+<tr><td>Sara Dias</td><td>VinoPorto</td><td>sara@vinoporto.pt</td><td>965 432 109</td><td>503210987</td><td class="setor">Vinicultura</td><td><span class="ch"><span class="ch-dot" style="background:#378ADD"></span>Website</span></td><td><span class="st st-qualificado">Qualificado</span></td><td><span class="avatar av-pl">PL</span></td><td style="color:var(--text-ter);font-size:11px">28/03</td></tr>
+<tr><td>Tiago Mendes</td><td>PlastiForm</td><td>tiago@plastiform.pt</td><td>933 210 987</td><td>507654321</td><td class="setor">Industrial</td><td><span class="ch"><span class="ch-dot" style="background:#D85A30"></span>Google Ads</span></td><td><span class="st st-qualificado">Qualificado</span></td><td><span class="avatar av-rs">RS</span></td><td style="color:var(--text-ter);font-size:11px">25/03</td></tr>
+<tr><td>Clara Reis</td><td>GreenPool</td><td>clara@greenpool.pt</td><td>916 543 210</td><td>505432109</td><td class="setor">Lazer</td><td><span class="ch"><span class="ch-dot" style="background:#378ADD"></span>Website</span></td><td><span class="st st-qualificado">Qualificado</span></td><td><span class="avatar av-pl">PL</span></td><td style="color:var(--text-ter);font-size:11px">22/03</td></tr>
+</table></div></div>
+
+<div class="group" id="g-fech">
+<div class="group-header" onclick="toggleGroup('g-fech')"><div class="group-color" style="background:#888"></div><div class="group-name">Fechados</div><div class="group-count">4</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Lead</th><th>Empresa</th><th>Email</th><th>Telemóvel</th><th>NIF</th><th>Setor</th><th>Canal</th><th>Estado</th><th>Responsável</th><th>Criado</th></tr>
+<tr><td>Bruno Alves</td><td>AgroNorte</td><td>bruno@agronorte.pt</td><td>924 321 098</td><td>502109876</td><td class="setor">Agricultura</td><td><span class="ch"><span class="ch-dot" style="background:#D85A30"></span>Google Ads</span></td><td><span class="st st-convertido">Convertido</span></td><td><span class="avatar av-rs">RS</span></td><td style="color:var(--text-ter);font-size:11px">15/03</td></tr>
+<tr><td>Inês Matos</td><td>UrbanAqua</td><td>ines@urbanaqua.pt</td><td>967 890 123</td><td>506789012</td><td class="setor">Municipal</td><td><span class="ch"><span class="ch-dot" style="background:#378ADD"></span>Website</span></td><td><span class="st st-convertido">Convertido</span></td><td><span class="avatar av-pl">PL</span></td><td style="color:var(--text-ter);font-size:11px">10/03</td></tr>
+<tr><td>Hugo Pinto</td><td>SolTech</td><td>hugo@soltech.pt</td><td>939 012 345</td><td>501098765</td><td class="setor">Energia</td><td><span class="ch"><span class="ch-dot" style="background:#378ADD"></span>Website</span></td><td><span class="st st-nqualificado">Não qualificado</span></td><td><span class="avatar av-rs">RS</span></td><td style="color:var(--text-ter);font-size:11px">05/03</td></tr>
+<tr><td>Filipa Gomes</td><td>ParkIdeia</td><td>filipa@parkideia.pt</td><td>913 456 789</td><td>508901234</td><td class="setor">Lazer</td><td><span class="ch"><span class="ch-dot" style="background:#D85A30"></span>Google Ads</span></td><td><span class="st st-nqualificado">Não qualificado</span></td><td><span class="avatar av-pl">PL</span></td><td style="color:var(--text-ter);font-size:11px">01/03</td></tr>
+</table></div></div>
+<div class="add-row">+ Adicionar lead</div>
+</div>
+
+<!-- CONTACTOS -->
+<div class="board" id="contactos">
+<div class="toolbar">
+<button class="btn btn-primary">+ Novo contacto</button>
+<input type="text" class="search-box" placeholder="Pesquisar contactos..." onkeyup="filterTable(this,'contactos')">
+<button class="btn">Filtrar</button>
+<button class="btn">Exportar</button>
+</div>
+<div class="group" id="g-cont">
+<div class="group-header"><div class="group-color" style="background:#7F77DD"></div><div class="group-name">Todos os contactos</div><div class="group-count">8</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Nome</th><th>Empresa</th><th>Cargo</th><th>Email</th><th>Telemóvel</th><th>Lead origem</th><th>Último contacto</th><th>Notas</th></tr>
+<tr><td>João Ferreira</td><td>AquaPark Lda</td><td>Diretor Operações</td><td>joao@aquapark.pt</td><td>912 345 678</td><td><span class="conn">Lead #001</span></td><td>08/04/2026</td><td style="font-size:11px;color:var(--text-ter)">Interessado em depósitos grandes</td></tr>
+<tr><td>Ana Lopes</td><td>HidroSul</td><td>Resp. Compras</td><td>ana@hidrosul.pt</td><td>918 765 432</td><td><span class="conn">Lead #004</span></td><td>07/04/2026</td><td style="font-size:11px;color:var(--text-ter)">Pediu catálogo técnico</td></tr>
+<tr><td>Sara Dias</td><td>VinoPorto</td><td>Eng. Processo</td><td>sara@vinoporto.pt</td><td>965 432 109</td><td><span class="conn">Lead #006</span></td><td>05/04/2026</td><td style="font-size:11px;color:var(--text-ter)">Necessidade sazonal</td></tr>
+<tr><td>Bruno Alves</td><td>AgroNorte</td><td>Gerente</td><td>bruno@agronorte.pt</td><td>924 321 098</td><td><span class="conn">Lead #009</span></td><td>03/04/2026</td><td style="font-size:11px;color:var(--text-ter)">Cliente recorrente</td></tr>
+<tr><td>Inês Matos</td><td>UrbanAqua</td><td>Diretora Projetos</td><td>ines@urbanaqua.pt</td><td>967 890 123</td><td><span class="conn">Lead #010</span></td><td>02/04/2026</td><td style="font-size:11px;color:var(--text-ter)">Projeto municipal 2026</td></tr>
+<tr><td>Clara Reis</td><td>GreenPool</td><td>CEO</td><td>clara@greenpool.pt</td><td>916 543 210</td><td><span class="conn">Lead #008</span></td><td>01/04/2026</td><td style="font-size:11px;color:var(--text-ter)">Expansão cadeia piscinas</td></tr>
+<tr><td>Pedro Nunes</td><td>BuildMax</td><td>Diretor Comercial</td><td>pedro@buildmax.pt</td><td>927 654 321</td><td><span class="conn">Lead #005</span></td><td>28/03/2026</td><td style="font-size:11px;color:var(--text-ter)">Parceria construção civil</td></tr>
+<tr><td>Tiago Mendes</td><td>PlastiForm</td><td>Resp. Produção</td><td>tiago@plastiform.pt</td><td>933 210 987</td><td><span class="conn">Lead #007</span></td><td>25/03/2026</td><td style="font-size:11px;color:var(--text-ter)">Concorrente, avaliar oportunidade</td></tr>
+</table></div></div>
+<div class="add-row">+ Adicionar contacto</div>
+</div>
+
+<!-- OPORTUNIDADES -->
+<div class="board" id="oportunidades">
+<div class="metrics">
+<div class="metric"><div class="metric-label">Pipeline total</div><div class="metric-val">106.500 &euro;</div></div>
+<div class="metric"><div class="metric-label">Valor ponderado</div><div class="metric-val">52.050 &euro;</div></div>
+<div class="metric"><div class="metric-label">Ganhas</div><div class="metric-val">38.500 &euro;</div><div class="metric-change up">2 negócios</div></div>
+<div class="metric"><div class="metric-label">Taxa fecho</div><div class="metric-val">44%</div></div>
+</div>
+<div class="toolbar">
+<button class="btn btn-primary">+ Nova oportunidade</button>
+<input type="text" class="search-box" placeholder="Pesquisar oportunidades..." onkeyup="filterTable(this,'oportunidades')">
+<div class="view-toggle">
+<button class="view-btn active" onclick="setView('table')">Tabela</button>
+<button class="view-btn" onclick="setView('kanban')">Kanban</button>
+</div>
+<button class="btn">Exportar</button>
+</div>
+
+<!-- Table view -->
+<div id="opp-table-view">
+<div class="group" id="g-abertas">
+<div class="group-header" onclick="toggleGroup('g-abertas')"><div class="group-color" style="background:#378ADD"></div><div class="group-name">Abertas</div><div class="group-count">2</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Oportunidade</th><th>Cliente</th><th>Produto</th><th>Valor</th><th>Probabilidade</th><th>Valor ponderado</th><th>Data prev. fecho</th><th>Estado</th><th>Responsável</th></tr>
+<tr><td>Depósitos 5000L</td><td><span class="conn">AquaPark Lda</span></td><td>Depósito PEAD 5000L</td><td class="val">12.000 &euro;</td><td><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:30%;background:#378ADD"></div></div><span class="prob-val" style="color:#0C447C">30%</span></div></td><td style="color:var(--text-sec)">3.600 &euro;</td><td>30/04/2026</td><td><span class="st st-aberta">Aberta</span></td><td><span class="avatar av-rs">RS</span></td></tr>
+<tr><td>Tanques irrigação</td><td><span class="conn">AgroNorte</span></td><td>Tanque 2000L</td><td class="val">5.000 &euro;</td><td><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:40%;background:#378ADD"></div></div><span class="prob-val" style="color:#0C447C">40%</span></div></td><td style="color:var(--text-sec)">2.000 &euro;</td><td>15/05/2026</td><td><span class="st st-aberta">Aberta</span></td><td><span class="avatar av-pl">PL</span></td></tr>
+</table></div></div>
+
+<div class="group" id="g-propneg">
+<div class="group-header" onclick="toggleGroup('g-propneg')"><div class="group-color" style="background:#BA7517"></div><div class="group-name">Em proposta / negociação</div><div class="group-count">3</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Oportunidade</th><th>Cliente</th><th>Produto</th><th>Valor</th><th>Probabilidade</th><th>Valor ponderado</th><th>Data prev. fecho</th><th>Estado</th><th>Responsável</th></tr>
+<tr><td>Contentores municipais</td><td><span class="conn">UrbanAqua</span></td><td>Contentor RSU 1100L</td><td class="val">18.000 &euro;</td><td><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:50%;background:#BA7517"></div></div><span class="prob-val" style="color:#633806">50%</span></div></td><td style="color:var(--text-sec)">9.000 &euro;</td><td>20/04/2026</td><td><span class="st st-proposta">Proposta</span></td><td><span class="avatar av-rs">RS</span></td></tr>
+<tr><td>Piscinas modulares</td><td><span class="conn">GreenPool</span></td><td>Piscina modular 8m</td><td class="val">22.000 &euro;</td><td><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:65%;background:#7F77DD"></div></div><span class="prob-val" style="color:#3C3489">65%</span></div></td><td style="color:var(--text-sec)">14.300 &euro;</td><td>10/05/2026</td><td><span class="st st-negociacao">Negociação</span></td><td><span class="avatar av-pl">PL</span></td></tr>
+<tr><td>Cubas vinificação</td><td><span class="conn">VinoPorto</span></td><td>Cuba 3000L</td><td class="val">10.000 &euro;</td><td><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:70%;background:#7F77DD"></div></div><span class="prob-val" style="color:#3C3489">70%</span></div></td><td style="color:var(--text-sec)">7.000 &euro;</td><td>25/04/2026</td><td><span class="st st-negociacao">Negociação</span></td><td><span class="avatar av-rs">RS</span></td></tr>
+</table></div></div>
+
+<div class="group" id="g-ganhas">
+<div class="group-header" onclick="toggleGroup('g-ganhas')"><div class="group-color" style="background:#639922"></div><div class="group-name">Ganhas</div><div class="group-count">2</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Oportunidade</th><th>Cliente</th><th>Produto</th><th>Valor</th><th>Probabilidade</th><th>Valor ponderado</th><th>Data fecho</th><th>Estado</th><th>Responsável</th></tr>
+<tr><td>Depósitos químicos</td><td><span class="conn">HidroSul</span></td><td>Depósito químico 1500L</td><td class="val">24.500 &euro;</td><td><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:100%;background:#639922"></div></div><span class="prob-val" style="color:#27500A">100%</span></div></td><td style="color:var(--text-sec)">24.500 &euro;</td><td>15/03/2026</td><td><span class="st st-ganha">Ganha</span></td><td><span class="avatar av-pl">PL</span></td></tr>
+<tr><td>Separadores gordura</td><td><span class="conn">BuildMax</span></td><td>Separador 500L</td><td class="val">14.000 &euro;</td><td><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:100%;background:#639922"></div></div><span class="prob-val" style="color:#27500A">100%</span></div></td><td style="color:var(--text-sec)">14.000 &euro;</td><td>20/03/2026</td><td><span class="st st-ganha">Ganha</span></td><td><span class="avatar av-rs">RS</span></td></tr>
+</table></div></div>
+
+<div class="group" id="g-perdidas">
+<div class="group-header" onclick="toggleGroup('g-perdidas')"><div class="group-color" style="background:#A32D2D"></div><div class="group-name">Perdidas</div><div class="group-count">1</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Oportunidade</th><th>Cliente</th><th>Produto</th><th>Valor</th><th>Probabilidade</th><th>Data</th><th>Estado</th><th>Motivo perda</th></tr>
+<tr><td>Reservatórios 10000L</td><td><span class="conn">PlastiForm</span></td><td>Reservatório 10000L</td><td class="val">15.000 &euro;</td><td><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:0%;background:#A32D2D"></div></div><span class="prob-val" style="color:#791F1F">0%</span></div></td><td>01/04/2026</td><td><span class="st st-perdida">Perdida</span></td><td class="motivo">Preço concorrente</td></tr>
+</table></div></div>
+</div>
+
+<!-- Kanban view -->
+<div class="kanban" id="opp-kanban-view">
+<div class="kanban-col">
+<div class="kanban-col-header"><div class="kanban-col-dot" style="background:#378ADD"></div><div class="kanban-col-title">Aberta</div><div class="kanban-col-count">2</div><div class="kanban-col-total">17.000 &euro;</div></div>
+<div class="kanban-card">
+<div class="kanban-card-title">Depósitos 5000L</div>
+<div class="kanban-card-client">AquaPark Lda</div>
+<div class="kanban-card-row"><span class="kanban-card-label">Produto</span><span>Depósito PEAD 5000L</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">12.000 &euro;</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Probabilidade</span><span><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:30%;background:#378ADD"></div></div><span class="prob-val" style="color:#0C447C">30%</span></div></span></div>
+<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">Fecho: 30/04</span><span class="avatar av-rs" style="width:24px;height:24px;font-size:9px">RS</span></div>
+</div>
+<div class="kanban-card">
+<div class="kanban-card-title">Tanques irrigação</div>
+<div class="kanban-card-client">AgroNorte</div>
+<div class="kanban-card-row"><span class="kanban-card-label">Produto</span><span>Tanque 2000L</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">5.000 &euro;</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Probabilidade</span><span><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:40%;background:#378ADD"></div></div><span class="prob-val" style="color:#0C447C">40%</span></div></span></div>
+<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">Fecho: 15/05</span><span class="avatar av-pl" style="width:24px;height:24px;font-size:9px">PL</span></div>
+</div>
+</div>
+
+<div class="kanban-col">
+<div class="kanban-col-header"><div class="kanban-col-dot" style="background:#BA7517"></div><div class="kanban-col-title">Proposta</div><div class="kanban-col-count">1</div><div class="kanban-col-total">18.000 &euro;</div></div>
+<div class="kanban-card">
+<div class="kanban-card-title">Contentores municipais</div>
+<div class="kanban-card-client">UrbanAqua</div>
+<div class="kanban-card-row"><span class="kanban-card-label">Produto</span><span>Contentor RSU 1100L</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">18.000 &euro;</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Probabilidade</span><span><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:50%;background:#BA7517"></div></div><span class="prob-val" style="color:#633806">50%</span></div></span></div>
+<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">Fecho: 20/04</span><span class="avatar av-rs" style="width:24px;height:24px;font-size:9px">RS</span></div>
+</div>
+</div>
+
+<div class="kanban-col">
+<div class="kanban-col-header"><div class="kanban-col-dot" style="background:#7F77DD"></div><div class="kanban-col-title">Negociação</div><div class="kanban-col-count">2</div><div class="kanban-col-total">32.000 &euro;</div></div>
+<div class="kanban-card">
+<div class="kanban-card-title">Piscinas modulares</div>
+<div class="kanban-card-client">GreenPool</div>
+<div class="kanban-card-row"><span class="kanban-card-label">Produto</span><span>Piscina modular 8m</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">22.000 &euro;</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Probabilidade</span><span><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:65%;background:#7F77DD"></div></div><span class="prob-val" style="color:#3C3489">65%</span></div></span></div>
+<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">Fecho: 10/05</span><span class="avatar av-pl" style="width:24px;height:24px;font-size:9px">PL</span></div>
+</div>
+<div class="kanban-card">
+<div class="kanban-card-title">Cubas vinificação</div>
+<div class="kanban-card-client">VinoPorto</div>
+<div class="kanban-card-row"><span class="kanban-card-label">Produto</span><span>Cuba 3000L</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">10.000 &euro;</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Probabilidade</span><span><div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:70%;background:#7F77DD"></div></div><span class="prob-val" style="color:#3C3489">70%</span></div></span></div>
+<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">Fecho: 25/04</span><span class="avatar av-rs" style="width:24px;height:24px;font-size:9px">RS</span></div>
+</div>
+</div>
+
+<div class="kanban-col">
+<div class="kanban-col-header"><div class="kanban-col-dot" style="background:#639922"></div><div class="kanban-col-title">Ganha</div><div class="kanban-col-count">2</div><div class="kanban-col-total">38.500 &euro;</div></div>
+<div class="kanban-card">
+<div class="kanban-card-title">Depósitos químicos</div>
+<div class="kanban-card-client">HidroSul</div>
+<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">24.500 &euro;</span></div>
+<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">Fechada: 15/03</span><span class="avatar av-pl" style="width:24px;height:24px;font-size:9px">PL</span></div>
+</div>
+<div class="kanban-card">
+<div class="kanban-card-title">Separadores gordura</div>
+<div class="kanban-card-client">BuildMax</div>
+<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">14.000 &euro;</span></div>
+<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">Fechada: 20/03</span><span class="avatar av-rs" style="width:24px;height:24px;font-size:9px">RS</span></div>
+</div>
+</div>
+
+<div class="kanban-col">
+<div class="kanban-col-header"><div class="kanban-col-dot" style="background:#A32D2D"></div><div class="kanban-col-title">Perdida</div><div class="kanban-col-count">1</div><div class="kanban-col-total">15.000 &euro;</div></div>
+<div class="kanban-card">
+<div class="kanban-card-title">Reservatórios 10000L</div>
+<div class="kanban-card-client">PlastiForm</div>
+<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">15.000 &euro;</span></div>
+<div class="kanban-card-row"><span class="kanban-card-label">Motivo</span><span class="motivo">Preço concorrente</span></div>
+<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">01/04</span><span class="avatar av-rs" style="width:24px;height:24px;font-size:9px">RS</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- CLIENTES -->
+<div class="board" id="clientes">
+<div class="metrics">
+<div class="metric"><div class="metric-label">Total clientes</div><div class="metric-val">6</div></div>
+<div class="metric"><div class="metric-label">Ativos</div><div class="metric-val">3</div></div>
+<div class="metric"><div class="metric-label">Potenciais</div><div class="metric-val">2</div></div>
+<div class="metric"><div class="metric-label">Volume acumulado</div><div class="metric-val">95.500 &euro;</div></div>
+</div>
+<div class="toolbar">
+<button class="btn btn-primary">+ Novo cliente</button>
+<input type="text" class="search-box" placeholder="Pesquisar clientes..." onkeyup="filterTable(this,'clientes')">
+<button class="btn">Filtrar classificação</button>
+<button class="btn">Exportar</button>
+</div>
+
+<div class="group" id="g-ativos">
+<div class="group-header" onclick="toggleGroup('g-ativos')"><div class="group-color" style="background:#639922"></div><div class="group-name">Ativos</div><div class="group-count">3</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Cliente</th><th>NIF</th><th>Setor</th><th>Contacto principal</th><th>Email</th><th>Classificação</th><th>Oportunidades</th><th>Volume total</th><th>Última atividade</th></tr>
+<tr><td style="font-weight:600">HidroSul</td><td>504321098</td><td class="setor">Trat. água</td><td>Ana Lopes</td><td>ana@hidrosul.pt</td><td><span class="st st-ativo">Ativo</span></td><td><span class="conn">1 ganha</span></td><td class="val">24.500 &euro;</td><td style="font-size:11px;color:var(--text-ter)">07/04/2026</td></tr>
+<tr><td style="font-weight:600">BuildMax</td><td>508765432</td><td class="setor">Construção</td><td>Pedro Nunes</td><td>pedro@buildmax.pt</td><td><span class="st st-ativo">Ativo</span></td><td><span class="conn">1 ganha</span></td><td class="val">14.000 &euro;</td><td style="font-size:11px;color:var(--text-ter)">28/03/2026</td></tr>
+<tr><td style="font-weight:600">AgroNorte</td><td>502109876</td><td class="setor">Agricultura</td><td>Bruno Alves</td><td>bruno@agronorte.pt</td><td><span class="st st-ativo">Ativo</span></td><td><span class="conn">1 aberta</span></td><td class="val">5.000 &euro;</td><td style="font-size:11px;color:var(--text-ter)">03/04/2026</td></tr>
+</table></div></div>
+
+<div class="group" id="g-potenciais">
+<div class="group-header" onclick="toggleGroup('g-potenciais')"><div class="group-color" style="background:#BA7517"></div><div class="group-name">Potenciais</div><div class="group-count">2</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Cliente</th><th>NIF</th><th>Setor</th><th>Contacto principal</th><th>Email</th><th>Classificação</th><th>Oportunidades</th><th>Volume total</th><th>Última atividade</th></tr>
+<tr><td style="font-weight:600">UrbanAqua</td><td>506789012</td><td class="setor">Municipal</td><td>Inês Matos</td><td>ines@urbanaqua.pt</td><td><span class="st st-potencial">Potencial</span></td><td><span class="conn">1 proposta</span></td><td class="val">18.000 &euro;</td><td style="font-size:11px;color:var(--text-ter)">02/04/2026</td></tr>
+<tr><td style="font-weight:600">GreenPool</td><td>505432109</td><td class="setor">Lazer</td><td>Clara Reis</td><td>clara@greenpool.pt</td><td><span class="st st-potencial">Potencial</span></td><td><span class="conn">1 negociação</span></td><td class="val">22.000 &euro;</td><td style="font-size:11px;color:var(--text-ter)">01/04/2026</td></tr>
+</table></div></div>
+
+<div class="group" id="g-prospects">
+<div class="group-header" onclick="toggleGroup('g-prospects')"><div class="group-color" style="background:#378ADD"></div><div class="group-name">Prospects</div><div class="group-count">1</div><div class="group-toggle">&#9662;</div></div>
+<div class="tbl-wrap"><table>
+<tr><th>Cliente</th><th>NIF</th><th>Setor</th><th>Contacto principal</th><th>Email</th><th>Classificação</th><th>Oportunidades</th><th>Volume total</th><th>Última atividade</th></tr>
+<tr><td style="font-weight:600">AquaPark Lda</td><td>501234567</td><td class="setor">Lazer</td><td>João Ferreira</td><td>joao@aquapark.pt</td><td><span class="st st-prospect">Prospect</span></td><td><span class="conn">1 aberta</span></td><td class="val">12.000 &euro;</td><td style="font-size:11px;color:var(--text-ter)">08/04/2026</td></tr>
+</table></div></div>
+<div class="add-row">+ Adicionar cliente</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+// Tab navigation (top tabs + sidebar)
+function switchTab(tab){
+document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('.board').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('.sidebar-item').forEach(x=>x.classList.remove('active'));
+document.querySelectorAll('.tab[data-tab="'+tab+'"]').forEach(x=>x.classList.add('active'));
+document.querySelectorAll('.sidebar-item[data-tab="'+tab+'"]').forEach(x=>x.classList.add('active'));
+document.getElementById(tab).classList.add('active');
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.tab)));
+document.querySelectorAll('.sidebar-item[data-tab]').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.tab)));
+
+// Group collapse
+function toggleGroup(id){
+document.getElementById(id).classList.toggle('collapsed');
+}
+
+// View toggle (table/kanban)
+function setView(view){
+document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+if(view==='kanban'){
+document.getElementById('opp-table-view').style.display='none';
+document.getElementById('opp-kanban-view').classList.add('active');
+document.querySelectorAll('.view-btn')[1].classList.add('active');
+}else{
+document.getElementById('opp-table-view').style.display='block';
+document.getElementById('opp-kanban-view').classList.remove('active');
+document.querySelectorAll('.view-btn')[0].classList.add('active');
+}
+}
+
+// Search filter
+function filterTable(input,boardId){
+var query=input.value.toLowerCase();
+var board=document.getElementById(boardId);
+board.querySelectorAll('table tr').forEach(function(row){
+if(row.querySelector('th'))return;
+var text=row.textContent.toLowerCase();
+row.style.display=text.includes(query)?'':'none';
+});
+}
+
+function showDash(){alert('Dashboard em desenvolvimento — próxima iteração!');}
+</script>
+</body>
+</html>
