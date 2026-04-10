@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM Rotovedras — Grupo Iberpolymers</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"><\/script>
+<style>
+:root{--bg:#f5f4f0;--bg-card:#fff;--bg-surface:#f9f8f5;--bg-hover:#f2f1ed;--text:#1a1a1a;--text-sec:#6b6b6b;--text-ter:#9b9b9b;--border:#e5e3de;--border-light:#eeedea;--accent:#1D9E75;--accent-dark:#0F6E56;--radius:10px;--radius-lg:14px;--shadow-sm:0 1px 3px rgba(0,0,0,.04);--shadow-md:0 2px 8px rgba(0,0,0,.06);--font:'DM Sans',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--bg-card);border-right:1px solid var(--border);padding:20px 0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:10}
+.sidebar-brand{display:flex;align-items:center;gap:10px;padding:0 20px;margin-bottom:24px}.sidebar-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1D9E75,#15805e);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.sidebar-title{font-size:14px;font-weight:600}.sidebar-subtitle{font-size:11px;color:var(--text-sec)}.sidebar-section{padding:0 12px;margin-bottom:8px}
+.sidebar-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-ter);padding:8px 8px 4px;font-weight:600}
+.sidebar-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;font-size:13px;color:var(--text-sec);cursor:pointer;font-weight:500;transition:all .12s}
+.sidebar-item:hover{background:var(--bg-hover);color:var(--text)}.sidebar-item.active{background:rgba(29,158,117,.08);color:var(--accent);font-weight:600}
+.sidebar-item .count{margin-left:auto;font-size:11px;background:var(--bg-surface);padding:1px 7px;border-radius:10px;color:var(--text-ter)}.sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border-light);font-size:11px;color:var(--text-ter)}
+.main{margin-left:240px;flex:1}.header{padding:20px 32px 0;display:flex;align-items:center;gap:16px}.header-title{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
+.header-title .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.tabs{display:flex;gap:0;padding:16px 32px 0;border-bottom:1px solid var(--border)}.tab{padding:10px 18px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text-sec);border-bottom:2.5px solid transparent;font-family:var(--font)}.tab.active{color:var(--text);border-bottom-color:var(--accent)}.tab:hover{color:var(--text)}
+.content{padding:20px 32px 40px}.board{display:none}.board.active{display:block}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.metric{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:16px}.metric:hover{box-shadow:var(--shadow-sm)}
+.metric-label{font-size:11px;color:var(--text-ter);text-transform:uppercase;letter-spacing:.4px;font-weight:600}.metric-val{font-size:24px;font-weight:700;margin-top:4px;letter-spacing:-.5px}.metric-change{font-size:11px;margin-top:2px;font-weight:500}.metric-change.up{color:#1D9E75}
+.toolbar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.btn{font-size:12px;padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg-card);color:var(--text-sec);cursor:pointer;font-weight:500;font-family:var(--font);display:inline-flex;align-items:center;gap:5px}.btn:hover{background:var(--bg-hover)}.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn-primary:hover{background:var(--accent-dark)}
+.search-box{padding:7px 14px;border-radius:8px;border:1px solid var(--border);font-size:12px;font-family:var(--font);width:200px;background:var(--bg-card);color:var(--text);outline:none}.search-box:focus{border-color:var(--accent)}.search-box::placeholder{color:var(--text-ter)}
+.group{margin-bottom:20px}.group-header{display:flex;align-items:center;gap:8px;padding:8px 0;cursor:pointer;user-select:none}.group-color{width:4px;height:22px;border-radius:2px}.group-name{font-size:13px;font-weight:600}
+.group-count{font-size:11px;color:var(--text-ter);background:var(--bg-surface);padding:1px 8px;border-radius:10px}.group-toggle{margin-left:auto;font-size:10px;color:var(--text-ter)}.group.collapsed .group-toggle{transform:rotate(-90deg)}.group.collapsed .tbl-wrap{display:none}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border-light);border-radius:var(--radius);background:var(--bg-card);box-shadow:var(--shadow-sm);margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:900px}th{text-align:left;padding:10px 14px;font-weight:600;color:var(--text-ter);background:var(--bg-surface);border-bottom:1px solid var(--border-light);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--border-light)}tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg-hover)}
+.st{display:inline-block;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.st-novo{background:#E1F5EE;color:#085041}.st-contactado{background:#E6F1FB;color:#0C447C}.st-qualificado{background:#EEEDFE;color:#3C3489}.st-nqualificado{background:#FCEBEB;color:#791F1F}.st-convertido{background:#EAF3DE;color:#27500A}
+.st-aberta{background:#E6F1FB;color:#0C447C}.st-proposta{background:#FAEEDA;color:#633806}.st-negociacao{background:#EEEDFE;color:#3C3489}.st-ganha{background:#EAF3DE;color:#27500A}.st-perdida{background:#FCEBEB;color:#791F1F}
+.st-prospect{background:#E6F1FB;color:#0C447C}.st-potencial{background:#FAEEDA;color:#633806}.st-ativo{background:#EAF3DE;color:#27500A}.st-inativo{background:#F1EFE8;color:#444}.st-suspenso{background:#FCEBEB;color:#791F1F}
+.ch{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--text-sec)}.ch-dot{width:7px;height:7px;border-radius:50%}
+.avatar{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}.av-rs{background:#EEEDFE;color:#3C3489}.av-pl{background:#E1F5EE;color:#085041}
+.conn{font-size:11px;color:#185FA5;cursor:pointer;font-weight:500}.conn:hover{text-decoration:underline}.setor{color:var(--text-sec)}.val{font-weight:700}.motivo{font-size:11px;color:var(--text-sec);font-style:italic}
+.add-row{padding:10px 14px;font-size:12px;color:var(--text-ter);cursor:pointer;display:flex;align-items:center;gap:6px;font-weight:500}.add-row:hover{color:var(--accent)}
+.prob-bar{display:flex;align-items:center;gap:6px}.prob-track{width:50px;height:6px;background:var(--bg-surface);border-radius:3px;overflow:hidden}.prob-fill{height:100%;border-radius:3px}.prob-val{font-size:11px;font-weight:600;min-width:28px}
+.view-toggle{display:flex;gap:2px;background:var(--bg-surface);border-radius:8px;padding:2px;border:1px solid var(--border-light)}.view-btn{padding:5px 14px;font-size:12px;font-weight:500;border:none;background:none;border-radius:6px;cursor:pointer;color:var(--text-sec);font-family:var(--font)}.view-btn.active{background:var(--bg-card);color:var(--text);box-shadow:var(--shadow-sm)}
+.kanban{display:none;gap:14px;padding-bottom:20px;overflow-x:auto}.kanban.active{display:flex}.kanban-col{min-width:220px;max-width:260px;flex:1;background:var(--bg-surface);border-radius:var(--radius-lg);padding:12px;border:1px solid var(--border-light)}
+.kanban-col-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}.kanban-col-dot{width:8px;height:8px;border-radius:50%}.kanban-col-title{font-size:12px;font-weight:600;text-transform:uppercase}.kanban-col-count{font-size:11px;color:var(--text-ter);margin-left:auto;background:var(--bg-card);padding:1px 8px;border-radius:10px}.kanban-col-total{font-size:11px;color:var(--text-sec);font-weight:600;margin-left:4px}
+.kanban-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:12px;margin-bottom:8px;cursor:default}.kanban-card:hover{box-shadow:var(--shadow-md)}.kanban-card:last-child{margin-bottom:0}.kanban-card-title{font-size:13px;font-weight:600;margin-bottom:4px}.kanban-card-client{font-size:11px;color:var(--text-sec);margin-bottom:8px}
+.kanban-card-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;margin-bottom:4px}.kanban-card-row:last-child{margin-bottom:0}.kanban-card-label{color:var(--text-ter)}.kanban-card-value{font-weight:600}
+.kanban-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid var(--border-light)}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}.dash-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow-sm)}
+.dash-card-title{font-size:13px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px}.dash-card-title .badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--bg-surface);color:var(--text-ter)}
+.chart-wrap{position:relative;height:260px}.chart-wrap-sm{position:relative;height:200px}.dash-section{margin-bottom:28px}
+.dash-section-title{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}.dash-section-title::before{content:'';width:3px;height:16px;border-radius:2px;background:var(--accent)}
+.dash-table{width:100%;border-collapse:collapse;font-size:12.5px}.dash-table th{text-align:left;padding:8px 12px;font-weight:600;color:var(--text-ter);border-bottom:1px solid var(--border-light);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}
+.dash-table td{padding:10px 12px;border-bottom:1px solid var(--border-light)}.dash-table tr:last-child td{border-bottom:none}.dash-table tr:hover td{background:var(--bg-hover)}
+.funnel-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}.funnel-bar-wrap{flex:1;height:28px;background:var(--bg-surface);border-radius:6px;overflow:hidden}.funnel-bar{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 10px;font-size:11px;font-weight:600;color:#fff;min-width:fit-content}
+.funnel-label{width:100px;font-size:12px;font-weight:500;text-align:right;flex-shrink:0}.funnel-count{width:40px;font-size:12px;font-weight:600;flex-shrink:0}
+.timeline-item{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border-light)}.timeline-item:last-child{border-bottom:none}.timeline-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}.timeline-content{flex:1}.timeline-title{font-size:12px;font-weight:500}.timeline-time{font-size:11px;color:var(--text-ter)}
+/* Classifier */
+.clf-wrap{max-width:860px}
+.clf-toggle{display:flex;gap:2px;background:var(--bg-surface);border-radius:8px;padding:2px;border:1px solid var(--border-light);margin-bottom:20px;width:fit-content}
+.clf-toggle-btn{padding:8px 20px;font-size:13px;font-weight:500;border:none;background:none;border-radius:6px;cursor:pointer;color:var(--text-sec);font-family:var(--font)}.clf-toggle-btn.active{background:var(--bg-card);color:var(--text);box-shadow:var(--shadow-sm)}
+.clf-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.clf-field{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px}
+.clf-field label{display:block;font-size:11px;font-weight:600;color:var(--text-ter);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.clf-field select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none;cursor:pointer}.clf-field select:focus{border-color:var(--accent)}
+.clf-field .peso-tag{float:right;font-size:10px;color:var(--text-ter);font-weight:500}
+.clf-result{display:flex;gap:20px;align-items:stretch;margin-bottom:24px}
+.clf-score-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:24px;flex:0 0 200px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.clf-score-num{font-size:48px;font-weight:700;letter-spacing:-2px;line-height:1}.clf-score-label{font-size:11px;color:var(--text-ter);text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.clf-grade{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;font-size:28px;font-weight:700;margin-top:12px}
+.clf-grade-A{background:#EAF3DE;color:#27500A;border:2px solid #97C459}.clf-grade-B{background:#E6F1FB;color:#0C447C;border:2px solid #85B7EB}.clf-grade-C{background:#FAEEDA;color:#633806;border:2px solid #FAC775}.clf-grade-D{background:#FCEBEB;color:#791F1F;border:2px solid #F09595}
+.clf-breakdown{flex:1;background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:20px}
+.clf-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px}.clf-bar-row:last-child{margin-bottom:0}
+.clf-bar-label{width:160px;text-align:right;color:var(--text-sec);font-weight:500;flex-shrink:0}.clf-bar-track{flex:1;height:12px;background:var(--bg-surface);border-radius:6px;overflow:hidden}
+.clf-bar-fill{height:100%;border-radius:6px;transition:width .4s}.clf-bar-val{width:50px;font-weight:600;font-size:11px;flex-shrink:0}
+.clf-name-input{padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:var(--font);width:100%;background:var(--bg-card);color:var(--text);outline:none;margin-bottom:16px}.clf-name-input:focus{border-color:var(--accent)}
+.clf-legend{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}.clf-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-sec)}.clf-legend-dot{width:12px;height:12px;border-radius:50%}
+@media(max-width:900px){.sidebar{display:none}.main{margin-left:0}.metrics{grid-template-columns:repeat(2,1fr)}.dash-grid{grid-template-columns:1fr}.clf-form{grid-template-columns:1fr}.clf-result{flex-direction:column}.clf-score-card{flex:auto}}
+@media(max-width:500px){.metrics{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="sidebar-brand"><div class="sidebar-logo">R</div><div><div class="sidebar-title">Rotovedras</div><div class="sidebar-subtitle">Grupo Iberpolymers</div></div></div>
+<div class="sidebar-section">
+<div class="sidebar-label">CRM</div>
+<div class="sidebar-item active" data-tab="dashboard">&#9632; Dashboard</div>
+<div class="sidebar-item" data-tab="leads">&#9679; Leads</div>
+<div class="sidebar-item" data-tab="contactos">&#9679; Contactos</div>
+<div class="sidebar-item" data-tab="oportunidades">&#9679; Oportunidades</div>
+<div class="sidebar-item" data-tab="clientes">&#9679; Clientes</div>
+<div class="sidebar-item" data-tab="classificacao">&#9679; Classificacao</div>
+</div>
+<div class="sidebar-footer">CRM Rotovedras v1.2</div>
+</aside>
+<div class="main">
+<div class="header"><div class="header-title"><span class="dot" style="width:10px;height:10px;border-radius:50%;background:var(--accent)"></span>CRM Rotovedras</div></div>
+<div class="tabs">
+<button class="tab active" data-tab="dashboard">Dashboard</button>
+<button class="tab" data-tab="leads">Leads</button>
+<button class="tab" data-tab="contactos">Contactos</button>
+<button class="tab" data-tab="oportunidades">Oportunidades</button>
+<button class="tab" data-tab="clientes">Clientes</button>
+<button class="tab" data-tab="classificacao">Classificacao</button>
+</div>
+<div class="content">
+
+<!-- All board content rendered by JS below -->
+<div class="board active" id="dashboard"><div id="dashContent"></div></div>
+<div class="board" id="leads"><div id="leadsContent"></div></div>
+<div class="board" id="contactos"><div id="contactosContent"></div></div>
+<div class="board" id="oportunidades"><div id="oportContent"></div></div>
+<div class="board" id="clientes"><div id="clientesContent"></div></div>
+<div class="board" id="classificacao">
+<div class="clf-wrap">
+<div style="margin-bottom:20px"><div style="font-size:15px;font-weight:700;margin-bottom:6px">Calculadora de classificacao de cliente</div><div style="font-size:13px;color:var(--text-sec)">Selecione o tipo e preencha os criterios para obter a classificacao (A/B/C/D).</div></div>
+<div class="clf-toggle" id="clfToggle">
+<button class="clf-toggle-btn active" onclick="setClfMode('atual')">Cliente atual</button>
+<button class="clf-toggle-btn" onclick="setClfMode('novo')">Cliente novo</button>
+</div>
+<input type="text" class="clf-name-input" id="clfClientName" placeholder="Nome do cliente (opcional)">
+<div class="clf-legend">
+<div class="clf-legend-item"><div class="clf-legend-dot" style="background:#97C459"></div>A - Premium (>=80)</div>
+<div class="clf-legend-item"><div class="clf-legend-dot" style="background:#85B7EB"></div>B - Standard (>=60)</div>
+<div class="clf-legend-item"><div class="clf-legend-dot" style="background:#FAC775"></div>C - Basico (>=30)</div>
+<div class="clf-legend-item"><div class="clf-legend-dot" style="background:#F09595"></div>D - Risco (<30)</div>
+</div>
+<div class="clf-form" id="clfForm"></div>
+<div class="clf-result">
+<div class="clf-score-card">
+<div class="clf-score-num" id="clfScoreNum">0</div>
+<div class="clf-score-label">Score (0-100)</div>
+<div class="clf-grade clf-grade-D" id="clfGrade">D</div>
+<div style="font-size:11px;color:var(--text-ter);margin-top:8px" id="clfGradeLabel">Risco</div>
+</div>
+<div class="clf-breakdown">
+<div style="font-size:13px;font-weight:600;margin-bottom:12px">Decomposicao por criterio</div>
+<div id="clfBars"></div>
+</div>
+</div>
+<div style="display:flex;gap:8px">
+<button class="btn btn-primary" onclick="clfReset()">Limpar</button>
+<button class="btn" onclick="clfExport()">Copiar resultado</button>
+</div>
+</div>
+</div>
+</div></div></div>
+<script>
+
+// ============= DATA =============
+var DATA={
+leads:[
+{n:"Joao Ferreira",e:"AquaPark Lda",em:"joao@aquapark.pt",t:"912345678",nif:"501234567",s:"Lazer",c:"Website",st:"Novo",r:"RS",d:"08/04"},
+{n:"Maria Santos",e:"EcoJardins SA",em:"maria@ecojardins.pt",t:"936789012",nif:"509876543",s:"Agricultura",c:"Google Ads",st:"Novo",r:"PL",d:"07/04"},
+{n:"Rui Costa",e:"MuniTejo",em:"rui.costa@munitejo.pt",t:"961234567",nif:"506543210",s:"Municipal",c:"Website",st:"Novo",r:"RS",d:"06/04"},
+{n:"Ana Lopes",e:"HidroSul",em:"ana@hidrosul.pt",t:"918765432",nif:"504321098",s:"Trat. agua",c:"Google Ads",st:"Contactado",r:"PL",d:"02/04"},
+{n:"Pedro Nunes",e:"BuildMax",em:"pedro@buildmax.pt",t:"927654321",nif:"508765432",s:"Construcao",c:"Website",st:"Contactado",r:"RS",d:"01/04"},
+{n:"Sara Dias",e:"VinoPorto",em:"sara@vinoporto.pt",t:"965432109",nif:"503210987",s:"Vinicultura",c:"Website",st:"Qualificado",r:"PL",d:"28/03"},
+{n:"Tiago Mendes",e:"PlastiForm",em:"tiago@plastiform.pt",t:"933210987",nif:"507654321",s:"Industrial",c:"Google Ads",st:"Qualificado",r:"RS",d:"25/03"},
+{n:"Clara Reis",e:"GreenPool",em:"clara@greenpool.pt",t:"916543210",nif:"505432109",s:"Lazer",c:"Website",st:"Qualificado",r:"PL",d:"22/03"},
+{n:"Bruno Alves",e:"AgroNorte",em:"bruno@agronorte.pt",t:"924321098",nif:"502109876",s:"Agricultura",c:"Google Ads",st:"Convertido",r:"RS",d:"15/03"},
+{n:"Ines Matos",e:"UrbanAqua",em:"ines@urbanaqua.pt",t:"967890123",nif:"506789012",s:"Municipal",c:"Website",st:"Convertido",r:"PL",d:"10/03"},
+{n:"Hugo Pinto",e:"SolTech",em:"hugo@soltech.pt",t:"939012345",nif:"501098765",s:"Energia",c:"Website",st:"Nao qualificado",r:"RS",d:"05/03"},
+{n:"Filipa Gomes",e:"ParkIdeia",em:"filipa@parkideia.pt",t:"913456789",nif:"508901234",s:"Lazer",c:"Google Ads",st:"Nao qualificado",r:"PL",d:"01/03"}
+],
+opps:[
+{n:"Depositos 5000L",cl:"AquaPark Lda",p:"Deposito PEAD 5000L",v:12000,prob:30,dt:"30/04/2026",st:"Aberta",r:"RS"},
+{n:"Tanques irrigacao",cl:"AgroNorte",p:"Tanque 2000L",v:5000,prob:40,dt:"15/05/2026",st:"Aberta",r:"PL"},
+{n:"Contentores municipais",cl:"UrbanAqua",p:"Contentor RSU 1100L",v:18000,prob:50,dt:"20/04/2026",st:"Proposta",r:"RS"},
+{n:"Piscinas modulares",cl:"GreenPool",p:"Piscina modular 8m",v:22000,prob:65,dt:"10/05/2026",st:"Negociacao",r:"PL"},
+{n:"Cubas vinificacao",cl:"VinoPorto",p:"Cuba 3000L",v:10000,prob:70,dt:"25/04/2026",st:"Negociacao",r:"RS"},
+{n:"Depositos quimicos",cl:"HidroSul",p:"Deposito quimico 1500L",v:24500,prob:100,dt:"15/03/2026",st:"Ganha",r:"PL"},
+{n:"Separadores gordura",cl:"BuildMax",p:"Separador 500L",v:14000,prob:100,dt:"20/03/2026",st:"Ganha",r:"RS"},
+{n:"Reservatorios 10000L",cl:"PlastiForm",p:"Reservatorio 10000L",v:15000,prob:0,dt:"01/04/2026",st:"Perdida",r:"RS",motivo:"Preco concorrente"}
+]
+};
+
+// ============= RENDER HELPERS =============
+function stClass(s){return 'st-'+s.toLowerCase().replace(/[^a-z]/g,'')}
+function chDot(c){return c==='Website'?'#378ADD':'#D85A30'}
+function av(r){return '<span class="avatar av-'+r.toLowerCase()+'">'+r+'</span>'}
+function probBar(p){var c=p>=80?'#639922':p>=50?'#7F77DD':p>=30?'#BA7517':'#378ADD';return '<div class="prob-bar"><div class="prob-track"><div class="prob-fill" style="width:'+p+'%;background:'+c+'"></div></div><span class="prob-val" style="color:var(--text-sec)">'+p+'%</span></div>'}
+function euro(v){return v.toLocaleString('pt-PT')+' \u20ac'}
+
+// ============= BOARD RENDERERS =============
+function renderLeads(){
+var groups={Novo:[],Contactado:[],Qualificado:[],Convertido:[],'Nao qualificado':[]};
+DATA.leads.forEach(function(l){(groups[l.st]||(groups[l.st]=[])).push(l)});
+var gColors={Novo:'#1D9E75',Contactado:'#378ADD',Qualificado:'#7F77DD',Convertido:'#639922','Nao qualificado':'#A32D2D'};
+var gNames={Novo:'Novos',Contactado:'Em progresso',Qualificado:'Em progresso',Convertido:'Fechados','Nao qualificado':'Fechados'};
+var merged={Novos:groups.Novo,'Em progresso':[].concat(groups.Contactado,groups.Qualificado),Fechados:[].concat(groups.Convertido,groups['Nao qualificado'])};
+var mColors={Novos:'#1D9E75','Em progresso':'#378ADD',Fechados:'#888'};
+var h='<div class="metrics"><div class="metric"><div class="metric-label">Total leads</div><div class="metric-val">'+DATA.leads.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Qualificados</div><div class="metric-val">'+groups.Qualificado.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Convertidos</div><div class="metric-val">'+groups.Convertido.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Taxa conversao</div><div class="metric-val">'+Math.round(groups.Convertido.length/DATA.leads.length*100)+'%</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary">+ Novo lead</button><input type="text" class="search-box" placeholder="Pesquisar leads..." onkeyup="filterTable(this,\'leads\')"><button class="btn">Filtrar</button><button class="btn">Exportar</button></div>';
+Object.keys(merged).forEach(function(gn){
+var items=merged[gn];if(!items.length)return;
+h+='<div class="group" id="g-'+gn.replace(/\s/g,'')+'"><div class="group-header" onclick="toggleGroup(\'g-'+gn.replace(/\s/g,'')+'\')">';
+h+='<div class="group-color" style="background:'+mColors[gn]+'"></div><div class="group-name">'+gn+'</div><div class="group-count">'+items.length+'</div><div class="group-toggle">&#9662;</div></div>';
+h+='<div class="tbl-wrap"><table><tr><th>Lead</th><th>Empresa</th><th>Email</th><th>Telemovel</th><th>NIF</th><th>Setor</th><th>Canal</th><th>Estado</th><th>Resp.</th><th>Criado</th></tr>';
+items.forEach(function(l){
+h+='<tr><td>'+l.n+'</td><td>'+l.e+'</td><td>'+l.em+'</td><td>'+l.t+'</td><td>'+l.nif+'</td><td class="setor">'+l.s+'</td>';
+h+='<td><span class="ch"><span class="ch-dot" style="background:'+chDot(l.c)+'"></span>'+l.c+'</span></td>';
+h+='<td><span class="st '+stClass(l.st)+'">'+l.st+'</span></td><td>'+av(l.r)+'</td><td style="color:var(--text-ter);font-size:11px">'+l.d+'</td></tr>';
+});
+h+='</table></div></div>';
+});
+document.getElementById('leadsContent').innerHTML=h;
+}
+
+function renderOpps(){
+var h='<div class="metrics"><div class="metric"><div class="metric-label">Pipeline total</div><div class="metric-val">'+euro(DATA.opps.reduce(function(a,o){return a+o.v},0))+'</div></div>';
+var wp=DATA.opps.reduce(function(a,o){return a+o.v*o.prob/100},0);
+h+='<div class="metric"><div class="metric-label">Valor ponderado</div><div class="metric-val">'+euro(Math.round(wp))+'</div></div>';
+var ganhas=DATA.opps.filter(function(o){return o.st==='Ganha'});
+h+='<div class="metric"><div class="metric-label">Ganhas</div><div class="metric-val">'+euro(ganhas.reduce(function(a,o){return a+o.v},0))+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Taxa fecho</div><div class="metric-val">'+Math.round(ganhas.length/DATA.opps.length*100)+'%</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary">+ Nova oportunidade</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'oportunidades\')"><div class="view-toggle"><button class="view-btn active" onclick="setView(\'table\')">Tabela</button><button class="view-btn" onclick="setView(\'kanban\')">Kanban</button></div></div>';
+var stOrder=['Aberta','Proposta','Negociacao','Ganha','Perdida'];
+var stColors={Aberta:'#378ADD',Proposta:'#BA7517',Negociacao:'#7F77DD',Ganha:'#639922',Perdida:'#A32D2D'};
+h+='<div id="opp-table-view">';
+stOrder.forEach(function(st){
+var items=DATA.opps.filter(function(o){return o.st===st});if(!items.length)return;
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+stColors[st]+'"></div><div class="group-name">'+st+'</div><div class="group-count">'+items.length+'</div></div>';
+h+='<div class="tbl-wrap"><table><tr><th>Oportunidade</th><th>Cliente</th><th>Produto</th><th>Valor</th><th>Probabilidade</th><th>Valor pond.</th><th>Data</th><th>Estado</th><th>Resp.</th></tr>';
+items.forEach(function(o){
+h+='<tr><td>'+o.n+'</td><td><span class="conn">'+o.cl+'</span></td><td>'+o.p+'</td><td class="val">'+euro(o.v)+'</td><td>'+probBar(o.prob)+'</td>';
+h+='<td style="color:var(--text-sec)">'+euro(Math.round(o.v*o.prob/100))+'</td><td>'+o.dt+'</td><td><span class="st '+stClass(o.st)+'">'+o.st+'</span></td><td>'+av(o.r)+'</td></tr>';
+});
+h+='</table></div></div>';
+});
+h+='</div>';
+// Kanban
+h+='<div class="kanban" id="opp-kanban-view">';
+stOrder.forEach(function(st){
+var items=DATA.opps.filter(function(o){return o.st===st});
+var total=items.reduce(function(a,o){return a+o.v},0);
+h+='<div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-dot" style="background:'+stColors[st]+'"></div><div class="kanban-col-title">'+st+'</div><div class="kanban-col-count">'+items.length+'</div><div class="kanban-col-total">'+Math.round(total/1000)+'k\u20ac</div></div>';
+items.forEach(function(o){
+h+='<div class="kanban-card"><div class="kanban-card-title">'+o.n+'</div><div class="kanban-card-client">'+o.cl+'</div>';
+h+='<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">'+euro(o.v)+'</span></div>';
+if(o.prob>0&&o.prob<100)h+='<div class="kanban-card-row"><span class="kanban-card-label">Prob.</span><span>'+probBar(o.prob)+'</span></div>';
+if(o.motivo)h+='<div class="kanban-card-row"><span class="kanban-card-label">Motivo</span><span class="motivo">'+o.motivo+'</span></div>';
+h+='<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">'+o.dt.substring(0,5)+'</span>'+av(o.r).replace('28','22').replace('10px','9px')+'</div></div>';
+});
+h+='</div>';
+});
+h+='</div>';
+document.getElementById('oportContent').innerHTML=h;
+}
+
+function renderDashboard(){
+var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
+h+='<div class="metric"><div class="metric-label">Pipeline ativo</div><div class="metric-val">67.000 \u20ac</div><div class="metric-change up">5 oportunidades</div></div>';
+h+='<div class="metric"><div class="metric-label">Valor ponderado</div><div class="metric-val">35.900 \u20ac</div></div>';
+h+='<div class="metric"><div class="metric-label">Ganhas (YTD)</div><div class="metric-val">38.500 \u20ac</div><div class="metric-change up">&#9650; 2 negocios</div></div>';
+h+='<div class="metric"><div class="metric-label">Taxa fecho</div><div class="metric-val">44%</div></div>';
+h+='<div class="metric"><div class="metric-label">Leads este mes</div><div class="metric-val">5</div><div class="metric-change up">&#9650; 67%</div></div></div>';
+h+='<div class="dash-section"><div class="dash-section-title">Pipeline comercial</div><div class="dash-grid">';
+h+='<div class="dash-card"><div class="dash-card-title">Pipeline por estado <span class="badge">valor</span></div><div class="chart-wrap"><canvas id="chartPipeline"></canvas></div></div>';
+h+='<div class="dash-card"><div class="dash-card-title">Funil de conversao</div><div style="padding:10px 0">';
+[['Leads',12,100,'#1D9E75'],['Contactados',9,75,'#378ADD'],['Qualificados',6,50,'#7F77DD'],['Propostas',4,33,'#BA7517'],['Ganhas',2,17,'#639922']].forEach(function(f){
+h+='<div class="funnel-row"><div class="funnel-label">'+f[0]+'</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:'+f[2]+'%;background:'+f[3]+'">'+f[1]+'</div></div><div class="funnel-count">'+f[1]+'</div></div>';
+});
+h+='</div></div></div></div>';
+h+='<div class="dash-section"><div class="dash-section-title">Analise de leads</div><div class="dash-grid">';
+h+='<div class="dash-card"><div class="dash-card-title">Leads por canal</div><div class="chart-wrap-sm"><canvas id="chartCanal"></canvas></div></div>';
+h+='<div class="dash-card"><div class="dash-card-title">Evolucao mensal</div><div class="chart-wrap-sm"><canvas id="chartMensal"></canvas></div></div>';
+h+='</div></div>';
+h+='<div class="dash-section"><div class="dash-section-title">Performance comercial</div><div class="dash-grid">';
+h+='<div class="dash-card"><div class="dash-card-title">Receita por comercial</div><div class="chart-wrap"><canvas id="chartComerc"></canvas></div></div>';
+h+='<div class="dash-card"><div class="dash-card-title">Previsao fecho mensal</div><div class="chart-wrap"><canvas id="chartPrev"></canvas></div></div>';
+h+='</div></div>';
+document.getElementById('dashContent').innerHTML=h;
+initCharts();
+}
+
+// ============= NAVIGATION =============
+function switchTab(tab){
+document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
+document.querySelectorAll('.board').forEach(function(x){x.classList.remove('active')});
+document.querySelectorAll('.sidebar-item').forEach(function(x){x.classList.remove('active')});
+document.querySelectorAll('.tab[data-tab="'+tab+'"]').forEach(function(x){x.classList.add('active')});
+document.querySelectorAll('.sidebar-item[data-tab="'+tab+'"]').forEach(function(x){x.classList.add('active')});
+document.getElementById(tab).classList.add('active');
+if(tab==='dashboard')renderDashboard();
+if(tab==='leads')renderLeads();
+if(tab==='oportunidades')renderOpps();
+if(tab==='classificacao')renderClf();
+}
+document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
+document.querySelectorAll('.sidebar-item[data-tab]').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
+function toggleGroup(id){document.getElementById(id).classList.toggle('collapsed')}
+function setView(v){
+document.querySelectorAll('.view-btn').forEach(function(b){b.classList.remove('active')});
+if(v==='kanban'){document.getElementById('opp-table-view').style.display='none';document.getElementById('opp-kanban-view').classList.add('active');document.querySelectorAll('.view-btn')[1].classList.add('active')}
+else{document.getElementById('opp-table-view').style.display='block';document.getElementById('opp-kanban-view').classList.remove('active');document.querySelectorAll('.view-btn')[0].classList.add('active')}
+}
+function filterTable(input,boardId){
+var q=input.value.toLowerCase();document.getElementById(boardId).querySelectorAll('table tr').forEach(function(r){if(r.querySelector('th'))return;r.style.display=r.textContent.toLowerCase().indexOf(q)!==-1?'':'none'});
+}
+
+// ============= CHARTS =============
+var chartsInit=false;
+function initCharts(){
+if(chartsInit)return;chartsInit=true;
+Chart.defaults.font.family='DM Sans';Chart.defaults.font.size=11;Chart.defaults.color='#6b6b6b';
+Chart.defaults.plugins.legend.labels.usePointStyle=true;
+new Chart(document.getElementById('chartPipeline'),{type:'bar',data:{labels:['Aberta','Proposta','Negociacao','Ganha','Perdida'],datasets:[{data:[17000,18000,32000,38500,15000],backgroundColor:['#85B7EB','#FAC775','#AFA9EC','#97C459','#F09595'],borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
+new Chart(document.getElementById('chartCanal'),{type:'doughnut',data:{labels:['Website','Google Ads'],datasets:[{data:[7,5],backgroundColor:['#378ADD','#D85A30'],borderWidth:0,spacing:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom'}}}});
+new Chart(document.getElementById('chartMensal'),{type:'line',data:{labels:['Jan','Fev','Mar','Abr'],datasets:[{label:'Leads',data:[2,1,4,5],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.08)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#1D9E75'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
+new Chart(document.getElementById('chartComerc'),{type:'bar',data:{labels:['Ricardo Silva','Paula Lima'],datasets:[{label:'Pipeline',data:[40000,27000],backgroundColor:'#85B7EB',borderRadius:6,borderSkipped:false},{label:'Ganhas',data:[14000,24500],backgroundColor:'#97C459',borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
+new Chart(document.getElementById('chartPrev'),{type:'bar',data:{labels:['Mar','Abr','Mai'],datasets:[{label:'Total',data:[38500,40000,27000],backgroundColor:'rgba(55,138,221,.15)',borderColor:'#378ADD',borderWidth:1.5,borderRadius:6,borderSkipped:false},{label:'Ponderado',data:[38500,16200,16300],backgroundColor:'#378ADD',borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
+}
+
+// ============= CLASSIFIER =============
+var CLF_ATUAL={
+faturacao:{peso:30,label:"Faturacao",opts:[["0-50k",1],["50-150k",2],["150-500k",3],[">500k",4]]},
+estrategico:{peso:15,label:"Estrategico",opts:[["Pouco impacto",1],["Relevante posicionamento",2],["Setor em crescimento",3],["Empresa do grupo",4]]},
+recorrencia:{peso:15,label:"Recorrencia",opts:[["2x ano",1],["2x trimestre",2],["1x mes",3],["2x mes",4]]},
+condicoes_pagamento:{peso:10,label:"Condicoes pagamento",opts:[[">60 dias",1],["30-60 dias",2],["<=30 dias",3],["Pronto pagamento",4]]},
+pagamento:{peso:15,label:"Comportamento pagamento",opts:[["Risco",1],["Atraso >15 dias",2],["Dentro do prazo",3],["Paga antes",4]]},
+potencial_crescimento:{peso:10,label:"Potencial crescimento",opts:[["Baixo",1],["Moderado",2],["Bom",3],["Elevado",4]]},
+complexidade_operacional:{peso:5,label:"Complexidade operacional",opts:[["Muito exigente",1],["Exigente",2],["Facil",3],["Muito facil",4]]}
+};
+var CLF_NOVO={
+potencial_consumo:{peso:15,label:"Potencial consumo",opts:[["0-50k",1],["50-150k",2],["150-500k",3],[">500k",4]]},
+risco_financeiro:{peso:15,label:"Risco financeiro",opts:[["Alto",1],["Medio",2],["Medio-baixo",3],["Baixo",4]]},
+estrategico:{peso:15,label:"Estrategico",opts:[["Pouco impacto",1],["Relevante posicionamento",2],["Setor em crescimento",3],["Empresa do grupo",4]]},
+potencial_crescimento:{peso:15,label:"Potencial crescimento",opts:[["Baixo",1],["Moderado",2],["Bom",3],["Elevado",4]]},
+condicoes_pagamento:{peso:10,label:"Condicoes pagamento",opts:[["90 dias",1],["60 dias",2],["30 dias",3],["Pronto pagamento",4]]},
+dimensao_empresa:{peso:10,label:"Dimensao empresa",opts:[["0-1M",1],["1-4M",2],["4-10M",3],[">10M",4]]},
+organizacao:{peso:10,label:"Organizacao",opts:[["Muito desorganizada",1],["Desorganizada",2],["Organizada",3],["Muito organizada",4]]},
+geografia:{peso:5,label:"Geografia",opts:[["Barreiras",1],["Dificil",2],["Estavel",3],["Crescimento",4]]},
+risco_preco:{peso:5,label:"Risco preco",opts:[["Preco baixo",1],["Sensivel a preco",2],["Equilibrado",3],["Valoriza qualidade",4]]}
+};
+var clfMode='atual';
+function setClfMode(m){
+clfMode=m;
+document.querySelectorAll('.clf-toggle-btn').forEach(function(b){b.classList.remove('active')});
+document.querySelectorAll('.clf-toggle-btn')[m==='atual'?0:1].classList.add('active');
+renderClf();
+}
+function renderClf(){
+var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;
+var form=document.getElementById('clfForm');
+var h='';
+Object.keys(crit).forEach(function(k){
+var c=crit[k];
+h+='<div class="clf-field"><label>'+c.label+' <span class="peso-tag">Peso: '+c.peso+'%</span></label>';
+h+='<select id="clf_'+k+'" onchange="calcClf()">';
+h+='<option value="0">-- Selecionar --</option>';
+c.opts.forEach(function(o){h+='<option value="'+o[1]+'">'+o[0]+' ('+o[1]+'/4)</option>'});
+h+='</select></div>';
+});
+form.innerHTML=h;
+calcClf();
+}
+function calcClf(){
+var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;
+var score=0;var bars='';
+var colors={1:'#F09595',2:'#FAC775',3:'#85B7EB',4:'#97C459'};
+Object.keys(crit).forEach(function(k){
+var c=crit[k];
+var sel=document.getElementById('clf_'+k);
+var nota=sel?parseInt(sel.value)||0:0;
+var contrib=(nota/4)*c.peso;
+score+=contrib;
+var pct=nota>0?(nota/4*100):0;
+var color=colors[nota]||'#ddd';
+bars+='<div class="clf-bar-row"><div class="clf-bar-label">'+c.label+' ('+c.peso+'%)</div>';
+bars+='<div class="clf-bar-track"><div class="clf-bar-fill" style="width:'+pct+'%;background:'+color+'"></div></div>';
+bars+='<div class="clf-bar-val">'+contrib.toFixed(1)+' pts</div></div>';
+});
+score=Math.round(score*100)/100;
+var grade=score>=80?'A':score>=60?'B':score>=30?'C':'D';
+var labels={A:'Premium',B:'Standard',C:'Basico',D:'Risco'};
+document.getElementById('clfScoreNum').textContent=score.toFixed(1);
+var gradeEl=document.getElementById('clfGrade');
+gradeEl.textContent=grade;
+gradeEl.className='clf-grade clf-grade-'+grade;
+document.getElementById('clfGradeLabel').textContent=labels[grade];
+document.getElementById('clfBars').innerHTML=bars;
+}
+function clfReset(){
+var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;
+Object.keys(crit).forEach(function(k){var s=document.getElementById('clf_'+k);if(s)s.value='0'});
+document.getElementById('clfClientName').value='';
+calcClf();
+}
+function clfExport(){
+var crit=clfMode==='atual'?CLF_ATUAL:CLF_NOVO;
+var name=document.getElementById('clfClientName').value||'(sem nome)';
+var score=parseFloat(document.getElementById('clfScoreNum').textContent);
+var grade=document.getElementById('clfGrade').textContent;
+var lines=['Classificacao Cliente: '+name,'Tipo: Cliente '+(clfMode==='atual'?'Atual':'Novo'),'Score: '+score+'/100','Classe: '+grade,'','Criterios:'];
+Object.keys(crit).forEach(function(k){
+var c=crit[k];var sel=document.getElementById('clf_'+k);var nota=sel?parseInt(sel.value)||0:0;
+var optLabel=nota>0?c.opts[nota-1][0]:'(nao preenchido)';
+lines.push('  '+c.label+': '+optLabel+' ('+nota+'/4) - Peso '+c.peso+'%');
+});
+navigator.clipboard.writeText(lines.join('\n')).then(function(){alert('Resultado copiado!')});
+}
+
+// Init
+renderDashboard();
+</script>
+</body>
+</html>
