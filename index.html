@@ -15,7 +15,7 @@
 .sidebar-label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text-ter);padding:8px 8px 4px;font-weight:600}
 .sidebar-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;font-size:13px;color:var(--text-sec);cursor:pointer;font-weight:500;transition:all .12s}
 .sidebar-item:hover{background:var(--bg-hover);color:var(--text)}.sidebar-item.active{background:rgba(29,158,117,.08);color:var(--accent);font-weight:600}
-.sidebar-item .count{margin-left:auto;font-size:11px;background:var(--bg-surface);padding:1px 7px;border-radius:10px;color:var(--text-ter)}.sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border-light);font-size:11px;color:var(--text-ter)}
+.sidebar-item .count{margin-left:auto;font-size:11px;background:var(--bg-surface);padding:1px 7px;border-radius:10px;color:var(--text-ter)}.sidebar-scroll{flex:1;overflow-y:auto;padding-bottom:8px}.sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid var(--border-light);font-size:11px;color:var(--text-ter)}
 .main{margin-left:240px;flex:1}.header{padding:20px 32px 0;display:flex;align-items:center;gap:16px}.header-title{font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px}
 .header-title .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
 .tabs{display:flex;gap:0;padding:16px 32px 0;border-bottom:1px solid var(--border)}.tab{padding:10px 18px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text-sec);border-bottom:2.5px solid transparent;font-family:var(--font)}.tab.active{color:var(--text);border-bottom-color:var(--accent)}.tab:hover{color:var(--text)}
@@ -36,7 +36,36 @@ td{padding:11px 14px;border-bottom:1px solid var(--border-light)}tr:last-child t
 .st-novaoportunidade{background:#E6F1FB;color:#0C447C}.st-qualificacao{background:#E6F1FB;color:#0C447C}.st-viabilidadeinterna{background:#EEEDFE;color:#3C3489}
 .st-propostaempreparacao{background:#EEEDFE;color:#3C3489}.st-propostaenviada{background:#FAEEDA;color:#633806}.st-aguardandodecisao{background:#FAECE7;color:#712B13}
 .st-adjudicado{background:#E1F5EE;color:#085041}.st-ganhohandover{background:#EAF3DE;color:#27500A}.st-perdido{background:#FCEBEB;color:#791F1F}
+.st-fechadoganho{background:#EAF3DE;color:#27500A}.st-fechadoperdido{background:#FCEBEB;color:#791F1F}
+.prio{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}.prio-alta{background:#FCEBEB;color:#791F1F}.prio-media{background:#FAEEDA;color:#633806}.prio-baixa{background:#E6F1FB;color:#0C447C}
+.prod-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:500;background:var(--bg-surface);color:var(--text-sec);margin:1px 2px}
+.prox-acao{font-size:11px;color:var(--text-sec);max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.check-item{display:flex;align-items:center;gap:6px;font-size:12px;padding:6px 8px;border:1px solid var(--border-light);border-radius:6px;cursor:pointer}.check-item:hover{background:var(--bg-hover)}.check-item.selected{background:rgba(29,158,117,.08);border-color:var(--accent)}.check-item input{accent-color:var(--accent)}
+.subtabs{display:flex;gap:0;border-bottom:1px solid var(--border-light);margin-bottom:16px}
+.subtab{padding:8px 16px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text-sec);border-bottom:2px solid transparent;font-family:var(--font)}.subtab.active{color:var(--text);border-bottom-color:var(--accent)}
+.detail-grid{display:grid;grid-template-columns:120px 1fr;gap:4px 12px;font-size:12px;margin-top:8px}
+.detail-label{color:var(--text-ter);font-weight:500;text-align:right}.detail-val{color:var(--text)}
+.loc-tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:10px;font-weight:600}
+.loc-tv{background:#E1F5EE;color:#085041}.loc-ca{background:#E6F1FB;color:#0C447C}.loc-pa{background:#EEEDFE;color:#3C3489}
+.serv-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:14px}
+.serv-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.placeholder-page{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center}
+.ph-icon{font-size:48px;margin-bottom:16px;opacity:.4}
+.ph-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.ph-desc{font-size:14px;color:var(--text-sec);max-width:500px;line-height:1.6;margin-bottom:20px}
+.ph-status{display:inline-block;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;background:var(--bg-surface);color:var(--text-ter)}
+.serv-name{font-size:13px;font-weight:600}.serv-desc{font-size:11px;color:var(--text-sec);margin-top:2px}
+.of-flow{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px}.of-step{padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600;background:var(--bg-surface);color:var(--text-ter)}.of-step.active{color:#fff}
+.resource-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius);padding:14px;margin-bottom:8px}.resource-card:hover{box-shadow:var(--shadow-sm)}
+.resource-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;font-weight:600}
+.resource-bar{height:8px;background:var(--bg-surface);border-radius:4px;overflow:hidden;margin-top:4px}.resource-fill{height:100%;border-radius:4px}
+.acabamento-check{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--border-light);border-radius:8px;margin-bottom:6px;font-size:12px}
+.acabamento-check.done{background:rgba(29,158,117,.05);border-color:var(--accent)}
+.guia-step{display:flex;gap:12px;padding:12px;border:1px solid var(--border-light);border-radius:8px;margin-bottom:8px}
+.guia-num{width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.guia-content{flex:1}.guia-title{font-size:13px;font-weight:600}.guia-desc{font-size:11px;color:var(--text-sec);margin-top:2px}.guia-time{font-size:10px;color:var(--text-ter);margin-top:4px}
 .st-prospect{background:#E6F1FB;color:#0C447C}.st-potencial{background:#FAEEDA;color:#633806}.st-ativo{background:#EAF3DE;color:#27500A}.st-inativo{background:#F1EFE8;color:#444}.st-suspenso{background:#FCEBEB;color:#791F1F}
+.st-emarmazem{background:#FAEEDA;color:#633806}.st-emmanutencao{background:#FAECE7;color:#712B13}.st-abatido{background:#F1EFE8;color:#444}.st-emtransito{background:#E6F1FB;color:#0C447C}
 .ch{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--text-sec)}.ch-dot{width:7px;height:7px;border-radius:50%}
 .avatar{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}.av-rs{background:#EEEDFE;color:#3C3489}.av-pl{background:#E1F5EE;color:#085041}
 .conn{font-size:11px;color:#185FA5;cursor:pointer;font-weight:500}.conn:hover{text-decoration:underline}.setor{color:var(--text-sec)}.val{font-weight:700}.motivo{font-size:11px;color:var(--text-sec);font-style:italic}
@@ -97,32 +126,55 @@ td{padding:11px 14px;border-bottom:1px solid var(--border-light)}tr:last-child t
 <div class="app">
 <aside class="sidebar">
 <div class="sidebar-brand"><div class="sidebar-logo">R</div><div><div class="sidebar-title">Rotovedras</div><div class="sidebar-subtitle">Grupo Iberpolymers</div></div></div>
+<div class="sidebar-scroll">
 <div class="sidebar-section">
-<div class="sidebar-label">CRM</div>
+<div class="sidebar-label">Comercial</div>
 <div class="sidebar-item active" data-tab="dashboard">&#9632; Dashboard</div>
 <div class="sidebar-item" data-tab="leads">&#9679; Leads</div>
 <div class="sidebar-item" data-tab="contactos">&#9679; Contactos</div>
 <div class="sidebar-item" data-tab="oportunidades">&#9679; Oportunidades</div>
 <div class="sidebar-item" data-tab="clientes">&#9679; Clientes</div>
 <div class="sidebar-item" data-tab="classificacao">&#9679; Classificacao</div>
+<div class="sidebar-item" data-tab="moldes">&#9679; Moldes &amp; Produtos</div>
+<div class="sidebar-item" data-tab="colaboradores">&#9679; Colaboradores</div>
 </div>
 <div class="sidebar-section">
-<div class="sidebar-label">Equipa</div>
-<div class="sidebar-item" data-tab="colaboradores">&#9679; Colaboradores</div>
+<div class="sidebar-label">Producao</div>
+<div class="sidebar-item" data-tab="producao">&#9679; Ordens Fabrico</div>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-label">Supply Chain</div>
+<div class="sidebar-item" data-tab="sc_planeamento">&#9679; Planeamento</div>
+<div class="sidebar-item" data-tab="sc_encomendas">&#9679; Encomendas</div>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-label">Engenharia</div>
+<div class="sidebar-item" data-tab="eng_projetos">&#9679; Projetos</div>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-label">IT</div>
+<div class="sidebar-item" data-tab="it_suporte">&#9679; Pedidos suporte</div>
+<div class="sidebar-item" data-tab="it_politicas">&#9679; Politicas IT</div>
+<div class="sidebar-item" data-tab="it_faqs">&#9679; FAQs</div>
+<div class="sidebar-item" data-tab="it_equipamentos">&#9679; Aquisicao equip.</div>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-label">Comunicacao</div>
+<div class="sidebar-item" data-tab="com_fichas">&#9679; Fichas tecnicas</div>
+<div class="sidebar-item" data-tab="com_catalogos">&#9679; Catalogos</div>
+<div class="sidebar-item" data-tab="com_merch">&#9679; Merchandising</div>
+</div>
+<div class="sidebar-section">
+<div class="sidebar-label">Financeiro</div>
+<div class="sidebar-item" data-tab="fin_faturacao">&#9679; Faturacao</div>
+<div class="sidebar-item" data-tab="fin_performance">&#9679; Performance</div>
+</div>
 </div>
 <div class="sidebar-footer">CRM Rotovedras v1.2</div>
 </aside>
 <div class="main">
 <div class="header"><div class="header-title"><span class="dot" style="width:10px;height:10px;border-radius:50%;background:var(--accent)"></span>CRM Rotovedras</div></div>
-<div class="tabs">
-<button class="tab active" data-tab="dashboard">Dashboard</button>
-<button class="tab" data-tab="leads">Leads</button>
-<button class="tab" data-tab="contactos">Contactos</button>
-<button class="tab" data-tab="oportunidades">Oportunidades</button>
-<button class="tab" data-tab="clientes">Clientes</button>
-<button class="tab" data-tab="classificacao">Classificacao</button>
-<button class="tab" data-tab="colaboradores">Colaboradores</button>
-</div>
+<div class="tabs" id="topTabs"></div>
 <div class="content">
 
 <!-- All board content rendered by JS below -->
@@ -165,6 +217,20 @@ td{padding:11px 14px;border-bottom:1px solid var(--border-light)}tr:last-child t
 </div>
 </div>
 <div class="board" id="colaboradores"><div id="colabContent"></div></div>
+<div class="board" id="moldes"><div id="moldesContent"></div></div>
+<div class="board" id="producao"><div id="producaoContent"></div></div>
+<div class="board" id="sc_planeamento"><div class="placeholder-page"><div class="ph-icon">&#9881;</div><div class="ph-title">Supply Chain — Planeamento</div><div class="ph-desc">Planeamento de necessidades de materiais, capacidade produtiva e calendarizacao de entregas.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="sc_encomendas"><div class="placeholder-page"><div class="ph-icon">&#9993;</div><div class="ph-title">Supply Chain — Encomendas</div><div class="ph-desc">Gestao de encomendas a fornecedores, acompanhamento de entregas e controlo de recepcao.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="eng_projetos"><div class="placeholder-page"><div class="ph-icon">&#9998;</div><div class="ph-title">Engenharia — Projetos</div><div class="ph-desc">Gestao de projetos de engenharia, desenvolvimento de produto e molde, validacao tecnica.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="it_suporte"><div class="placeholder-page"><div class="ph-icon">&#9743;</div><div class="ph-title">IT — Pedidos de suporte</div><div class="ph-desc">Sistema de tickets para pedidos de suporte tecnico interno, gestao de incidentes e resolucao.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="it_politicas"><div class="placeholder-page"><div class="ph-icon">&#9670;</div><div class="ph-title">IT — Politicas de IT</div><div class="ph-desc">Documentacao de politicas de seguranca, utilizacao de equipamentos, acessos e procedimentos IT.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="it_faqs"><div class="placeholder-page"><div class="ph-icon">&#10067;</div><div class="ph-title">IT — FAQs</div><div class="ph-desc">Perguntas frequentes sobre sistemas, acessos, passwords, VPN, impressoras e equipamentos.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="it_equipamentos"><div class="placeholder-page"><div class="ph-icon">&#9000;</div><div class="ph-title">IT — Pedido de aquisicao de equipamentos</div><div class="ph-desc">Formulario de requisicao de hardware, software e licencas. Fluxo de aprovacao integrado.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="com_fichas"><div class="placeholder-page"><div class="ph-icon">&#9783;</div><div class="ph-title">Comunicacao — Fichas tecnicas</div><div class="ph-desc">Repositorio de fichas tecnicas de produtos, materiais e especificacoes para clientes e equipa.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="com_catalogos"><div class="placeholder-page"><div class="ph-icon">&#9776;</div><div class="ph-title">Comunicacao — Catalogos</div><div class="ph-desc">Gestao de catalogos comerciais, brochuras e material de comunicacao da Rotovedras.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="com_merch"><div class="placeholder-page"><div class="ph-icon">&#9733;</div><div class="ph-title">Comunicacao — Requisicao de merchandising</div><div class="ph-desc">Pedidos de material promocional, brindes, fardamento e merchandising para eventos ou clientes.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="fin_faturacao"><div class="placeholder-page"><div class="ph-icon">&#8364;</div><div class="ph-title">Financeiro — Faturacao</div><div class="ph-desc">Acompanhamento de faturacao, controlo de pagamentos e recebimentos, alertas de vencimento.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
+<div class="board" id="fin_performance"><div class="placeholder-page"><div class="ph-icon">&#9650;</div><div class="ph-title">Financeiro — Performance empresarial</div><div class="ph-desc">Dashboards de KPIs financeiros, margem por cliente, evolucao de faturacao e indicadores de gestao.</div><div class="ph-status">Em construcao — conteudo a definir em conjunto</div></div></div>
 </div></div></div>
 <script>
 
@@ -185,16 +251,16 @@ leads:[
 {n:"Filipa Gomes",e:"ParkIdeia",em:"filipa@parkideia.pt",t:"913456789",nif:"508901234",s:"Lazer",c:"Google Ads",st:"Nao qualificado",r:"PL",d:"01/03"}
 ],
 opps:[
-{n:"Depositos 5000L",cl:"AquaPark Lda",p:"Deposito PEAD 5000L",v:12000,prob:15,dt:"30/04/2026",st:"Nova oportunidade",r:"RS"},
-{n:"Tanques irrigacao",cl:"AgroNorte",p:"Tanque 2000L",v:5000,prob:25,dt:"15/05/2026",st:"Qualificacao",r:"PL"},
-{n:"Flotadores industriais",cl:"EcoJardins SA",p:"Flotador 800L",v:8500,prob:30,dt:"20/05/2026",st:"Viabilidade interna",r:"RS"},
-{n:"Contentores municipais",cl:"UrbanAqua",p:"Contentor RSU 1100L",v:18000,prob:40,dt:"20/04/2026",st:"Proposta em preparacao",r:"RS"},
-{n:"Piscinas modulares",cl:"GreenPool",p:"Piscina modular 8m",v:22000,prob:55,dt:"10/05/2026",st:"Proposta enviada",r:"PL"},
-{n:"Cubas vinificacao",cl:"VinoPorto",p:"Cuba 3000L",v:10000,prob:65,dt:"25/04/2026",st:"Negociacao",r:"RS"},
-{n:"Silos alimentares",cl:"MuniTejo",p:"Silo 4000L",v:16000,prob:70,dt:"28/04/2026",st:"Aguardando decisao",r:"PL"},
-{n:"Separadores gordura",cl:"BuildMax",p:"Separador 500L",v:14000,prob:90,dt:"18/04/2026",st:"Adjudicado",r:"RS"},
-{n:"Depositos quimicos",cl:"HidroSul",p:"Deposito quimico 1500L",v:24500,prob:100,dt:"15/03/2026",st:"Ganho - Handover",r:"PL"},
-{n:"Reservatorios 10000L",cl:"PlastiForm",p:"Reservatorio 10000L",v:15000,prob:0,dt:"01/04/2026",st:"Perdido",r:"RS",motivo:"Preco concorrente"}
+{n:"Depositos 5000L - AquaPark",cl:"AquaPark Lda",prods:["Producao Produto"],v:12000,margem:35,prob:20,dt:"30/04/2026",st:"Nova oportunidade",r:"RS",prio:"Media",proxAcao:"Agendar visita tecnica",dtProx:"15/04/2026",origem:"Site",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Cliente pretende 10 depositos PEAD 5000L para parque aquatico"},
+{n:"Flotadores industriais - EcoJardins",cl:"EcoJardins SA",prods:["Desenvolvimento Produto","Producao de Molde"],v:18500,margem:42,prob:30,dt:"20/05/2026",st:"Nova oportunidade",r:"PL",prio:"Alta",proxAcao:"Enviar estudo viabilidade",dtProx:"12/04/2026",origem:"Referencia",tipoOpp:"Novo produto",complex:"Alta",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Novo produto flotador para tratamento aguas residuais agricolas"},
+{n:"Tanques irrigacao - AgroNorte",cl:"AgroNorte",prods:["Producao Produto"],v:5000,margem:30,prob:40,dt:"15/05/2026",st:"Proposta em preparacao",r:"PL",prio:"Baixa",proxAcao:"Validar especificacoes",dtProx:"14/04/2026",origem:"Telefone",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Reposicao de tanques irrigacao para exploracao agricola"},
+{n:"Contentores municipais - UrbanAqua",cl:"UrbanAqua",prods:["Desenvolvimento de Molde","Producao de Molde","Producao Produto"],v:28000,margem:38,prob:50,dt:"20/04/2026",st:"Proposta enviada",r:"RS",prio:"Alta",proxAcao:"Follow-up decisao",dtProx:"18/04/2026",origem:"Concurso publico",tipoOpp:"Novo produto",complex:"Alta",tipoForn:"Producao Rotovedras",tipoPrazo:"Obrigatorio",desc:"Concurso publico para fornecimento contentores RSU municipio"},
+{n:"Piscinas modulares - GreenPool",cl:"GreenPool",prods:["Prototipo","Desenvolvimento Produto","Producao Produto"],v:32000,margem:45,prob:55,dt:"10/05/2026",st:"Proposta enviada",r:"PL",prio:"Alta",proxAcao:"Reuniao negociacao",dtProx:"16/04/2026",origem:"Evento",tipoOpp:"Novo produto",complex:"Media",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Piscinas modulares para cadeia de hoteis - projeto piloto"},
+{n:"Cubas vinificacao - VinoPorto",cl:"VinoPorto",prods:["Engenharia Inversa","Producao de Molde","Producao Produto"],v:15000,margem:32,prob:65,dt:"25/04/2026",st:"Aguardando decisao",r:"RS",prio:"Media",proxAcao:"Aguardar resposta cliente",dtProx:"22/04/2026",origem:"Email",tipoOpp:"Novo produto",complex:"Media",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Cubas para vinificacao com engenharia inversa de modelo existente"},
+{n:"Silos alimentares - MuniTejo",cl:"MuniTejo",prods:["Producao Produto"],v:16000,margem:28,prob:75,dt:"28/04/2026",st:"Adjudicado",r:"PL",prio:"Alta",proxAcao:"Iniciar planeamento producao",dtProx:"11/04/2026",origem:"Parceiro",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Obrigatorio",desc:"Silos para armazenamento alimentar - prazo critico"},
+{n:"Separadores gordura - BuildMax",cl:"BuildMax",prods:["Producao de Molde","Producao Produto"],v:14000,margem:36,prob:90,dt:"18/04/2026",st:"Adjudicado",r:"RS",prio:"Media",proxAcao:"Handover operacoes",dtProx:"13/04/2026",origem:"Site",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Separadores de gordura para construcao civil"},
+{n:"Depositos quimicos - HidroSul",cl:"HidroSul",prods:["Producao Produto"],v:24500,margem:40,prob:100,dt:"15/03/2026",st:"Fechado - Ganho",r:"PL",prio:"Alta",origem:"Referencia",tipoOpp:"Produto existente",complex:"Baixa",tipoForn:"Producao Rotovedras",tipoPrazo:"Obrigatorio",desc:"Depositos quimicos para estacao tratamento"},
+{n:"Reservatorios 10000L - PlastiForm",cl:"PlastiForm",prods:["Desenvolvimento de Molde","Producao Produto"],v:15000,margem:25,prob:0,dt:"01/04/2026",st:"Fechado - Perdido",r:"RS",prio:"Media",motivo:"Concorrente com melhor proposta",origem:"Site",tipoOpp:"Novo produto",complex:"Alta",tipoForn:"Producao Rotovedras",tipoPrazo:"Estimativo",desc:"Reservatorios grande capacidade - perdido por preco"}
 ]
 };
 
@@ -223,6 +289,27 @@ DATA.colaboradores=[
 {id:"MC",nome:"Manuel Costa",cargo:"Diretor Comercial",dept:"Direcao Comercial",em:"manuel.costa@rotovedras.pt",tel:"916555666",ativo:true,cor:"#FAEEDA",corTxt:"#633806"},
 {id:"VR",nome:"Vania Rodrigues",cargo:"Gestora Planeamento",dept:"Planeamento",em:"vania.rodrigues@rotovedras.pt",tel:"914777888",ativo:true,cor:"#FAECE7",corTxt:"#712B13"},
 {id:"AS",nome:"Andre Santos",cargo:"Engenheiro Produto",dept:"Engenharia",em:"andre.santos@rotovedras.pt",tel:"915999000",ativo:true,cor:"#E6F1FB",corTxt:"#0C447C"}
+];
+DATA.produtos=["Desenvolvimento Produto","Desenvolvimento de Molde","Producao de Molde","Producao Produto","Prototipo","Engenharia Inversa"];
+DATA.moldes=[
+{cod:"M-HIDROSUL-001",cliente:"HidroSul",desc:"Deposito quimico 1500L",estado:"Ativo",loc:"Unidade 1 - Torres Vedras",prodRef:"P-HIDROSUL-001",dtEntrada:"10/01/2024"},
+{cod:"M-HIDROSUL-002",cliente:"HidroSul",desc:"Tanque tratamento 3000L",estado:"Em armazem",loc:"Unidade 1 - Torres Vedras",prodRef:"P-HIDROSUL-002",dtEntrada:"15/06/2023"},
+{cod:"M-BUILDMAX-001",cliente:"BuildMax",desc:"Separador gordura 500L",estado:"Ativo",loc:"Unidade 2 - Casalinhos",prodRef:"P-BUILDMAX-001",dtEntrada:"20/09/2024"},
+{cod:"M-URBANAQUA-001",cliente:"UrbanAqua",desc:"Contentor RSU 1100L",estado:"Em manutencao",loc:"Unidade 3 - Paul",prodRef:"P-URBANAQUA-001",dtEntrada:"05/03/2025"},
+{cod:"M-GREENPOOL-001",cliente:"GreenPool",desc:"Piscina modular 8m",estado:"Ativo",loc:"Unidade 1 - Torres Vedras",prodRef:"P-GREENPOOL-001",dtEntrada:"12/11/2024"},
+{cod:"M-VINOPORTO-001",cliente:"VinoPorto",desc:"Cuba vinificacao 3000L",estado:"Ativo",loc:"Unidade 2 - Casalinhos",prodRef:"P-VINOPORTO-001",dtEntrada:"01/02/2025"},
+{cod:"M-AGRONORTE-001",cliente:"AgroNorte",desc:"Tanque irrigacao 2000L",estado:"Em armazem",loc:"Unidade 3 - Paul",prodRef:"P-AGRONORTE-001",dtEntrada:"18/07/2023"},
+{cod:"M-AQUAPARK-001",cliente:"AquaPark Lda",desc:"Deposito PEAD 5000L",estado:"Em transito",loc:"Unidade 1 - Torres Vedras",prodRef:"P-AQUAPARK-001",dtEntrada:"28/03/2026"}
+];
+DATA.produtosFicha=[
+{ref:"P-HIDROSUL-001",nome:"Deposito quimico 1500L",cliente:"HidroSul",molde:"M-HIDROSUL-001",peso:"45 kg",material:"PEAD",cor:"Natural",dim:"1200x1200x1500mm",tempoCiclo:"18 min",unidProd:"Unidade 1",precoUnit:"850 EUR",ficha:""},
+{ref:"P-HIDROSUL-002",nome:"Tanque tratamento 3000L",cliente:"HidroSul",molde:"M-HIDROSUL-002",peso:"82 kg",material:"PEAD",cor:"Preto",dim:"1500x1500x2000mm",tempoCiclo:"25 min",unidProd:"Unidade 1",precoUnit:"1.400 EUR",ficha:""},
+{ref:"P-BUILDMAX-001",nome:"Separador gordura 500L",cliente:"BuildMax",molde:"M-BUILDMAX-001",peso:"28 kg",material:"PP",cor:"Cinza",dim:"800x800x1000mm",tempoCiclo:"14 min",unidProd:"Unidade 2",precoUnit:"520 EUR",ficha:""},
+{ref:"P-URBANAQUA-001",nome:"Contentor RSU 1100L",cliente:"UrbanAqua",molde:"M-URBANAQUA-001",peso:"55 kg",material:"PEAD",cor:"Verde",dim:"1000x1200x1400mm",tempoCiclo:"20 min",unidProd:"Unidade 3",precoUnit:"680 EUR",ficha:""},
+{ref:"P-GREENPOOL-001",nome:"Piscina modular 8m",cliente:"GreenPool",molde:"M-GREENPOOL-001",peso:"180 kg",material:"PEAD",cor:"Azul",dim:"8000x3500x1500mm",tempoCiclo:"45 min",unidProd:"Unidade 1",precoUnit:"3.200 EUR",ficha:""},
+{ref:"P-VINOPORTO-001",nome:"Cuba vinificacao 3000L",cliente:"VinoPorto",molde:"M-VINOPORTO-001",peso:"78 kg",material:"PEAD alimentar",cor:"Natural",dim:"1400x1400x2200mm",tempoCiclo:"22 min",unidProd:"Unidade 2",precoUnit:"1.250 EUR",ficha:""},
+{ref:"P-AGRONORTE-001",nome:"Tanque irrigacao 2000L",cliente:"AgroNorte",molde:"M-AGRONORTE-001",peso:"52 kg",material:"PEAD",cor:"Preto",dim:"1300x1300x1600mm",tempoCiclo:"19 min",unidProd:"Unidade 3",precoUnit:"720 EUR",ficha:""},
+{ref:"P-AQUAPARK-001",nome:"Deposito PEAD 5000L",cliente:"AquaPark Lda",molde:"M-AQUAPARK-001",peso:"120 kg",material:"PEAD",cor:"Natural",dim:"1800x1800x2200mm",tempoCiclo:"35 min",unidProd:"Unidade 1",precoUnit:"2.100 EUR",ficha:""}
 ];
 
 // ============= RENDER HELPERS =============
@@ -261,39 +348,50 @@ document.getElementById('leadsContent').innerHTML=h;
 }
 
 function renderOpps(){
-var h='<div class="metrics"><div class="metric"><div class="metric-label">Pipeline total</div><div class="metric-val">'+euro(DATA.opps.reduce(function(a,o){return a+o.v},0))+'</div></div>';
+var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)"><div class="metric"><div class="metric-label">Pipeline total</div><div class="metric-val">'+euro(DATA.opps.reduce(function(a,o){return a+o.v},0))+'</div></div>';
 var wp=DATA.opps.reduce(function(a,o){return a+o.v*o.prob/100},0);
 h+='<div class="metric"><div class="metric-label">Valor ponderado</div><div class="metric-val">'+euro(Math.round(wp))+'</div></div>';
-var ganhas=DATA.opps.filter(function(o){return o.st==='Ganha'});
-h+='<div class="metric"><div class="metric-label">Ganhas</div><div class="metric-val">'+euro(ganhas.reduce(function(a,o){return a+o.v},0))+'</div></div>';
-h+='<div class="metric"><div class="metric-label">Taxa fecho</div><div class="metric-val">'+Math.round(ganhas.length/DATA.opps.length*100)+'%</div></div></div>';
-h+='<div class="toolbar"><button class="btn btn-primary">+ Nova oportunidade</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'oportunidades\')"><div class="view-toggle"><button class="view-btn active" onclick="setView(\'table\')">Tabela</button><button class="view-btn" onclick="setView(\'kanban\')">Kanban</button></div></div>';
-var stOrder=['Nova oportunidade','Qualificacao','Viabilidade interna','Proposta em preparacao','Proposta enviada','Negociacao','Aguardando decisao','Adjudicado','Ganho - Handover','Perdido'];
-var stColors={'Nova oportunidade':'#378ADD','Qualificacao':'#85B7EB','Viabilidade interna':'#AFA9EC','Proposta em preparacao':'#7F77DD','Proposta enviada':'#BA7517','Negociacao':'#FAC775','Aguardando decisao':'#D85A30','Adjudicado':'#1D9E75','Ganho - Handover':'#639922','Perdido':'#A32D2D'};
+var ganhos=DATA.opps.filter(function(o){return o.st==='Fechado - Ganho'});
+var perdidos=DATA.opps.filter(function(o){return o.st==='Fechado - Perdido'});
+var abertos=DATA.opps.filter(function(o){return o.st.indexOf('Fechado')===-1});
+h+='<div class="metric"><div class="metric-label">Ganhos</div><div class="metric-val">'+euro(ganhos.reduce(function(a,o){return a+o.v},0))+'</div><div class="metric-change up">'+ganhos.length+' negocios</div></div>';
+h+='<div class="metric"><div class="metric-label">Em aberto</div><div class="metric-val">'+abertos.length+'</div><div class="metric-change">'+euro(abertos.reduce(function(a,o){return a+o.v},0))+'</div></div>';
+var total=ganhos.length+perdidos.length;var taxa=total>0?Math.round(ganhos.length/total*100):0;
+h+='<div class="metric"><div class="metric-label">Taxa fecho</div><div class="metric-val">'+taxa+'%</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="openOppForm()">+ Nova oportunidade</button><input type="text" class="search-box" placeholder="Pesquisar..." onkeyup="filterTable(this,\'oportunidades\')"><div class="view-toggle"><button class="view-btn active" onclick="setView(\'table\')">Tabela</button><button class="view-btn" onclick="setView(\'kanban\')">Kanban</button></div></div>';
+var stOrder=['Nova oportunidade','Proposta em preparacao','Proposta enviada','Aguardando decisao','Adjudicado','Fechado - Ganho','Fechado - Perdido'];
+var stColors={'Nova oportunidade':'#378ADD','Proposta em preparacao':'#7F77DD','Proposta enviada':'#BA7517','Aguardando decisao':'#D85A30','Adjudicado':'#1D9E75','Fechado - Ganho':'#639922','Fechado - Perdido':'#A32D2D'};
 h+='<div id="opp-table-view">';
 stOrder.forEach(function(st){
 var items=DATA.opps.filter(function(o){return o.st===st});if(!items.length)return;
-h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+stColors[st]+'"></div><div class="group-name">'+st+'</div><div class="group-count">'+items.length+'</div></div>';
-h+='<div class="tbl-wrap"><table><tr><th>Oportunidade</th><th>Cliente</th><th>Produto</th><th>Valor</th><th>Probabilidade</th><th>Valor pond.</th><th>Data</th><th>Estado</th><th>Resp.</th></tr>';
+var gTotal=items.reduce(function(a,o){return a+o.v},0);
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+stColors[st]+'"></div><div class="group-name">'+st+'</div><div class="group-count">'+items.length+' &middot; '+euro(gTotal)+'</div></div>';
+h+='<div class="tbl-wrap"><table><tr><th>Oportunidade</th><th>Cliente</th><th>Produtos/Servicos</th><th>Valor</th><th>Prob.</th><th>Prio.</th><th>Data prev.</th><th>Prox. acao</th><th>Resp.</th></tr>';
 items.forEach(function(o){
-h+='<tr><td>'+o.n+'</td><td><span class="conn">'+o.cl+'</span></td><td>'+o.p+'</td><td class="val">'+euro(o.v)+'</td><td>'+probBar(o.prob)+'</td>';
-h+='<td style="color:var(--text-sec)">'+euro(Math.round(o.v*o.prob/100))+'</td><td>'+o.dt+'</td><td><span class="st '+stClass(o.st)+'">'+o.st+'</span></td><td>'+av(o.r)+'</td></tr>';
+var prods=(o.prods||[]).map(function(p){return '<span class="prod-tag">'+p+'</span>'}).join('');
+var prioClass=o.prio==='Alta'?'prio-alta':o.prio==='Baixa'?'prio-baixa':'prio-media';
+h+='<tr><td style="font-weight:500">'+o.n+'</td><td><span class="conn">'+o.cl+'</span></td><td>'+prods+'</td><td class="val">'+euro(o.v)+'</td><td>'+probBar(o.prob)+'</td>';
+h+='<td><span class="prio '+prioClass+'">'+(o.prio||'-')+'</span></td><td style="font-size:11px">'+o.dt+'</td>';
+h+='<td class="prox-acao" title="'+(o.proxAcao||'')+'">'+(o.proxAcao||'-')+'</td><td>'+av(o.r)+'</td></tr>';
+if(o.motivo)h+='<tr><td colspan="9" style="padding:4px 14px 8px;font-size:11px;color:var(--text-ter);border-bottom:1px solid var(--border-light)">Motivo perda: <em>'+o.motivo+'</em></td></tr>';
 });
 h+='</table></div></div>';
 });
 h+='</div>';
-// Kanban
 h+='<div class="kanban" id="opp-kanban-view">';
 stOrder.forEach(function(st){
 var items=DATA.opps.filter(function(o){return o.st===st});
 var total=items.reduce(function(a,o){return a+o.v},0);
-h+='<div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-dot" style="background:'+stColors[st]+'"></div><div class="kanban-col-title">'+st+'</div><div class="kanban-col-count">'+items.length+'</div><div class="kanban-col-total">'+Math.round(total/1000)+'k\u20ac</div></div>';
+h+='<div class="kanban-col"><div class="kanban-col-header"><div class="kanban-col-dot" style="background:'+stColors[st]+'"></div><div class="kanban-col-title">'+st.replace('Fechado - ','')+'</div><div class="kanban-col-count">'+items.length+'</div><div class="kanban-col-total">'+Math.round(total/1000)+'k\u20ac</div></div>';
 items.forEach(function(o){
-h+='<div class="kanban-card"><div class="kanban-card-title">'+o.n+'</div><div class="kanban-card-client">'+o.cl+'</div>';
+var prioClass=o.prio==='Alta'?'prio-alta':o.prio==='Baixa'?'prio-baixa':'prio-media';
+h+='<div class="kanban-card"><div style="display:flex;justify-content:space-between;align-items:start"><div class="kanban-card-title">'+o.n+'</div><span class="prio '+prioClass+'" style="flex-shrink:0">'+(o.prio||'')+'</span></div><div class="kanban-card-client">'+o.cl+'</div>';
+h+='<div style="margin-bottom:6px">'+(o.prods||[]).map(function(p){return '<span class="prod-tag">'+p+'</span>'}).join('')+'</div>';
 h+='<div class="kanban-card-row"><span class="kanban-card-label">Valor</span><span class="kanban-card-value">'+euro(o.v)+'</span></div>';
 if(o.prob>0&&o.prob<100)h+='<div class="kanban-card-row"><span class="kanban-card-label">Prob.</span><span>'+probBar(o.prob)+'</span></div>';
+if(o.proxAcao)h+='<div class="kanban-card-row"><span class="kanban-card-label">Prox.</span><span style="font-size:10px;color:var(--text-sec);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+o.proxAcao+'</span></div>';
 if(o.motivo)h+='<div class="kanban-card-row"><span class="kanban-card-label">Motivo</span><span class="motivo">'+o.motivo+'</span></div>';
-h+='<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">'+o.dt.substring(0,5)+'</span>'+av(o.r).replace('28','22').replace('10px','9px')+'</div></div>';
+h+='<div class="kanban-card-footer"><span style="font-size:11px;color:var(--text-ter)">'+o.dt.substring(0,5)+'</span>'+av(o.r)+'</div></div>';
 });
 h+='</div>';
 });
@@ -301,17 +399,112 @@ h+='</div>';
 document.getElementById('oportContent').innerHTML=h;
 }
 
+// ============= ADD OPPORTUNITY FORM =============
+function openOppForm(){
+var overlay=document.createElement('div');overlay.id='addModal';
+overlay.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px';
+var colabOpts=getColabOpts();
+var clienteOpts=DATA.clientes.map(function(c){return c.n});
+var stOpts=['Nova oportunidade','Proposta em preparacao','Proposta enviada','Aguardando decisao','Adjudicado','Fechado - Ganho','Fechado - Perdido'];
+var L='style="display:block;font-size:11px;font-weight:600;color:var(--text-ter);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px"';
+var I='style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none"';
+var S='style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text)"';
+var html='<div style="background:var(--bg-card);border-radius:var(--radius-lg);padding:28px;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md)">';
+html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><div style="font-size:17px;font-weight:700">Nova oportunidade</div><button onclick="closeAddForm()" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--text-sec)">&times;</button></div>';
+// BLOCO 1: Identificacao
+html+='<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Identificacao</div>';
+html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+html+='<div style="grid-column:1/-1"><label '+L+'>Nome da oportunidade</label><input id="opp_n" type="text" placeholder="Ex: Depositos 5000L - AquaPark" '+I+'></div>';
+html+='<div><label '+L+'>Cliente</label><select id="opp_cl" '+S+'><option value="">-- Selecionar --</option>';
+clienteOpts.forEach(function(c){html+='<option value="'+c+'">'+c+'</option>'});
+html+='</select></div>';
+html+='<div><label '+L+'>Pipeline stage</label><select id="opp_st" '+S+' onchange="oppStChange()">';
+stOpts.forEach(function(s){html+='<option value="'+s+'">'+s+'</option>'});
+html+='</select></div></div>';
+// BLOCO 2: Origem
+html+='<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Origem &amp; marketing</div>';
+html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+html+='<div><label '+L+'>Origem</label><select id="opp_origem" '+S+'>';
+['Site','Telefone','Email','Evento','Referencia','Parceiro','Concurso publico','Anuncio digital','Media'].forEach(function(o){html+='<option>'+o+'</option>'});
+html+='</select></div>';
+html+='<div><label '+L+'>Campanha</label><input id="opp_campanha" type="text" placeholder="Nome da campanha (opcional)" '+I+'></div></div>';
+// BLOCO 3: Classificacao
+html+='<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Classificacao comercial</div>';
+html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+html+='<div><label '+L+'>Tipo oportunidade</label><select id="opp_tipoOpp" '+S+'><option>Produto existente</option><option>Novo produto</option></select></div>';
+html+='<div><label '+L+'>Complexidade</label><select id="opp_complex" '+S+'><option>Baixa</option><option>Media</option><option>Alta</option></select></div>';
+html+='<div><label '+L+'>Tipo fornecimento</label><select id="opp_tipoForn" '+S+'><option>Producao Rotovedras</option><option>Stock</option><option>Fornecedor externo</option></select></div></div>';
+// BLOCO 4: Produtos
+html+='<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Produtos / servicos</div>';
+html+='<div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)"><div class="check-grid" id="opp_prods">';
+DATA.produtos.forEach(function(p,i){html+='<label class="check-item"><input type="checkbox" value="'+p+'" id="opp_prod_'+i+'"> '+p+'</label>'});
+html+='</div></div>';
+// BLOCO 5: Financeiro
+html+='<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Financeiro</div>';
+html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+html+='<div><label '+L+'>Valor estimado (EUR)</label><input id="opp_v" type="number" placeholder="0" '+I+'></div>';
+html+='<div><label '+L+'>Margem estimada (%)</label><input id="opp_margem" type="number" placeholder="30" min="0" max="100" '+I+'></div>';
+html+='<div><label '+L+'>Probabilidade (%)</label><input id="opp_prob" type="number" min="0" max="100" value="20" '+I+'></div></div>';
+// BLOCO 6: Responsaveis
+html+='<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Responsaveis</div>';
+html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+html+='<div><label '+L+'>Proprietario (gestor comercial)</label><select id="opp_r" '+S+'>';
+colabOpts.forEach(function(c){html+='<option value="'+c+'">'+c+'</option>'});
+html+='</select></div>';
+html+='<div><label '+L+'>Responsavel tecnico (opcional)</label><select id="opp_rTec" '+S+'><option value="">-- Nenhum --</option>';
+colabOpts.forEach(function(c){html+='<option value="'+c+'">'+c+'</option>'});
+html+='</select></div></div>';
+// BLOCO 7: Prazos
+html+='<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Prazos</div>';
+html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+html+='<div><label '+L+'>Prazo de entrega</label><input id="opp_dt" type="date" '+I+'></div>';
+html+='<div><label '+L+'>Tipo de prazo</label><select id="opp_tipoPrazo" '+S+'><option>Estimativo</option><option>Obrigatorio</option></select></div>';
+html+='<div><label '+L+'>Prioridade</label><select id="opp_prio" '+S+'><option>Media</option><option>Alta</option><option>Baixa</option></select></div></div>';
+// BLOCO 8: Descricao
+html+='<div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Gestao comercial</div>';
+html+='<div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border-light)">';
+html+='<label '+L+'>Descricao do pedido</label><textarea id="opp_desc" rows="3" placeholder="Descricao detalhada do pedido..." style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text);outline:none;resize:vertical"></textarea>';
+html+='<div style="margin-top:8px"><label '+L+'>Proxima acao</label><input id="opp_proxAcao" type="text" placeholder="Ex: Agendar reuniao" '+I+'></div></div>';
+// BLOCO 9: Fecho (condicional)
+html+='<div id="opp_motivo_wrap" style="display:none;margin-bottom:16px">';
+html+='<div style="font-size:12px;font-weight:600;color:#A32D2D;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Motivo de perda</div>';
+html+='<select id="opp_motivo" style="width:100%;padding:8px 10px;border:1px solid #F09595;border-radius:8px;font-size:13px;font-family:var(--font);background:var(--bg-card);color:var(--text)">';
+['-- Selecionar motivo --','Nao qualifica','Condicoes comerciais desfavoraveis','Concorrente com melhor proposta','Prazo de entrega elevado','Incapacidade produtiva','Produto/solucao nao adequado','Cliente cancelou','Proposta enviada tarde','Nao adjudicado - concurso publico','Nao adjudicado - desistencia'].forEach(function(m){html+='<option value="'+m+'">'+m+'</option>'});
+html+='</select></div>';
+html+='<div style="display:flex;gap:8px;justify-content:flex-end"><button class="btn" onclick="closeAddForm()">Cancelar</button><button class="btn btn-primary" onclick="saveOpp()">Guardar</button></div></div>';
+overlay.innerHTML=html;
+document.body.appendChild(overlay);
+overlay.addEventListener('click',function(e){if(e.target===overlay)closeAddForm()});
+}
+function oppStChange(){
+var st=document.getElementById('opp_st').value;
+document.getElementById('opp_motivo_wrap').style.display=st==='Fechado - Perdido'?'block':'none';
+if(st==='Fechado - Ganho')document.getElementById('opp_prob').value=100;
+if(st==='Fechado - Perdido')document.getElementById('opp_prob').value=0;
+}
+function saveOpp(){
+var get=function(id){var el=document.getElementById(id);return el?el.value.trim():''};
+if(!get('opp_n')||!get('opp_cl')){alert('Preencha pelo menos Nome e Cliente');return}
+var st=get('opp_st');
+if(st==='Fechado - Perdido'&&(!get('opp_motivo')||get('opp_motivo').indexOf('Selecionar')>-1)){alert('Selecione o motivo de perda');return}
+var prods=[];DATA.produtos.forEach(function(p,i){var cb=document.getElementById('opp_prod_'+i);if(cb&&cb.checked)prods.push(p)});
+var dtRaw=get('opp_dt');var dt=dtRaw?dtRaw.split('-').reverse().join('/'):'';
+var opp={n:get('opp_n'),cl:get('opp_cl'),prods:prods,v:parseInt(get('opp_v'))||0,margem:parseInt(get('opp_margem'))||0,prob:parseInt(get('opp_prob'))||0,dt:dt,st:st,r:getColabId(get('opp_r')),prio:get('opp_prio'),proxAcao:get('opp_proxAcao'),origem:get('opp_origem'),tipoOpp:get('opp_tipoOpp'),complex:get('opp_complex'),tipoForn:get('opp_tipoForn'),tipoPrazo:get('opp_tipoPrazo'),desc:get('opp_desc')};
+if(st==='Fechado - Perdido')opp.motivo=get('opp_motivo');
+DATA.opps.push(opp);closeAddForm();renderOpps();
+}
+
 function renderDashboard(){
 var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
-h+='<div class="metric"><div class="metric-label">Pipeline ativo</div><div class="metric-val">105.500 \u20ac</div><div class="metric-change up">8 oportunidades</div></div>';
-h+='<div class="metric"><div class="metric-label">Valor ponderado</div><div class="metric-val">48.600 \u20ac</div></div>';
+h+='<div class="metric"><div class="metric-label">Pipeline ativo</div><div class="metric-val">140.500 \u20ac</div><div class="metric-change up">8 oportunidades</div></div>';
+h+='<div class="metric"><div class="metric-label">Valor ponderado</div><div class="metric-val">54.950 \u20ac</div></div>';
 h+='<div class="metric"><div class="metric-label">Ganho (YTD)</div><div class="metric-val">24.500 \u20ac</div><div class="metric-change up">&#9650; 1 negocio</div></div>';
 h+='<div class="metric"><div class="metric-label">Taxa fecho</div><div class="metric-val">44%</div></div>';
 h+='<div class="metric"><div class="metric-label">Leads este mes</div><div class="metric-val">5</div><div class="metric-change up">&#9650; 67%</div></div></div>';
 h+='<div class="dash-section"><div class="dash-section-title">Pipeline comercial</div><div class="dash-grid">';
 h+='<div class="dash-card"><div class="dash-card-title">Pipeline por estado <span class="badge">valor</span></div><div class="chart-wrap"><canvas id="chartPipeline"></canvas></div></div>';
 h+='<div class="dash-card"><div class="dash-card-title">Funil de conversao</div><div style="padding:10px 0">';
-[['Nova oportunidade',10,100,'#378ADD'],['Qualificacao',8,80,'#85B7EB'],['Viabilidade',7,70,'#AFA9EC'],['Proposta prep.',6,60,'#7F77DD'],['Proposta enviada',5,50,'#BA7517'],['Negociacao',4,40,'#FAC775'],['Aguardando decisao',3,30,'#D85A30'],['Adjudicado',2,20,'#1D9E75'],['Ganho',1,10,'#639922']].forEach(function(f){
+[['Nova oportunidade',2,100,'#378ADD'],['Proposta prep.',1,80,'#7F77DD'],['Proposta enviada',2,60,'#BA7517'],['Aguardando decisao',1,40,'#D85A30'],['Adjudicado',2,30,'#1D9E75'],['Ganho',1,12,'#639922']].forEach(function(f){
 h+='<div class="funnel-row"><div class="funnel-label">'+f[0]+'</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:'+f[2]+'%;background:'+f[3]+'">'+f[1]+'</div></div><div class="funnel-count">'+f[1]+'</div></div>';
 });
 h+='</div></div></div></div>';
@@ -452,10 +645,33 @@ colaborador:[
 {id:'tel',label:'Telemovel',ph:'917111222'},
 {id:'cor',label:'Cor fundo (hex)',ph:'#EEEDFE'},
 {id:'corTxt',label:'Cor texto (hex)',ph:'#3C3489'}
+],
+molde:[
+{id:'cod',label:'Codigo molde',ph:'Ex: M-CLIENTE-001'},
+{id:'cliente',label:'Cliente proprietario',type:'select',opts:DATA.clientes.map(function(c){return c.n})},
+{id:'desc',label:'Descricao',ph:'Ex: Deposito 5000L',full:true},
+{id:'estado',label:'Estado',type:'select',opts:['Ativo','Em armazem','Em manutencao','Abatido','Em transito']},
+{id:'loc',label:'Localizacao',type:'select',opts:['Unidade 1 - Torres Vedras','Unidade 2 - Casalinhos','Unidade 3 - Paul']},
+{id:'prodRef',label:'Ref. produto associado',ph:'Ex: P-CLIENTE-001'},
+{id:'dtEntrada',label:'Data entrada',ph:'DD/MM/AAAA'}
+],
+produto:[
+{id:'ref',label:'Referencia produto',ph:'Ex: P-CLIENTE-001'},
+{id:'nome',label:'Nome produto',ph:'Ex: Deposito quimico 1500L'},
+{id:'cliente',label:'Cliente dono',type:'select',opts:DATA.clientes.map(function(c){return c.n})},
+{id:'molde',label:'Molde associado',type:'select',opts:DATA.moldes.map(function(m){return m.cod})},
+{id:'material',label:'Material',type:'select',opts:['PEAD','PEAD alimentar','PP','PE','PVC','Outro']},
+{id:'cor',label:'Cor',ph:'Ex: Natural, Preto, Azul...'},
+{id:'peso',label:'Peso',ph:'Ex: 45 kg'},
+{id:'dim',label:'Dimensoes',ph:'Ex: 1200x1200x1500mm'},
+{id:'tempoCiclo',label:'Tempo ciclo',ph:'Ex: 18 min'},
+{id:'unidProd',label:'Unidade producao',type:'select',opts:['Unidade 1','Unidade 2','Unidade 3']},
+{id:'precoUnit',label:'Preco unitario',ph:'Ex: 850 EUR'},
+{id:'ficha',label:'Ficha tecnica (link)',ph:'https://...',full:true}
 ]
 };
 var f=fields[type];
-var titles={lead:'Novo Lead',contacto:'Novo Contacto',cliente:'Novo Cliente',colaborador:editData?'Editar Colaborador':'Novo Colaborador'};
+var titles={lead:'Novo Lead',contacto:'Novo Contacto',cliente:'Novo Cliente',colaborador:editData?'Editar Colaborador':'Novo Colaborador',molde:'Novo Molde',produto:'Novo Produto'};
 var html='<div style="background:var(--bg-card);border-radius:var(--radius-lg);padding:28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-md)">';
 html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><div style="font-size:17px;font-weight:700">'+titles[type]+'</div><button onclick="closeAddForm()" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--text-sec)">&times;</button></div>';
 html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
@@ -507,6 +723,14 @@ closeAddForm();renderClientes();
 if(!get('id')||!get('nome')){alert('Preencha pelo menos Sigla e Nome');return}
 DATA.colaboradores.push({id:get('id').toUpperCase(),nome:get('nome'),cargo:get('cargo'),dept:get('dept'),em:get('em'),tel:get('tel'),ativo:true,cor:get('cor')||'#EEEDFE',corTxt:get('corTxt')||'#3C3489'});
 closeAddForm();renderColaboradores();
+}else if(type==='molde'){
+if(!get('cod')||!get('cliente')){alert('Preencha pelo menos Codigo e Cliente');return}
+DATA.moldes.push({cod:get('cod'),cliente:get('cliente'),desc:get('desc'),estado:get('estado'),loc:get('loc'),prodRef:get('prodRef'),dtEntrada:get('dtEntrada')});
+closeAddForm();renderMoldes();
+}else if(type==='produto'){
+if(!get('ref')||!get('nome')){alert('Preencha pelo menos Referencia e Nome');return}
+DATA.produtosFicha.push({ref:get('ref'),nome:get('nome'),cliente:get('cliente'),molde:get('molde'),peso:get('peso'),material:get('material'),cor:get('cor'),dim:get('dim'),tempoCiclo:get('tempoCiclo'),unidProd:get('unidProd'),precoUnit:get('precoUnit'),ficha:get('ficha')});
+closeAddForm();renderMoldes();
 }
 }
 
@@ -519,14 +743,244 @@ c.cor=get('cor')||c.cor;c.corTxt=get('corTxt')||c.corTxt;
 closeAddForm();renderColaboradores();
 }
 
+// ============= MOLDES & PRODUTOS RENDERER =============
+var moldesSubTab='moldes';
+function renderMoldes(){
+var h='<div class="subtabs"><button class="subtab'+(moldesSubTab==='moldes'?' active':'')+'" onclick="moldesSubTab=\'moldes\';renderMoldes()">Moldes</button><button class="subtab'+(moldesSubTab==='produtos'?' active':'')+'" onclick="moldesSubTab=\'produtos\';renderMoldes()">Produtos</button><button class="subtab'+(moldesSubTab==='servicos'?' active':'')+'" onclick="moldesSubTab=\'servicos\';renderMoldes()">Servicos</button></div>';
+if(moldesSubTab==='moldes')h+=renderMoldesTab();
+else if(moldesSubTab==='produtos')h+=renderProdutosTab();
+else h+=renderServicosTab();
+document.getElementById('moldesContent').innerHTML=h;
+}
+function locTag(l){if(l.indexOf('Torres')>-1)return '<span class="loc-tag loc-tv">U1 Torres Vedras</span>';if(l.indexOf('Casalinhos')>-1)return '<span class="loc-tag loc-ca">U2 Casalinhos</span>';return '<span class="loc-tag loc-pa">U3 Paul</span>'}
+function renderMoldesTab(){
+var estados={};DATA.moldes.forEach(function(m){estados[m.estado]=(estados[m.estado]||0)+1});
+var locs={};DATA.moldes.forEach(function(m){var k=m.loc.split(' - ')[0];locs[k]=(locs[k]||0)+1});
+var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
+h+='<div class="metric"><div class="metric-label">Total moldes</div><div class="metric-val">'+DATA.moldes.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Ativos</div><div class="metric-val">'+(estados['Ativo']||0)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Em armazem</div><div class="metric-val">'+(estados['Em armazem']||0)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Manutencao</div><div class="metric-val">'+(estados['Em manutencao']||0)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Clientes c/ moldes</div><div class="metric-val">'+Object.keys(DATA.moldes.reduce(function(a,m){a[m.cliente]=1;return a},{})).length+'</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="openAddForm(\'molde\')">+ Novo molde</button><input type="text" class="search-box" placeholder="Pesquisar moldes..." onkeyup="filterTable(this,\'moldes\')"></div>';
+var stColors={Ativo:'#639922','Em armazem':'#BA7517','Em manutencao':'#D85A30','Abatido':'#888','Em transito':'#378ADD'};
+['Ativo','Em armazem','Em manutencao','Em transito','Abatido'].forEach(function(est){
+var items=DATA.moldes.filter(function(m){return m.estado===est});if(!items.length)return;
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+(stColors[est]||'#888')+'"></div><div class="group-name">'+est+'</div><div class="group-count">'+items.length+'</div></div>';
+h+='<div class="tbl-wrap"><table><tr><th>Codigo</th><th>Cliente</th><th>Descricao</th><th>Estado</th><th>Localizacao</th><th>Produto</th><th>Entrada</th></tr>';
+items.forEach(function(m){
+h+='<tr><td style="font-weight:600;font-family:monospace">'+m.cod+'</td><td><span class="conn">'+m.cliente+'</span></td><td>'+m.desc+'</td>';
+h+='<td><span class="st '+stClass(m.estado)+'">'+m.estado+'</span></td><td>'+locTag(m.loc)+'</td>';
+h+='<td><span class="conn">'+m.prodRef+'</span></td><td style="font-size:11px;color:var(--text-ter)">'+m.dtEntrada+'</td></tr>';
+});
+h+='</table></div></div>';
+});
+return h;
+}
+function renderProdutosTab(){
+var h='<div class="metrics" style="grid-template-columns:repeat(4,1fr)">';
+h+='<div class="metric"><div class="metric-label">Total produtos</div><div class="metric-val">'+DATA.produtosFicha.length+'</div></div>';
+var mats={};DATA.produtosFicha.forEach(function(p){mats[p.material]=(mats[p.material]||0)+1});
+h+='<div class="metric"><div class="metric-label">Materiais</div><div class="metric-val">'+Object.keys(mats).length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Clientes</div><div class="metric-val">'+Object.keys(DATA.produtosFicha.reduce(function(a,p){a[p.cliente]=1;return a},{})).length+'</div></div>';
+var avgCiclo=DATA.produtosFicha.reduce(function(a,p){return a+parseInt(p.tempoCiclo)},0)/DATA.produtosFicha.length;
+h+='<div class="metric"><div class="metric-label">Tempo ciclo medio</div><div class="metric-val">'+Math.round(avgCiclo)+' min</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="openAddForm(\'produto\')">+ Novo produto</button><input type="text" class="search-box" placeholder="Pesquisar produtos..." onkeyup="filterTable(this,\'moldes\')"></div>';
+h+='<div class="tbl-wrap"><table><tr><th>Ref.</th><th>Produto</th><th>Cliente</th><th>Molde</th><th>Material</th><th>Cor</th><th>Peso</th><th>Dimensoes</th><th>Ciclo</th><th>Preco unit.</th></tr>';
+DATA.produtosFicha.forEach(function(p){
+h+='<tr><td style="font-family:monospace;font-weight:500">'+p.ref+'</td><td style="font-weight:500">'+p.nome+'</td><td><span class="conn">'+p.cliente+'</span></td>';
+h+='<td style="font-family:monospace;font-size:11px"><span class="conn">'+p.molde+'</span></td><td><span class="prod-tag">'+p.material+'</span></td>';
+h+='<td>'+p.cor+'</td><td>'+p.peso+'</td><td style="font-size:11px">'+p.dim+'</td><td>'+p.tempoCiclo+'</td><td class="val">'+p.precoUnit+'</td></tr>';
+});
+h+='</table></div>';
+return h;
+}
+function renderServicosTab(){
+var servicos=[
+{nome:'Desenvolvimento Produto',desc:'Desenvolvimento completo de novo produto em rotomoldagem, desde conceito ate validacao tecnica',icon:'&#9881;',cor:'#EEEDFE',corTxt:'#3C3489'},
+{nome:'Desenvolvimento de Molde',desc:'Projeto e engenharia do molde para rotomoldagem, incluindo simulacao e especificacoes tecnicas',icon:'&#9998;',cor:'#E6F1FB',corTxt:'#0C447C'},
+{nome:'Producao de Molde',desc:'Fabricacao do molde em aluminio ou aco, pronto para producao em serie',icon:'&#9878;',cor:'#E1F5EE',corTxt:'#085041'},
+{nome:'Producao Produto',desc:'Producao em serie do produto por rotomoldagem nas unidades industriais do grupo',icon:'&#9874;',cor:'#FAEEDA',corTxt:'#633806'},
+{nome:'Prototipo',desc:'Producao de prototipo funcional para validacao de forma, dimensoes e funcionalidade',icon:'&#10022;',cor:'#FAECE7',corTxt:'#712B13'},
+{nome:'Engenharia Inversa',desc:'Analise e digitalizacao de pecas existentes para reproducao ou melhoria do design',icon:'&#8635;',cor:'#FCEBEB',corTxt:'#791F1F'}
+];
+var h='<div style="font-size:13px;color:var(--text-sec);margin-bottom:16px">Catalogo de servicos oferecidos pela Rotovedras. Estes servicos sao selecionaveis nas oportunidades comerciais.</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">';
+servicos.forEach(function(s){
+h+='<div class="serv-card"><div class="serv-icon" style="background:'+s.cor+';color:'+s.corTxt+'">'+s.icon+'</div><div><div class="serv-name">'+s.nome+'</div><div class="serv-desc">'+s.desc+'</div></div></div>';
+});
+h+='</div>';
+return h;
+}
+
+// ============= PRODUCTION DATA =============
+DATA.ofs=[
+{num:"OF-2026-001",cliente:"HidroSul",produto:"Deposito quimico 1500L",molde:"M-HIDROSUL-001",qtd:50,dtEntrega:"30/04/2026",estado:"Em producao",unidade:"Unidade 1",forno:"Forno 1",braco:"Braco A",r:"VR",prio:"Alta",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Concluido"},{tipo:"Montagem acessorios",estado:"Concluido"},{tipo:"Testes estanquicidade",estado:"Em curso"}]},
+{num:"OF-2026-002",cliente:"BuildMax",produto:"Separador gordura 500L",molde:"M-BUILDMAX-001",qtd:30,dtEntrega:"18/04/2026",estado:"Acabamentos",unidade:"Unidade 2",forno:"Forno 3",braco:"Braco A",r:"VR",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Concluido"},{tipo:"Soldadura plastica",estado:"Em curso"},{tipo:"Pintura/decoracao",estado:"Pendente"}]},
+{num:"OF-2026-003",cliente:"GreenPool",produto:"Piscina modular 8m",molde:"M-GREENPOOL-001",qtd:5,dtEntrega:"10/05/2026",estado:"Planeamento",unidade:"Unidade 1",forno:"Forno 2",braco:"Braco B",r:"VR",prio:"Alta",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Montagem acessorios",estado:"Pendente"},{tipo:"Testes estanquicidade",estado:"Pendente"}]},
+{num:"OF-2026-004",cliente:"VinoPorto",produto:"Cuba vinificacao 3000L",molde:"M-VINOPORTO-001",qtd:20,dtEntrega:"25/04/2026",estado:"Setup",unidade:"Unidade 2",forno:"Forno 4",braco:"Braco A",r:"VR",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Soldadura plastica",estado:"Pendente"}]},
+{num:"OF-2026-005",cliente:"MuniTejo",produto:"Silos alimentares 4000L",molde:"M-AQUAPARK-001",qtd:15,dtEntrega:"28/04/2026",estado:"Validacao tecnica",unidade:"Unidade 3",forno:"",braco:"",r:"AS",prio:"Alta",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Montagem acessorios",estado:"Pendente"}]},
+{num:"OF-2026-006",cliente:"UrbanAqua",produto:"Contentor RSU 1100L",molde:"M-URBANAQUA-001",qtd:100,dtEntrega:"20/05/2026",estado:"OF criada",unidade:"Unidade 3",forno:"",braco:"",r:"VR",prio:"Alta",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Pendente"},{tipo:"Pintura/decoracao",estado:"Pendente"},{tipo:"Montagem acessorios",estado:"Pendente"},{tipo:"Testes estanquicidade",estado:"Pendente"}]},
+{num:"OF-2026-007",cliente:"AgroNorte",produto:"Tanque irrigacao 2000L",molde:"M-AGRONORTE-001",qtd:25,dtEntrega:"15/05/2026",estado:"QC/Inspecao",unidade:"Unidade 3",forno:"Forno 7",braco:"Braco A",r:"VR",prio:"Baixa",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Concluido"},{tipo:"Testes estanquicidade",estado:"Concluido"}]},
+{num:"OF-2026-008",cliente:"AquaPark Lda",produto:"Deposito PEAD 5000L",molde:"M-AQUAPARK-001",qtd:10,dtEntrega:"30/04/2026",estado:"Expedicao",unidade:"Unidade 1",forno:"Forno 1",braco:"Braco B",r:"VR",prio:"Media",acabamentos:[{tipo:"Corte/rebarbagem",estado:"Concluido"},{tipo:"Montagem acessorios",estado:"Concluido"},{tipo:"Testes estanquicidade",estado:"Concluido"}]}
+];
+
+// ============= PRODUCTION RENDERER =============
+var prodSubTab='ofs';
+function renderProducao(){
+var h='<div class="subtabs"><button class="subtab'+(prodSubTab==='ofs'?' active':'')+'" onclick="prodSubTab=\'ofs\';renderProducao()">Ordens Fabrico</button><button class="subtab'+(prodSubTab==='planeamento'?' active':'')+'" onclick="prodSubTab=\'planeamento\';renderProducao()">Planeamento</button><button class="subtab'+(prodSubTab==='estado'?' active':'')+'" onclick="prodSubTab=\'estado\';renderProducao()">Estado Producao</button><button class="subtab'+(prodSubTab==='acabamentos'?' active':'')+'" onclick="prodSubTab=\'acabamentos\';renderProducao()">Acabamentos</button><button class="subtab'+(prodSubTab==='guias'?' active':'')+'" onclick="prodSubTab=\'guias\';renderProducao()">Guias Montagem</button></div>';
+if(prodSubTab==='ofs')h+=renderOFsTab();
+else if(prodSubTab==='planeamento')h+=renderPlaneamentoTab();
+else if(prodSubTab==='estado')h+=renderEstadoTab();
+else if(prodSubTab==='acabamentos')h+=renderAcabamentosTab();
+else h+=renderGuiasTab();
+document.getElementById('producaoContent').innerHTML=h;
+}
+var ofSteps=['Encomenda recebida','Validacao tecnica','OF criada','Planeamento','Setup','Em producao','Acabamentos','QC/Inspecao','Expedicao'];
+var ofColors={'Encomenda recebida':'#378ADD','Validacao tecnica':'#85B7EB','OF criada':'#AFA9EC','Planeamento':'#7F77DD','Setup':'#BA7517','Em producao':'#1D9E75','Acabamentos':'#D85A30','QC/Inspecao':'#FAC775','Expedicao':'#639922'};
+function ofFlow(estado){return '<div class="of-flow">'+ofSteps.map(function(s){var active=s===estado;return '<div class="of-step'+(active?' active':'')+'" style="'+(active?'background:'+ofColors[s]:'')+'">'+s+'</div>'}).join('')+'</div>'}
+
+function renderOFsTab(){
+var estados={};DATA.ofs.forEach(function(o){estados[o.estado]=(estados[o.estado]||0)+1});
+var atrasadas=DATA.ofs.filter(function(o){return o.prio==='Alta'&&ofSteps.indexOf(o.estado)<5}).length;
+var h='<div class="metrics" style="grid-template-columns:repeat(5,1fr)">';
+h+='<div class="metric"><div class="metric-label">Total OFs</div><div class="metric-val">'+DATA.ofs.length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Em producao</div><div class="metric-val">'+(estados['Em producao']||0)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Acabamentos</div><div class="metric-val">'+(estados['Acabamentos']||0)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Prioridade alta</div><div class="metric-val">'+DATA.ofs.filter(function(o){return o.prio==='Alta'}).length+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Concluidas/Expedicao</div><div class="metric-val">'+(estados['Expedicao']||0)+'</div></div></div>';
+h+='<div class="toolbar"><button class="btn btn-primary" onclick="alert(\'Formulario OF em desenvolvimento\')">+ Nova OF</button><input type="text" class="search-box" placeholder="Pesquisar OFs..." onkeyup="filterTable(this,\'producao\')"></div>';
+ofSteps.forEach(function(est){
+var items=DATA.ofs.filter(function(o){return o.estado===est});if(!items.length)return;
+h+='<div class="group"><div class="group-header"><div class="group-color" style="background:'+(ofColors[est]||'#888')+'"></div><div class="group-name">'+est+'</div><div class="group-count">'+items.length+'</div></div>';
+h+='<div class="tbl-wrap"><table><tr><th>OF</th><th>Cliente</th><th>Produto</th><th>Molde</th><th>Qtd</th><th>Entrega</th><th>Unidade</th><th>Forno/Braco</th><th>Prio.</th><th>Resp.</th></tr>';
+items.forEach(function(o){
+var prioClass=o.prio==='Alta'?'prio-alta':o.prio==='Baixa'?'prio-baixa':'prio-media';
+h+='<tr><td style="font-weight:600;font-family:monospace">'+o.num+'</td><td><span class="conn">'+o.cliente+'</span></td><td>'+o.produto+'</td><td style="font-family:monospace;font-size:11px">'+o.molde+'</td>';
+h+='<td class="val">'+o.qtd+'</td><td style="font-size:11px">'+o.dtEntrega+'</td><td>'+locTag(o.unidade+' - '+(o.unidade==='Unidade 1'?'Torres Vedras':o.unidade==='Unidade 2'?'Casalinhos':'Paul'))+'</td>';
+h+='<td style="font-size:11px">'+(o.forno?o.forno+' / '+o.braco:'-')+'</td><td><span class="prio '+prioClass+'">'+o.prio+'</span></td><td>'+av(o.r)+'</td></tr>';
+});
+h+='</table></div></div>';
+});
+return h;
+}
+
+function renderPlaneamentoTab(){
+var units=[{nome:'Unidade 1 - Torres Vedras',fornos:[{n:'Forno 1',bracos:['Braco A','Braco B']},{n:'Forno 2',bracos:['Braco A','Braco B']}]},{nome:'Unidade 2 - Casalinhos',fornos:[{n:'Forno 3',bracos:['Braco A','Braco B']},{n:'Forno 4',bracos:['Braco A','Braco B']}]},{nome:'Unidade 3 - Paul',fornos:[{n:'Forno 5',bracos:['Braco A']},{n:'Forno 6',bracos:['Braco A']},{n:'Forno 7',bracos:['Braco A','Braco B']},{n:'Forno 8',bracos:['Braco A','Braco B']}]}];
+var totalBracos=0;var ocupados=0;
+units.forEach(function(u){u.fornos.forEach(function(f){f.bracos.forEach(function(b){totalBracos++;var of=DATA.ofs.find(function(o){return o.forno===f.n&&o.braco===b&&o.estado!=='Expedicao'});if(of)ocupados++})})});
+var h='<div class="metrics" style="grid-template-columns:repeat(4,1fr)">';
+h+='<div class="metric"><div class="metric-label">Total bracos</div><div class="metric-val">'+totalBracos+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Ocupados</div><div class="metric-val">'+ocupados+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Disponiveis</div><div class="metric-val">'+(totalBracos-ocupados)+'</div></div>';
+h+='<div class="metric"><div class="metric-label">Taxa ocupacao</div><div class="metric-val">'+Math.round(ocupados/totalBracos*100)+'%</div></div></div>';
+units.forEach(function(u){
+h+='<div style="font-size:14px;font-weight:700;margin:16px 0 10px;display:flex;align-items:center;gap:8px"><span style="width:3px;height:14px;border-radius:2px;background:var(--accent);display:inline-block"></span>'+u.nome+'</div>';
+u.fornos.forEach(function(f){
+h+='<div style="margin-bottom:12px"><div style="font-size:12px;font-weight:600;color:var(--text-sec);margin-bottom:6px">'+f.n+'</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+f.bracos.forEach(function(b){
+var of=DATA.ofs.find(function(o){return o.forno===f.n&&o.braco===b&&o.estado!=='Expedicao'});
+if(of){
+var prioClass=of.prio==='Alta'?'prio-alta':of.prio==='Baixa'?'prio-baixa':'prio-media';
+h+='<div class="resource-card" style="border-left:3px solid '+(ofColors[of.estado]||'#888')+'">';
+h+='<div class="resource-header">'+b+' <span class="prio '+prioClass+'" style="margin-left:auto">'+of.prio+'</span></div>';
+h+='<div style="font-size:12px;font-weight:600">'+of.num+' - '+of.produto+'</div>';
+h+='<div style="font-size:11px;color:var(--text-sec)">'+of.cliente+' | '+of.qtd+' un | Entrega: '+of.dtEntrega+'</div>';
+h+='<div style="margin-top:6px"><span class="st '+stClass(of.estado)+'" style="font-size:10px">'+of.estado+'</span></div></div>';
+}else{
+h+='<div class="resource-card" style="border-left:3px solid var(--border-light);opacity:.6"><div class="resource-header">'+b+'</div><div style="font-size:12px;color:var(--text-ter)">Disponivel</div></div>';
+}
+});
+h+='</div></div>';
+});
+});
+return h;
+}
+
+function renderEstadoTab(){
+var emCurso=DATA.ofs.filter(function(o){return ['Setup','Em producao','Acabamentos'].indexOf(o.estado)>-1});
+var h='<div style="font-size:13px;color:var(--text-sec);margin-bottom:16px">Painel operacional — vista simplificada para tablets no chao de fabrica</div>';
+h+='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">';
+emCurso.forEach(function(o){
+var stepIdx=ofSteps.indexOf(o.estado);var pct=Math.round((stepIdx/8)*100);
+var prioClass=o.prio==='Alta'?'prio-alta':o.prio==='Baixa'?'prio-baixa':'prio-media';
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:20px;border-top:4px solid '+(ofColors[o.estado]||'#888')+'">';
+h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-family:monospace;font-size:14px;font-weight:700">'+o.num+'</span><span class="prio '+prioClass+'">'+o.prio+'</span></div>';
+h+='<div style="font-size:15px;font-weight:600;margin-bottom:4px">'+o.produto+'</div>';
+h+='<div style="font-size:12px;color:var(--text-sec);margin-bottom:12px">'+o.cliente+' | '+o.qtd+' unidades</div>';
+h+='<div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px"><span>Progresso</span><span class="val">'+pct+'%</span></div>';
+h+='<div class="resource-bar"><div class="resource-fill" style="width:'+pct+'%;background:'+(ofColors[o.estado]||'#888')+'"></div></div>';
+h+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border-light);font-size:11px;color:var(--text-sec)">';
+h+='<div>Estado: <span class="st '+stClass(o.estado)+'" style="font-size:10px">'+o.estado+'</span></div>';
+h+='<div style="margin-top:4px">Recurso: '+(o.forno?o.forno+' / '+o.braco:'A alocar')+' | Entrega: '+o.dtEntrega+'</div>';
+h+='</div></div>';
+});
+h+='</div>';
+return h;
+}
+
+function renderAcabamentosTab(){
+var withAcab=DATA.ofs.filter(function(o){return o.acabamentos&&o.acabamentos.length&&o.estado!=='Expedicao'});
+var h='<div style="font-size:13px;color:var(--text-sec);margin-bottom:16px">Checklist de acabamentos por OF — os acabamentos variam por encomenda</div>';
+withAcab.forEach(function(o){
+var done=o.acabamentos.filter(function(a){return a.estado==='Concluido'}).length;
+var total=o.acabamentos.length;
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px">';
+h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div><span style="font-family:monospace;font-weight:700">'+o.num+'</span> — '+o.produto+' <span style="color:var(--text-sec);font-size:11px">('+o.cliente+')</span></div>';
+h+='<div style="font-size:11px;font-weight:600">'+done+'/'+total+' concluidos</div></div>';
+o.acabamentos.forEach(function(a){
+var icon=a.estado==='Concluido'?'&#10003;':a.estado==='Em curso'?'&#9654;':'&#9675;';
+var cls=a.estado==='Concluido'?' done':'';
+var stCls=a.estado==='Concluido'?'st-ativo':a.estado==='Em curso'?'st-proposta':'st-inativo';
+h+='<div class="acabamento-check'+cls+'"><span style="font-size:14px;width:20px;text-align:center">'+icon+'</span><span style="flex:1">'+a.tipo+'</span><span class="st '+stCls+'" style="font-size:10px">'+a.estado+'</span></div>';
+});
+h+='</div>';
+});
+return h;
+}
+
+function renderGuiasTab(){
+var guias=[
+{produto:"Deposito quimico 1500L",passos:[{t:"Desmoldagem",d:"Retirar peca do molde apos arrefecimento. Verificar integridade.",m:"5 min"},{t:"Corte e rebarbagem",d:"Cortar rebarbas com faca rotativa. Lixar bordos.",m:"15 min"},{t:"Furacao",d:"Furar para valvulas conforme gabarito FT-HS-001.",m:"10 min"},{t:"Montagem valvulas",d:"Montar valvula esfera 2'' + junta EPDM. Aperto 25 Nm.",m:"8 min"},{t:"Montagem tampa",d:"Colocar tampa rosca DN400 com vedante.",m:"5 min"},{t:"Teste estanquicidade",d:"Teste pressao 0.5 bar durante 15 min. Sem fugas.",m:"20 min"},{t:"Limpeza final",d:"Limpar interior e exterior. Embalar.",m:"10 min"}]},
+{produto:"Separador gordura 500L",passos:[{t:"Desmoldagem",d:"Retirar peca. Inspecao visual imediata.",m:"5 min"},{t:"Corte rebarbas",d:"Rebarbar linha de juncao com rebarbadora.",m:"10 min"},{t:"Soldadura divisorias",d:"Soldar divisorias internas em PEAD com pistola ar quente.",m:"25 min"},{t:"Montagem tubagens",d:"Instalar entrada/saida DN110 + curvas.",m:"15 min"},{t:"Pintura exterior",d:"Aplicar tinta cinza RAL 7035 - 2 demaos.",m:"20 min"},{t:"Teste",d:"Teste enchimento agua - verificar fluxo e estanquicidade.",m:"15 min"}]},
+{produto:"Piscina modular 8m",passos:[{t:"Desmoldagem",d:"Desmoldagem cuidadosa - peca grande, requer 2 operadores.",m:"15 min"},{t:"Rebarbagem perimetro",d:"Rebarbar todo o perimetro superior com fresa.",m:"30 min"},{t:"Montagem estrutura",d:"Fixar perfis aluminio de reforco perimetral.",m:"45 min"},{t:"Sistema drenagem",d:"Instalar ralo fundo + tubagem aspiracao.",m:"20 min"},{t:"Montagem skimmers",d:"Instalar 2 skimmers laterais com juntas.",m:"15 min"},{t:"Teste hidraulico",d:"Enchimento parcial 30% - verificar nivelamento e fugas.",m:"30 min"}]}
+];
+var h='<div style="font-size:13px;color:var(--text-sec);margin-bottom:16px">Guias de montagem e acabamentos por produto — formalizar o conhecimento dos operadores</div>';
+guias.forEach(function(g){
+h+='<div style="background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px">';
+h+='<div style="font-size:14px;font-weight:700;margin-bottom:14px">'+g.produto+'</div>';
+g.passos.forEach(function(p,i){
+h+='<div class="guia-step"><div class="guia-num">'+(i+1)+'</div><div class="guia-content"><div class="guia-title">'+p.t+'</div><div class="guia-desc">'+p.d+'</div><div class="guia-time">Tempo estimado: '+p.m+'</div></div></div>';
+});
+h+='</div>';
+});
+return h;
+}
+
 // ============= NAVIGATION =============
+var tabGroups={
+comercial:['dashboard','leads','contactos','oportunidades','clientes','classificacao','moldes','colaboradores'],
+producao:['producao'],
+supplychain:['sc_planeamento','sc_encomendas'],
+engenharia:['eng_projetos'],
+it:['it_suporte','it_politicas','it_faqs','it_equipamentos'],
+comunicacao:['com_fichas','com_catalogos','com_merch'],
+financeiro:['fin_faturacao','fin_performance']
+};
+var tabLabels={dashboard:'Dashboard',leads:'Leads',contactos:'Contactos',oportunidades:'Oportunidades',clientes:'Clientes',classificacao:'Classificacao',moldes:'Moldes & Produtos',colaboradores:'Colaboradores',producao:'Producao',sc_planeamento:'Planeamento',sc_encomendas:'Encomendas',eng_projetos:'Projetos',it_suporte:'Suporte',it_politicas:'Politicas',it_faqs:'FAQs',it_equipamentos:'Equipamentos',com_fichas:'Fichas tecnicas',com_catalogos:'Catalogos',com_merch:'Merchandising',fin_faturacao:'Faturacao',fin_performance:'Performance'};
 function switchTab(tab){
-document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active')});
 document.querySelectorAll('.board').forEach(function(x){x.classList.remove('active')});
 document.querySelectorAll('.sidebar-item').forEach(function(x){x.classList.remove('active')});
-document.querySelectorAll('.tab[data-tab="'+tab+'"]').forEach(function(x){x.classList.add('active')});
 document.querySelectorAll('.sidebar-item[data-tab="'+tab+'"]').forEach(function(x){x.classList.add('active')});
-document.getElementById(tab).classList.add('active');
+var el=document.getElementById(tab);if(el)el.classList.add('active');
+// Build contextual top tabs
+var group=null;Object.keys(tabGroups).forEach(function(g){if(tabGroups[g].indexOf(tab)>-1)group=g});
+var topTabs=document.getElementById('topTabs');
+if(group&&tabGroups[group].length>1){
+topTabs.style.display='flex';
+topTabs.innerHTML=tabGroups[group].map(function(t){return '<button class="tab'+(t===tab?' active':'')+'" data-tab="'+t+'" onclick="switchTab(''+t+'')">'+tabLabels[t]+'</button>'}).join('');
+}else{topTabs.style.display='none'}
 if(tab==='dashboard')renderDashboard();
 if(tab==='leads')renderLeads();
 if(tab==='contactos')renderContactos();
@@ -534,6 +988,8 @@ if(tab==='oportunidades')renderOpps();
 if(tab==='clientes')renderClientes();
 if(tab==='classificacao')renderClf();
 if(tab==='colaboradores')renderColaboradores();
+if(tab==='moldes')renderMoldes();
+if(tab==='producao')renderProducao();
 }
 document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
 document.querySelectorAll('.sidebar-item[data-tab]').forEach(function(t){t.addEventListener('click',function(){switchTab(t.dataset.tab)})});
@@ -553,7 +1009,7 @@ function initCharts(){
 if(chartsInit)return;chartsInit=true;
 Chart.defaults.font.family='DM Sans';Chart.defaults.font.size=11;Chart.defaults.color='#6b6b6b';
 Chart.defaults.plugins.legend.labels.usePointStyle=true;
-new Chart(document.getElementById('chartPipeline'),{type:'bar',data:{labels:['Nova op.','Qualif.','Viabil.','Prop. prep.','Prop. env.','Negoc.','Aguard.','Adjud.','Ganho','Perdido'],datasets:[{data:[12000,5000,8500,18000,22000,10000,16000,14000,24500,15000],backgroundColor:['#85B7EB','#85B7EB','#AFA9EC','#7F77DD','#BA7517','#FAC775','#D85A30','#1D9E75','#97C459','#F09595'],borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
+new Chart(document.getElementById('chartPipeline'),{type:'bar',data:{labels:['Nova op.','Prop. prep.','Prop. env.','Aguard.','Adjud.','Ganho','Perdido'],datasets:[{data:[30500,5000,60000,15000,30000,24500,15000],backgroundColor:['#85B7EB','#AFA9EC','#BA7517','#D85A30','#1D9E75','#97C459','#F09595'],borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
 new Chart(document.getElementById('chartCanal'),{type:'doughnut',data:{labels:['Website','Google Ads'],datasets:[{data:[7,5],backgroundColor:['#378ADD','#D85A30'],borderWidth:0,spacing:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom'}}}});
 new Chart(document.getElementById('chartMensal'),{type:'line',data:{labels:['Jan','Fev','Mar','Abr'],datasets:[{label:'Leads',data:[2,1,4,5],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.08)',fill:true,tension:.4,pointRadius:4,pointBackgroundColor:'#1D9E75'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
 new Chart(document.getElementById('chartComerc'),{type:'bar',data:{labels:['Ricardo Silva','Paula Lima'],datasets:[{label:'Pipeline',data:[40000,27000],backgroundColor:'#85B7EB',borderRadius:6,borderSkipped:false},{label:'Ganhas',data:[14000,24500],backgroundColor:'#97C459',borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},scales:{y:{beginAtZero:true,ticks:{callback:function(v){return(v/1000)+'k'}},grid:{color:'#eeedea'}},x:{grid:{display:false}}}}});
