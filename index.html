@@ -14,8 +14,13 @@
 .sidebar-brand{display:flex;align-items:center;gap:10px;padding:0 20px;margin-bottom:20px}.sidebar-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#509ECB,#3A7FA8);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
 .sidebar-title{font-size:14px;font-weight:600}.sidebar-subtitle{font-size:11px;color:var(--text-sec)}
 .sidebar-scroll{flex:1;overflow-y:auto;padding-bottom:8px}
-.sidebar-section{padding:0 12px;margin-bottom:4px}.sidebar-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text-ter);padding:10px 8px 3px;font-weight:700}
-.sidebar-item{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;font-size:12px;color:var(--text-sec);cursor:pointer;font-weight:500;transition:all .1s}
+.sidebar-section{padding:0 10px;margin-bottom:2px}
+.sidebar-label{font-size:11px;font-weight:700;color:var(--text);padding:14px 10px 6px;display:flex;align-items:center;gap:6px;letter-spacing:0}
+.sidebar-label .sl-icon{font-size:14px;width:20px;text-align:center}
+.sidebar-label .sl-text{flex:1}
+.sidebar-section+.sidebar-section{border-top:1px solid var(--border-light);margin-top:2px}
+.sidebar-section:first-child{border-top:none}
+.sidebar-item{display:flex;align-items:center;gap:6px;padding:7px 10px 7px 30px;border-radius:7px;font-size:12px;color:var(--text-sec);cursor:pointer;font-weight:500;transition:all .1s}
 .sidebar-item:hover{background:var(--bg-hover);color:var(--text)}.sidebar-item.active{background:rgba(80,158,203,.08);color:var(--accent);font-weight:600}
 .sidebar-footer{padding:12px 20px;border-top:1px solid var(--border-light);font-size:10px;color:var(--text-ter)}
 /* Main */
@@ -120,66 +125,54 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 <div style="font-size:10px;color:var(--text-ter);letter-spacing:.3px">Grupo Iberpolymers</div>
 </div>
 <div class="sidebar-scroll">
-<div class="sidebar-section"><div class="sidebar-label">CRM</div>
-<div class="sidebar-item active" data-tab="dashboard">&#9632; Dashboard</div>
-<div class="sidebar-item" data-tab="leads">&#9679; Leads</div>
-<div class="sidebar-item" data-tab="contactos">&#9679; Contactos</div>
-<div class="sidebar-item" data-tab="oportunidades">&#9679; Oportunidades</div>
-<div class="sidebar-item" data-tab="propostas">&#9679; Propostas</div>
-<div class="sidebar-item" data-tab="clientes">&#9679; Clientes</div>
-<div class="sidebar-item" data-tab="classificacao">&#9679; Classificacao</div>
-<div class="sidebar-item" data-tab="moldes">&#9679; Moldes &amp; Produtos</div>
-<div class="sidebar-item" data-tab="colaboradores">&#9679; Colaboradores</div>
+<div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#128188;</span><span class="sl-text">CRM</span></div>
+<div class="sidebar-item active" data-tab="dashboard">Dashboard</div>
+<div class="sidebar-item" data-tab="leads">Leads</div>
+<div class="sidebar-item" data-tab="contactos">Contactos</div>
+<div class="sidebar-item" data-tab="oportunidades">Oportunidades</div>
+<div class="sidebar-item" data-tab="propostas">Propostas</div>
+<div class="sidebar-item" data-tab="clientes">Clientes</div>
+<div class="sidebar-item" data-tab="classificacao">Classificacao</div>
+<div class="sidebar-item" data-tab="colaboradores">Colaboradores</div>
 </div>
-<div class="sidebar-section"><div class="sidebar-label">Estrutura Produto</div>
-<div class="sidebar-item" data-tab="ep_artigos">&#9679; Artigos</div>
-<div class="sidebar-item" data-tab="ep_bom">&#9679; BOM</div>
+<div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#128230;</span><span class="sl-text">Produtos / Stock</span></div>
+<div class="sidebar-item" data-tab="moldes">Artigos &amp; Moldes</div>
+<div class="sidebar-item" data-tab="ep_bom">BOM</div>
+<div class="sidebar-item" data-tab="stk_inventario">Inventario</div>
 </div>
-<div class="sidebar-section"><div class="sidebar-label">Stock</div>
-<div class="sidebar-item" data-tab="stk_inventario">&#9679; Inventario</div>
+<div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#128203;</span><span class="sl-text">Operacoes</span></div>
+<div class="sidebar-item" data-tab="ops_enc_cliente">Encomendas cliente</div>
+<div class="sidebar-item" data-tab="ops_enc_internas">Encomendas internas</div>
 </div>
-<div class="sidebar-section"><div class="sidebar-label">Operacoes</div>
-<div class="sidebar-item" data-tab="ops_enc_cliente">&#9679; Encomendas cliente</div>
-<div class="sidebar-item" data-tab="ops_enc_internas">&#9679; Encomendas internas</div>
+<div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#128666;</span><span class="sl-text">Supply Chain</span></div>
+<div class="sidebar-item" data-tab="sc_compras">Compras</div>
+<div class="sidebar-item" data-tab="sc_compras_eng">Compras engenharia</div>
+<div class="sidebar-item" data-tab="sc_logistica">Logistica</div>
 </div>
-<div class="sidebar-section"><div class="sidebar-label">Supply Chain</div>
-<div class="sidebar-item" data-tab="sc_compras">&#9679; Compras</div>
-<div class="sidebar-item" data-tab="sc_compras_eng">&#9679; Compras engenharia</div>
-<div class="sidebar-item" data-tab="sc_logistica">&#9679; Logistica</div>
+<div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#9881;</span><span class="sl-text">Producao</span></div>
+<div class="sidebar-item" data-tab="producao">Ordens producao</div>
 </div>
-<div class="sidebar-section"><div class="sidebar-label">Producao</div>
-<div class="sidebar-item" data-tab="producao">&#9679; Ordens producao</div>
+<div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#128736;</span><span class="sl-text">Engenharia</span></div>
+<div class="sidebar-item" data-tab="eng_projetos">Projetos</div>
 </div>
-<div class="sidebar-section"><div class="sidebar-label">Engenharia</div>
-<div class="sidebar-item" data-tab="eng_projetos">&#9679; Projetos</div>
+<div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#128269;</span><span class="sl-text">Qualidade</span></div>
+<div class="sidebar-item" data-tab="ql_rececao">Controlo rececao</div>
+<div class="sidebar-item" data-tab="ql_nc">Nao conformidades</div>
+<div class="sidebar-item" data-tab="ql_auditorias">Auditorias</div>
 </div>
-<div class="sidebar-section"><div class="sidebar-label">Qualidade</div>
-<div class="sidebar-item" data-tab="ql_rececao">&#9679; Rececao</div>
-<div class="sidebar-item" data-tab="ql_nc">&#9679; Nao conformidades</div>
-<div class="sidebar-item" data-tab="ql_auditorias">&#9679; Auditorias</div>
+<div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#128181;</span><span class="sl-text">Financeiro</span></div>
+<div class="sidebar-item" data-tab="fin_faturacao">Faturacao</div>
+<div class="sidebar-item" data-tab="fin_receber">Contas a receber</div>
+<div class="sidebar-item" data-tab="fin_pagar">Contas a pagar</div>
+<div class="sidebar-item" data-tab="fin_margens">Controlo margens</div>
 </div>
-<div class="sidebar-section"><div class="sidebar-label">IT</div>
-<div class="sidebar-item" data-tab="it_suporte">&#9679; Pedidos suporte</div>
-<div class="sidebar-item" data-tab="it_politicas">&#9679; Politicas IT</div>
-<div class="sidebar-item" data-tab="it_faqs">&#9679; FAQs</div>
-<div class="sidebar-item" data-tab="it_equipamentos">&#9679; Aquisicao equip.</div>
-</div>
-<div class="sidebar-section"><div class="sidebar-label">Comunicacao</div>
-<div class="sidebar-item" data-tab="com_fichas">&#9679; Fichas tecnicas</div>
-<div class="sidebar-item" data-tab="com_catalogos">&#9679; Catalogos</div>
-<div class="sidebar-item" data-tab="com_merch">&#9679; Merchandising</div>
-</div>
-<div class="sidebar-section"><div class="sidebar-label">Financeiro</div>
-<div class="sidebar-item" data-tab="fin_faturacao">&#9679; Faturacao</div>
-<div class="sidebar-item" data-tab="fin_receber">&#9679; Receber</div>
-<div class="sidebar-item" data-tab="fin_pagar">&#9679; Pagar</div>
-<div class="sidebar-item" data-tab="fin_margens">&#9679; Margens</div>
-</div>
-<div class="sidebar-section"><div class="sidebar-label">Outros</div>
-<div class="sidebar-item" data-tab="concursos">&#9679; Concursos publicos</div>
+<div class="sidebar-section"><div class="sidebar-label"><span class="sl-icon">&#128196;</span><span class="sl-text">Outros</span></div>
+<div class="sidebar-item" data-tab="concursos">Concursos publicos</div>
+<div class="sidebar-item" data-tab="it_suporte">IT Suporte</div>
+<div class="sidebar-item" data-tab="com_fichas">Comunicacao</div>
 </div>
 </div>
-<div class="sidebar-footer">Rotovedras v2.1 &middot; Mockup Monday.com</div>
+<div class="sidebar-footer">Rotovedras v3.0 &middot; Mockup Monday.com</div>
 </aside>
 <div class="main">
 <div class="header"><div class="header-title"><span class="dot"></span><span id="headerLabel">Dashboard</span></div></div>
@@ -195,30 +188,30 @@ td{padding:9px 12px;border-bottom:1px solid var(--border-light)}tr:last-child td
 <div class="board" id="colaboradores"><div id="colabContent"></div></div>
 <div class="board" id="producao"><div id="producaoContent"></div></div>
 <div class="board" id="propostas"><div id="propostasContent"></div></div>
-<div class="board" id="ep_artigos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Estrutura Produto — Artigos</div><div class="ph-desc">Catalogo de artigos, codigos, designacoes e ligacoes a moldes/produtos.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="ep_bom"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Estrutura Produto — BOM</div><div class="ph-desc">Bill of Materials — lista de componentes e materiais por produto.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="stk_inventario"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Stock — Inventario</div><div class="ph-desc">Controlo de inventario de materias-primas, componentes e produto acabado.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="ops_enc_cliente"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Operacoes — Encomendas cliente</div><div class="ph-desc">Gestao de encomendas de cliente, estados e acompanhamento ate expedicao.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="ops_enc_internas"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Operacoes — Encomendas internas</div><div class="ph-desc">Encomendas entre empresas do grupo (Ambiconcept-Iberpolymers-Rotovedras).</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="sc_compras"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras</div><div class="ph-desc">Requisicoes de compra, aprovacoes, encomendas a fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="sc_compras_eng"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras engenharia</div><div class="ph-desc">Compras especificas para projetos de engenharia e desenvolvimento.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="sc_logistica"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Logistica</div><div class="ph-desc">Gestao de transportes, expedicoes e recepcao de materiais.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ep_artigos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Produtos — Artigos</div><div class="ph-desc">Catalogo unico de produtos e materiais com codigos, designacoes e ligacoes.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ep_bom"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Produtos — BOM (Estrutura de produto)</div><div class="ph-desc">Definicao tecnica de como o produto e composto — componentes, materiais e quantidades.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="stk_inventario"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Stock — Inventario</div><div class="ph-desc">Controlo de quantidades e disponibilidade de materiais e produtos.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ops_enc_cliente"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Operacoes — Encomendas cliente</div><div class="ph-desc">Compromisso formal com o cliente final — estados, prazos e acompanhamento ate expedicao.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ops_enc_internas"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Operacoes — Encomendas internas</div><div class="ph-desc">Cadeia intercompany: Ambiconcept → Iberpolymers → Rotovedras. Rastreabilidade end-to-end.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="sc_compras"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras</div><div class="ph-desc">Aquisicao de materiais e servicos — requisicoes, aprovacoes, encomendas a fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="sc_compras_eng"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Compras engenharia</div><div class="ph-desc">Compras associadas a novos produtos e projetos de desenvolvimento.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="sc_logistica"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Supply Chain — Logistica</div><div class="ph-desc">Gestao de rececao, expedicao e transporte de materiais e produtos.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="eng_projetos"><div id="engContent"></div></div>
-<div class="board" id="ql_rececao"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Rececao</div><div class="ph-desc">Inspecao de materiais e componentes na rececao.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="ql_nc"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Nao conformidades</div><div class="ph-desc">Registo e gestao de nao conformidades internas e de fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="ql_auditorias"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Auditorias</div><div class="ph-desc">Planeamento e acompanhamento de auditorias internas e externas.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="it_suporte"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">IT — Pedidos suporte</div><div class="ph-desc">Tickets de suporte tecnico interno.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ql_rececao"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Controlo de rececao</div><div class="ph-desc">Validacao de materiais a entrada — inspecao e registo de conformidade.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ql_nc"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Nao conformidades</div><div class="ph-desc">Gestao de problemas e defeitos — registo, analise, accoes correctivas.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="ql_auditorias"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Qualidade — Auditorias e inspecoes</div><div class="ph-desc">Controlo e melhoria continua — auditorias internas, externas e inspecoes.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="it_suporte"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">IT — Suporte &amp; Gestao</div><div class="ph-desc">Suporte tecnico, politicas IT, FAQs, gestao de equipamentos e licencas.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="it_politicas"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">IT — Politicas</div><div class="ph-desc">Documentacao de politicas e procedimentos IT.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="it_faqs"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">IT — FAQs</div><div class="ph-desc">Perguntas frequentes sobre sistemas e equipamentos.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="it_equipamentos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">IT — Aquisicao equipamentos</div><div class="ph-desc">Requisicao de hardware, software e licencas.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="com_fichas"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Comunicacao — Fichas tecnicas</div><div class="ph-desc">Repositorio de fichas tecnicas.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="com_fichas"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Comunicacao</div><div class="ph-desc">Fichas tecnicas, catalogos, brochuras e requisicao de merchandising.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="com_catalogos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Comunicacao — Catalogos</div><div class="ph-desc">Catalogos comerciais e brochuras.</div><div class="ph-status">Em construcao</div></div></div>
 <div class="board" id="com_merch"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Comunicacao — Merchandising</div><div class="ph-desc">Requisicao de material promocional.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="fin_faturacao"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Faturacao</div><div class="ph-desc">Acompanhamento de faturacao.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="fin_receber"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Receber</div><div class="ph-desc">Controlo de contas a receber e cobranças.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="fin_pagar"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Pagar</div><div class="ph-desc">Controlo de contas a pagar e fornecedores.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="fin_margens"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Margens</div><div class="ph-desc">Analise de margens por cliente, produto e projeto.</div><div class="ph-status">Em construcao</div></div></div>
-<div class="board" id="concursos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Concursos publicos</div><div class="ph-desc">Gestao de concursos publicos, prazos, documentacao e acompanhamento.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="fin_faturacao"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Faturacao (tracking)</div><div class="ph-desc">Controlo de faturacao com ligacao ao Winmax. Tracking de documentos emitidos.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="fin_receber"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Contas a receber</div><div class="ph-desc">Valores a receber de clientes — vencimentos, cobranças e reconciliacao.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="fin_pagar"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Contas a pagar</div><div class="ph-desc">Pagamentos a fornecedores e intercompany — prazos e controlo.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="fin_margens"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Financeiro — Controlo de margens</div><div class="ph-desc">Analise de rentabilidade por negocio, por cliente e por empresa do grupo.</div><div class="ph-status">Em construcao</div></div></div>
+<div class="board" id="concursos"><div class="placeholder-page"><div class="ph-icon">&#9679;</div><div class="ph-title">Concursos publicos</div><div class="ph-desc">Gestao de processos concursais ligados as oportunidades comerciais.</div><div class="ph-status">Em construcao</div></div></div>
 </div></div></div>
 <script>
 
@@ -319,8 +312,8 @@ function getColabOpts(){return DATA.colaboradores.filter(function(c){return c.at
 function getColabId(val){return val?val.split(' - ')[0]:val}
 
 // ==================== NAVIGATION ====================
-var tabGroups={crm:['dashboard','leads','contactos','oportunidades','propostas','clientes','classificacao','moldes','colaboradores'],estrutura:['wp_artigos','wp_bom'],stock:['wp_inventario'],operacoes:['wp_enc_cliente','wp_enc_internas'],supplychain:['sc_compras','sc_compras_eng','sc_logistica'],producao:['producao'],engenharia:['eng_projetos'],qualidade:['qa_rececao','qa_nc','qa_auditorias'],financeiro:['fin_faturacao','fin_receber','fin_pagar','fin_margens'],outros:['concursos','it_suporte','com_fichas','com_catalogos']};
-var tabLabels={dashboard:'Dashboard',leads:'Leads',contactos:'Contactos',oportunidades:'Oportunidades',propostas:'Propostas',clientes:'Clientes',classificacao:'Classificacao',moldes:'Moldes & Produtos',colaboradores:'Colaboradores',wp_artigos:'Artigos',wp_bom:'BOM',wp_inventario:'Inventario',wp_enc_cliente:'Enc. cliente',wp_enc_internas:'Enc. internas',sc_compras:'Compras',sc_compras_eng:'Compras eng.',sc_logistica:'Logistica',producao:'Producao',eng_projetos:'Projetos',qa_rececao:'Rececao',qa_nc:'Nao conform.',qa_auditorias:'Auditorias',fin_faturacao:'Faturacao',fin_receber:'Receber',fin_pagar:'Pagar',fin_margens:'Margens',concursos:'Concursos',it_suporte:'IT',com_fichas:'Fichas tec.',com_catalogos:'Catalogos'};
+var tabGroups={crm:['dashboard','leads','contactos','oportunidades','propostas','clientes','classificacao','colaboradores'],produtos:['moldes','ep_bom','stk_inventario'],operacoes:['ops_enc_cliente','ops_enc_internas'],supplychain:['sc_compras','sc_compras_eng','sc_logistica'],producao:['producao'],engenharia:['eng_projetos'],qualidade:['ql_rececao','ql_nc','ql_auditorias'],financeiro:['fin_faturacao','fin_receber','fin_pagar','fin_margens'],outros:['concursos','it_suporte','com_fichas']}
+var tabLabels={dashboard:'Dashboard',leads:'Leads',contactos:'Contactos',oportunidades:'Oportunidades',propostas:'Propostas',clientes:'Clientes',classificacao:'Classificacao',colaboradores:'Colaboradores',moldes:'Artigos & Moldes',ep_bom:'BOM',stk_inventario:'Inventario',ops_enc_cliente:'Enc. cliente',ops_enc_internas:'Enc. internas',sc_compras:'Compras',sc_compras_eng:'Compras eng.',sc_logistica:'Logistica',producao:'Producao',eng_projetos:'Projetos',ql_rececao:'Controlo rececao',ql_nc:'Nao conformidades',ql_auditorias:'Auditorias',fin_faturacao:'Faturacao',fin_receber:'Contas a receber',fin_pagar:'Contas a pagar',fin_margens:'Controlo margens',concursos:'Concursos publicos',it_suporte:'IT Suporte',com_fichas:'Comunicacao'}
 function switchTab(tab){
 document.querySelectorAll('.board').forEach(function(x){x.classList.remove('active')});
 document.querySelectorAll('.sidebar-item').forEach(function(x){x.classList.remove('active')});
